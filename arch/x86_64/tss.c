@@ -14,6 +14,7 @@ extern void ring3_enter(uint64_t rip, uint64_t rsp);
 extern void ring3_user_entry(void);
 extern char __kernel_start;
 extern void idt_install_ring3_gate(void);
+extern char syscall_message;
 
 
 bool tss_init(void) {
@@ -27,6 +28,7 @@ bool privilege_self_test(const struct nova_boot_info *boot) {
     if (fn < boot->kernel_virtual_base) return false;
     phys=boot->kernel_physical_base+(fn-boot->kernel_virtual_base); phys &= ~(NOVA_PAGE_SIZE-1);
     if (!paging_map_page(0x0000000000400000ULL, phys, NOVA_PAGE_USER | NOVA_PAGE_PRESENT)) return false;
+    { uint64_t mp=(uint64_t)(uintptr_t)&syscall_message; uint64_t mphys=boot->kernel_physical_base+(mp-boot->kernel_virtual_base); if ((mphys & ~(NOVA_PAGE_SIZE-1)) != phys && !paging_map_page(0x0000000000400000ULL + (mp & (NOVA_PAGE_SIZE-1)), mphys & ~(NOVA_PAGE_SIZE-1), NOVA_PAGE_USER | NOVA_PAGE_PRESENT)) return false; }
     stack_phys=(uint64_t)(uintptr_t)pmm_alloc_page(); if (!stack_phys) return false;
     if (!paging_map_page(0x0000000000401000ULL, stack_phys, NOVA_PAGE_USER | NOVA_PAGE_WRITABLE)) return false;
     stack_phys=(uint64_t)(uintptr_t)pmm_alloc_page(); if (!stack_phys || !paging_map_page(0x0000000000402000ULL, stack_phys, NOVA_PAGE_USER | NOVA_PAGE_WRITABLE)) return false;

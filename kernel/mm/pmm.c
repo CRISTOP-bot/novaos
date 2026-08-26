@@ -29,7 +29,7 @@ static void release_range(uint64_t base, uint64_t length) {
     first = page_index(first); last = page_index(last);
     if (first >= PMM_MAX_PAGES) return;
     if (last > PMM_MAX_PAGES) last = PMM_MAX_PAGES;
-    for (i = first; i < last; i++) if (bitmap_test(i)) { bitmap_clear(i); total_pages_count++; used_pages_count--; }
+    for (i = first; i < last; i++) if (bitmap_test(i)) { bitmap_clear(i); total_pages_count++; }
 }
 static void reserve_range(uint64_t base, uint64_t length) {
     uint64_t end, first, last, i;

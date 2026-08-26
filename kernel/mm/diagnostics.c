@@ -32,7 +32,8 @@ bool memory_diagnostics_self_test(void) {
     if (heap_alloc_count() != before.heap_allocations + 3 || heap_active_allocations() != active_before + 3 || heap_bytes_used() <= before.heap_bytes_used) return false;
     kfree(a); kfree(b); kfree(c); memory_diagnostics_snapshot(&after);
     if (after.heap_active_allocations != active_before || after.heap_bytes_used != before.heap_bytes_used) return false;
-    if (after.heap_free_count < before.heap_free_count + 3) return false;
-    if (kmalloc(0) != NULL) return false; kfree(NULL); kfree((void *)(uintptr_t)0x1234); kfree(a);
+    if (after.heap_frees < before.heap_frees + 3) return false;
+    if (kmalloc(0) != NULL) return false;
+    kfree(NULL); kfree((void *)(uintptr_t)0x1234); kfree(a);
     return true;
 }

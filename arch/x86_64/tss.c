@@ -9,7 +9,7 @@ struct tss64 { uint32_t reserved0; uint64_t rsp0,rsp1,rsp2; uint64_t reserved1; 
 static struct tss64 tss __attribute__((aligned(16)));
 static uint8_t rsp0_stack[16384] __attribute__((aligned(16)));
 uint64_t ring3_resume_stack;
-static bool returned_from_ring3;
+bool returned_from_ring3;
 extern void ring3_enter(uint64_t rip, uint64_t rsp);
 extern void ring3_user_entry(void);
 extern char __kernel_start;

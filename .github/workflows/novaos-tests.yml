@@ -6,9 +6,6 @@ jobs:
     name: Build and ELF checks
     runs-on: ubuntu-22.04
     timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: novaos
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
@@ -42,19 +39,16 @@ jobs:
           name: novaos-build-failure
           if-no-files-found: ignore
           path: |
-            novaos/build/novaos.elf
-            novaos/build/novaos.iso
-            novaos/build/novaos.debug
-            novaos/build/novaos.sections
+            build/novaos.elf
+            build/novaos.iso
+            build/novaos.debug
+            build/novaos.sections
 
   m0:
     name: M0 QEMU and serial
     needs: build
     runs-on: ubuntu-22.04
     timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: novaos
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
@@ -83,19 +77,16 @@ jobs:
           name: novaos-m0-failure
           if-no-files-found: ignore
           path: |
-            novaos/build/novaos.elf
-            novaos/build/novaos.iso
-            novaos/build/serial.log
-            novaos/build/novaos.sections
+            build/novaos.elf
+            build/novaos.iso
+            build/serial.log
+            build/novaos.sections
 
   exception:
     name: Controlled exception
     needs: build
     runs-on: ubuntu-22.04
     timeout-minutes: 20
-    defaults:
-      run:
-        working-directory: novaos
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
@@ -111,6 +102,6 @@ jobs:
           name: novaos-exception-failure
           if-no-files-found: ignore
           path: |
-            novaos/build-exception/novaos.elf
-            novaos/build-exception/novaos.iso
-            novaos/build-exception/serial.log
+            build-exception/novaos.elf
+            build-exception/novaos.iso
+            build-exception/serial.log

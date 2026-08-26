@@ -53,23 +53,19 @@ image: kernel limine.cfg limine
 run: image
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
 	$(QEMU) -M q35 -m 128M -cdrom $(BUILD)/novaos.iso -serial stdio -display none -no-reboot
-debug: BUILD=build-debug
-debug: DEBUG=1
-debug: image
+debug:
+	$(MAKE) DEBUG=1 BUILD=build-debug KERNEL=build-debug/novaos.elf image
 	@command -v gdb >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: gdb'; echo 'Install GDB: sudo apt-get install gdb'; exit 1; }
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
-	$(QEMU) -M q35 -m 128M -cdrom $(BUILD)/novaos.iso -serial stdio -display none -no-reboot -S -s
-exception-test: BUILD=build-exception
-exception-test: CFLAGS += -DNOVAOS_TEST_EXCEPTION
-exception-test: DEBUG=1
-exception-test: image
+	$(QEMU) -M q35 -m 128M -cdrom build-debug/novaos.iso -serial stdio -display none -no-reboot -S -s
+exception-test:
+	$(MAKE) DEBUG=1 BUILD=build-exception KERNEL=build-exception/novaos.elf CFLAGS="$(CFLAGS) -DNOVAOS_TEST_EXCEPTION" image
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
-	sh scripts/exception-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
+	sh scripts/exception-test.sh build-exception/novaos.iso build-exception/serial.log
 
-debug-check: BUILD=build-debug
-debug-check: DEBUG=1
-debug-check: kernel
-	@$(READELF) -S $(KERNEL) | grep -q '\.debug_info'
+debug-check:
+	$(MAKE) DEBUG=1 BUILD=build-debug KERNEL=build-debug/novaos.elf kernel
+	@$(READELF) -S build-debug/novaos.elf | grep -q '\.debug_info'
 	@echo 'NovaOS debug configuration: PASS'
 
 test: kernel image

@@ -13,5 +13,5 @@ void idt_install_ring3_gate(void){set_gate(128,isr128,0xee);}
 void exception_init(void){ console_write("[NovaOS] exceptions initialized\n"); }
 struct frame {uint64_t vector,error,rip,cs,rflags,rsp,ss;};
 void exception_dispatch(struct frame *f){ uint64_t rsp=f->rsp,ss=f->ss; if((f->cs&3)==0){rsp=0;ss=0;} const char*n="UNKNOWN";if(f->vector==0)n="DIVIDE ERROR";else if(f->vector==6)n="INVALID OPCODE";else if(f->vector==8)n="DOUBLE FAULT";else if(f->vector==13)n="GENERAL PROTECTION";else if(f->vector==14){n="PAGE FAULT";uint64_t cr2;__asm__ volatile("mov %%cr2,%0":"=r"(cr2));serial_printf("[NovaOS] CR2=%x\n",cr2);}panic_exception(n,f->vector,f->error,f->rip,f->cs,f->rflags,rsp,ss); }
-extern void ring3_return_point(void);
+extern void ring3_return_point(void); extern uint64_t ring3_resume_stack;
 void ring3_return_dispatch(struct frame *f){ if((f->cs&3)==3){ f->rip=(uint64_t)(uintptr_t)ring3_return_point; f->cs=0x08; f->rflags=(f->rflags & ~(3ULL << 12)) | 0x202; f->rsp=ring3_resume_stack; f->ss=0x10; } }

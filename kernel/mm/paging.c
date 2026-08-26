@@ -9,6 +9,7 @@
 static uint64_t root_phys;
 static uint64_t hhdm;
 static bool active;
+static uint64_t map_count_value, unmap_count_value;
 extern char __kernel_start, __kernel_end;
 
 static bool add_overflow(uint64_t a, uint64_t b) { return b > (~0ULL - a); }
@@ -36,7 +37,7 @@ bool paging_map_page(uint64_t va, uint64_t pa, uint64_t flags) {
     p = next_table(pd, index_for(va, 1)); if (!p) return false; pt = table(p);
     if (pt[index_for(va, 0)] & NOVA_PAGE_PRESENT) return false;
     pt[index_for(va, 0)] = (pa & ENTRY_ADDRESS_MASK) | (flags & (NOVA_PAGE_WRITABLE | NOVA_PAGE_USER | NOVA_PAGE_NO_EXECUTE)) | NOVA_PAGE_PRESENT;
-    return true;
+    map_count_value++; return true;
 }
 bool paging_unmap_page(uint64_t va) {
     uint64_t *pml4, *pdpt, *pd, *pt, p;
@@ -47,7 +48,7 @@ bool paging_unmap_page(uint64_t va) {
     if (!(pd[index_for(va,1)] & NOVA_PAGE_PRESENT)) return false;
     pt = table(pd[index_for(va,1)] & ENTRY_ADDRESS_MASK);
     p = index_for(va,0); if (!(pt[p] & NOVA_PAGE_PRESENT)) return false; pt[p] = 0;
-    __asm__ volatile("invlpg (%0)" :: "r"((void *)(uintptr_t)va) : "memory"); return true;
+    __asm__ volatile("invlpg (%0)" :: "r"((void *)(uintptr_t)va) : "memory"); unmap_count_value++; return true;
 }
 bool paging_translate(uint64_t va, uint64_t *pa) {
     uint64_t *pml4, *pdpt, *pd, *pt, p;
@@ -85,6 +86,9 @@ bool paging_init(const struct nova_boot_info *boot) {
     if (kernel_end <= kernel_start || !map_range(kernel_start, boot->kernel_physical_base, kernel_end - kernel_start, NOVA_PAGE_WRITABLE)) return false;
     __asm__ volatile("mov %0, %%cr3" :: "r"(root_phys) : "memory"); return true;
 }
+uint64_t paging_map_count(void) { return map_count_value; }
+uint64_t paging_unmap_count(void) { return unmap_count_value; }
+
 bool paging_self_test(void) {
     void *page = pmm_alloc_page(); uint64_t physical, translated; volatile uint64_t *memory;
     if (!page) return false;

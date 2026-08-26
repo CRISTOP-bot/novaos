@@ -7,8 +7,8 @@ ring3_user_entry:
     mov %rax, %r12
     mov $2, %rax
     mov $1, %rdi
-    mov $0x400000 + syscall_message - ring3_user_entry, %rsi
-    mov $20, %rdx
+    mov $0x400000, %rsi
+    mov $1, %rdx
     int $0x80
     mov $0xffff, %rax
     int $0x80

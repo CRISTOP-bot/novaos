@@ -2,6 +2,7 @@
 #include <nova/console.h>
 #include <nova/panic.h>
 #include <nova/types.h>
+#include "../../../drivers/serial/serial.h"
 struct idt_gate { uint16_t off0, sel; uint8_t ist, flags; uint16_t off1; uint32_t off2, zero; } __attribute__((packed));
 struct idtr { uint16_t limit; uint64_t base; } __attribute__((packed));
 static struct idt_gate idt[256] __attribute__((aligned(16))); static struct idtr idtr;

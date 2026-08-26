@@ -1,10 +1,10 @@
 #include <nova/scheduler.h>
+#include <nova/process.h>
 #include <nova/types.h>
 #define STACK_SIZE 4096
 #define READY 1ULL
 #define RUNNING 2ULL
 #define DONE 3ULL
-struct nova_task { uint64_t id, rsp, state; uint8_t stack[STACK_SIZE] __attribute__((aligned(16))); };
 extern void scheduler_context_switch(uint64_t *, uint64_t);
 static struct nova_task kernel_task, task_a, task_b; static struct nova_task *current;
 static volatile uint64_t counter_a, counter_b; static bool initialized;

@@ -26,9 +26,9 @@ bool privilege_self_test(const struct nova_boot_info *boot) {
     if (!boot || !boot->kernel_virtual_base || !boot->kernel_physical_base) return false;
     if (fn < boot->kernel_virtual_base) return false;
     phys=boot->kernel_physical_base+(fn-boot->kernel_virtual_base); phys &= ~(NOVA_PAGE_SIZE-1);
-    if (!paging_map_page(0xffff900300000000ULL, phys, NOVA_PAGE_USER | NOVA_PAGE_PRESENT)) return false;
+    if (!paging_map_page(0x0000000000400000ULL, phys, NOVA_PAGE_USER | NOVA_PAGE_PRESENT)) return false;
     stack_phys=(uint64_t)(uintptr_t)pmm_alloc_page(); if (!stack_phys) return false;
-    if (!paging_map_page(0xffff900300001000ULL, stack_phys, NOVA_PAGE_USER | NOVA_PAGE_WRITABLE)) return false;
-    user_sp=0xffff900300002000ULL; returned_from_ring3=false; ring3_enter(0xffff900300000000ULL,user_sp);
+    if (!paging_map_page(0x0000000000401000ULL, stack_phys, NOVA_PAGE_USER | NOVA_PAGE_WRITABLE)) return false;
+    user_sp=0x0000000000402000ULL; returned_from_ring3=false; ring3_enter(0x0000000000400000ULL,user_sp);
     return returned_from_ring3;
 }

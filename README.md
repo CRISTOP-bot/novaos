@@ -4,7 +4,7 @@
 
 Sistema operativo experimental x86_64, independiente de Linux, orientado a ejecutar software C real mediante una ABI propia y documentada.
 
-> Estado: M0 implementation: COMPLETE. M0 runtime validation: PENDING (este entorno no tiene GCC, Make, QEMU, xorriso ni GDB).
+> Estado: M0 implementation: COMPLETE. M0 runtime validation: CI PASS (GitHub Actions + QEMU).
 
 ## Objetivos de la primera milestone
 

@@ -6,6 +6,7 @@
 static uint8_t bitmap[PMM_BITMAP_BYTES];
 extern char __kernel_start, __kernel_end;
 static uint64_t total_pages_count, used_pages_count;
+static uint64_t alloc_count_value, free_count_value, failed_alloc_count_value;
 static bool initialized;
 
 static bool add_overflows(uint64_t a, uint64_t b) { return b > (~0ULL - a); }
@@ -43,7 +44,7 @@ static void reserve_range(uint64_t base, uint64_t length) {
 void pmm_init(const struct nova_boot_info *boot) {
     uint64_t i, kernel_start, kernel_end;
     for (i = 0; i < PMM_BITMAP_BYTES; i++) bitmap[i] = 0xff;
-    total_pages_count = 0; used_pages_count = 0;
+    total_pages_count = 0; used_pages_count = 0; alloc_count_value = 0; free_count_value = 0; failed_alloc_count_value = 0;
     if (!boot) { initialized = false; return; }
     for (i = 0; i < boot->memory_region_count && i < NOVA_MAX_MEMORY_REGIONS; i++)
         if (boot->memory_regions[i].type == NOVA_MEM_USABLE)
@@ -63,18 +64,21 @@ void pmm_init(const struct nova_boot_info *boot) {
 }
 void *pmm_alloc_page(void) {
     uint64_t i;
-    if (!initialized) return NULL;
-    for (i = 0; i < PMM_MAX_PAGES; i++) if (!bitmap_test(i)) { bitmap_set(i); used_pages_count++; return (void *)(uintptr_t)(i * NOVA_PAGE_SIZE); }
-    return NULL;
+    if (!initialized) { failed_alloc_count_value++; return NULL; }
+    for (i = 0; i < PMM_MAX_PAGES; i++) if (!bitmap_test(i)) { bitmap_set(i); used_pages_count++; alloc_count_value++; return (void *)(uintptr_t)(i * NOVA_PAGE_SIZE); }
+    failed_alloc_count_value++; return NULL;
 }
 void pmm_free_page(void *address) {
     uint64_t a = (uint64_t)(uintptr_t)address, i;
     if (!initialized || (a & (NOVA_PAGE_SIZE - 1)) || a >= PMM_MAX_PAGES * NOVA_PAGE_SIZE) return;
-    i = page_index(a); if (bitmap_test(i)) { bitmap_clear(i); used_pages_count--; }
+    i = page_index(a); if (bitmap_test(i)) { bitmap_clear(i); if (used_pages_count) used_pages_count--; free_count_value++; }
 }
 uint64_t pmm_total_pages(void) { return total_pages_count; }
 uint64_t pmm_used_pages(void) { return used_pages_count; }
 uint64_t pmm_free_pages(void) { return total_pages_count - used_pages_count; }
+uint64_t pmm_alloc_count(void) { return alloc_count_value; }
+uint64_t pmm_free_count(void) { return free_count_value; }
+uint64_t pmm_failed_alloc_count(void) { return failed_alloc_count_value; }
 
 bool pmm_self_test(const struct nova_boot_info *boot) {
     void *pages[4]; uint64_t i, physical, virtual, *word;

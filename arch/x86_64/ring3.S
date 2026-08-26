@@ -21,7 +21,7 @@ ring3_user_entry:
     xor %rdi, %rdi
     int $0x80
     ret
-.section .rodata
+.section .text.user
 syscall_message: .ascii "NovaOS syscall write\n"
 
 .section .text

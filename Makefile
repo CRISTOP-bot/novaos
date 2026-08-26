@@ -8,7 +8,7 @@ READELF ?= readelf
 QEMU ?= qemu-system-x86_64
 DEBUG ?= 0
 BUILD := build
-KERNEL := $(BUILD)/novaos.elf
+KERNEL = $(BUILD)/novaos.elf
 LIMINE_DIR ?= $(CURDIR)/toolchain/limine
 CFLAGS := -std=c11 -ffreestanding -fno-builtin -fno-stack-protector -fno-pie -mno-red-zone -mcmodel=kernel -m64 -Wall -Wextra -Werror -Iinclude -I$(LIMINE_DIR)
 ifeq ($(DEBUG),1)
@@ -18,7 +18,7 @@ CFLAGS += -O2
 endif
 LDFLAGS := -T linker/x86_64.ld -nostdlib
 SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c drivers/serial/serial.c boot/limine/adapter.c
-OBJ := $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC)))
+OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC)))
 .PHONY: all check-build check-image limine kernel image run debug debug-check test exception-test clean
 all: image
 check-build:

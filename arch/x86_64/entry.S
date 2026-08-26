@@ -21,4 +21,4 @@ _start:
     jmp 1b
 .section .bss
 .align 8
-boot_info: .skip 8 + 8 + 8 + 8 + 8 + (128 * 24)
+boot_info: .skip 8 + 8 + 8 + 8 + 8 + 8 + (128 * 24)

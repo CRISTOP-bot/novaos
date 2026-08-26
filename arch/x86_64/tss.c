@@ -14,7 +14,7 @@ extern void ring3_enter(uint64_t rip, uint64_t rsp);
 extern void ring3_user_entry(void);
 extern char __kernel_start;
 extern void idt_install_ring3_gate(void);
-void ring3_return_dispatch(uint64_t cs) { if ((cs & 3) == 3) returned_from_ring3 = true; }
+
 
 bool tss_init(void) {
     for (uint64_t i=0;i<sizeof(tss);i++) ((uint8_t *)&tss)[i]=0;

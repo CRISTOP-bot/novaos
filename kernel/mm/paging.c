@@ -32,9 +32,9 @@ bool paging_map_page(uint64_t va, uint64_t pa, uint64_t flags) {
     uint64_t *pml4, *pdpt, *pd, *pt, p;
     if (!active || (va & (NOVA_PAGE_SIZE - 1)) || (pa & (NOVA_PAGE_SIZE - 1))) return false;
     pml4 = table(root_phys); if (!pml4) return false;
-    p = next_table(pml4, index_for(va, 3)); if (!p) return false; pdpt = table(p);
-    p = next_table(pdpt, index_for(va, 2)); if (!p) return false; pd = table(p);
-    p = next_table(pd, index_for(va, 1)); if (!p) return false; pt = table(p);
+    p = next_table(pml4, index_for(va, 3)); if (!p) return false; if (flags & NOVA_PAGE_USER) pml4[index_for(va,3)] |= NOVA_PAGE_USER; pdpt = table(p);
+    p = next_table(pdpt, index_for(va, 2)); if (!p) return false; if (flags & NOVA_PAGE_USER) pdpt[index_for(va,2)] |= NOVA_PAGE_USER; pd = table(p);
+    p = next_table(pd, index_for(va, 1)); if (!p) return false; if (flags & NOVA_PAGE_USER) pd[index_for(va,1)] |= NOVA_PAGE_USER; pt = table(p);
     if (pt[index_for(va, 0)] & NOVA_PAGE_PRESENT) return false;
     pt[index_for(va, 0)] = (pa & ENTRY_ADDRESS_MASK) | (flags & (NOVA_PAGE_WRITABLE | NOVA_PAGE_USER | NOVA_PAGE_NO_EXECUTE)) | NOVA_PAGE_PRESENT;
     map_count_value++; return true;

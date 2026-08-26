@@ -12,7 +12,7 @@ void gdt_set_tss(uint64_t base, uint32_t limit) {
 }
 void gdt_init(void) {
     gdt[0]=0; gdt[1]=0x00af9a000000ffffULL; gdt[2]=0x00af92000000ffffULL;
-    gdt[3]=0x00affa000000ffffULL; gdt[4]=0x00aff2000000ffffULL;
+    gdt[3]=0x00affa000000ffffULL; gdt[4]=0x00cff2000000ffffULL;
     gdtr.limit=sizeof(gdt)-1; gdtr.base=(uint64_t)gdt;
     __asm__ volatile("lgdt %0; mov $0x10,%%ax; mov %%ax,%%ds; mov %%ax,%%es; mov %%ax,%%ss; pushq $0x08; lea 1f(%%rip),%%rax; pushq %%rax; lretq; 1:"::"m"(gdtr):"rax","memory");
 }

@@ -29,7 +29,7 @@ check-build:
 	@command -v $(READELF) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(READELF)'; echo 'Install Binutils: sudo apt-get install binutils'; exit 1; }
 limine:
 	@command -v git >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: git'; echo 'Install Git: sudo apt-get install git'; exit 1; }
-	./scripts/fetch-limine.sh
+	sh scripts/fetch-limine.sh
 	$(MAKE) -C $(LIMINE_DIR)
 $(BUILD)/%.o: %.c check-build
 	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
@@ -38,7 +38,7 @@ $(BUILD)/%.o: %.S check-build
 $(KERNEL): $(OBJ) linker/x86_64.ld
 	@mkdir -p $(BUILD); $(LD) $(LDFLAGS) -o $@ $(OBJ)
 kernel: $(KERNEL)
-	./scripts/check-elf.sh $(KERNEL)
+	sh scripts/check-elf.sh $(KERNEL)
 	$(OBJCOPY) --only-keep-debug $(KERNEL) $(BUILD)/novaos.debug
 	$(OBJDUMP) -h $(KERNEL) > $(BUILD)/novaos.sections
 image: kernel limine.cfg limine
@@ -64,7 +64,7 @@ exception-test: CFLAGS += -DNOVAOS_TEST_EXCEPTION
 exception-test: DEBUG=1
 exception-test: image
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
-	./scripts/exception-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
+	sh scripts/exception-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
 
 debug-check: BUILD=build-debug
 debug-check: DEBUG=1
@@ -73,8 +73,8 @@ debug-check: kernel
 	@echo 'NovaOS debug configuration: PASS'
 
 test: kernel image
-	./scripts/check-elf.sh $(KERNEL)
+	sh scripts/check-elf.sh $(KERNEL)
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
-	./scripts/smoke-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
+	sh scripts/smoke-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
 clean:
 	rm -rf $(BUILD)

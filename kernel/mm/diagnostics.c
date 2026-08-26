@@ -20,8 +20,8 @@ void memory_diagnostics_print(void) {
     console_write("[NovaOS] Heap:\n"); console_printf("  allocations: %x\n  frees: %x\n  active allocations: %x\n  bytes used: %x\n  bytes mapped: %x\n  failed allocations: %x\n",s.heap_allocations,s.heap_frees,s.heap_active_allocations,s.heap_bytes_used,s.heap_bytes_mapped,s.heap_failed_allocations);
 }
 bool memory_diagnostics_self_test(void) {
-    struct nova_memory_stats before, after; void *page, *a, *b, *c; uint64_t physical, translated, map_before, unmap_before, active_before, used_before, used_after_map;
-    memory_diagnostics_snapshot(&before); used_before = before.pmm_used_pages; map_before = before.paging_mappings; unmap_before = before.paging_unmappings;
+    struct nova_memory_stats before, after; void *page, *a, *b, *c; uint64_t physical, translated, map_before, unmap_before, active_before, used_after_map;
+    memory_diagnostics_snapshot(&before); map_before = before.paging_mappings; unmap_before = before.paging_unmappings;
     page = pmm_alloc_page(); if (!page || pmm_alloc_count() != before.pmm_allocations + 1 || pmm_free_pages() + 1 != before.pmm_free_pages) return false;
     physical = (uint64_t)(uintptr_t)page;
     if (!paging_map_page(0xffff900200000000ULL, physical, NOVA_PAGE_WRITABLE | NOVA_PAGE_NO_EXECUTE)) return false;

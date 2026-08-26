@@ -5,13 +5,16 @@ jobs:
   build:
     name: Build and ELF checks
     runs-on: ubuntu-22.04
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: novaos
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential binutils git qemu-system-x86 xorriso gdb
+        run: |
+          sudo apt-get update -o Acquire::Retries=3
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
       - name: Verify dependencies
         run: |
           set -eu
@@ -48,13 +51,16 @@ jobs:
     name: M0 QEMU and serial
     needs: build
     runs-on: ubuntu-22.04
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: novaos
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential binutils git qemu-system-x86 xorriso gdb
+        run: |
+          sudo apt-get update -o Acquire::Retries=3
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
       - name: Build image
         run: |
           make limine LIMINE_VERSION=v8.6.0
@@ -86,13 +92,16 @@ jobs:
     name: Controlled exception
     needs: build
     runs-on: ubuntu-22.04
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: novaos
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential binutils git qemu-system-x86 xorriso gdb
+        run: |
+          sudo apt-get update -o Acquire::Retries=3
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
       - name: Run controlled exception test
         run: make exception-test LIMINE_VERSION=v8.6.0
       - name: Upload exception artifacts

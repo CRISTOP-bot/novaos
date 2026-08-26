@@ -17,6 +17,7 @@ typedef struct heap_block {
 
 static heap_block *first_block;
 static uint64_t heap_end, mapped_end, used_bytes;
+static uint64_t alloc_count_value, free_count_value, active_allocations_value, failed_alloc_count_value;
 static bool initialized;
 
 static bool add_overflow(uint64_t a, uint64_t b) { return b > (~0ULL - a); }
@@ -50,29 +51,33 @@ static void merge_with_next(heap_block *b) {
     b->size += sizeof(heap_block) + n->size; b->next = n->next; if (b->next) b->next->prev = b;
 }
 
-bool heap_init(void) { first_block = NULL; heap_end = HEAP_BASE; mapped_end = HEAP_BASE; used_bytes = 0; initialized = true; return true; }
+bool heap_init(void) { first_block = NULL; heap_end = HEAP_BASE; mapped_end = HEAP_BASE; used_bytes = 0; alloc_count_value = 0; free_count_value = 0; active_allocations_value = 0; failed_alloc_count_value = 0; initialized = true; return true; }
 void *kmalloc(size_t requested) {
     uint64_t size, address; heap_block *b;
-    if (!initialized || !requested || add_overflow((uint64_t)requested, NOVA_HEAP_ALIGNMENT - 1)) return NULL;
+    if (!initialized || !requested || add_overflow((uint64_t)requested, NOVA_HEAP_ALIGNMENT - 1)) { failed_alloc_count_value++; return NULL; }
     size = align_size((uint64_t)requested);
     for (b = first_block; b; b = b->next) if (b->free && b->size >= size) {
         if (b->size >= size + sizeof(heap_block) + NOVA_HEAP_ALIGNMENT) {
             heap_block *split = (heap_block *)((uint8_t *)(b + 1) + size); split->magic = BLOCK_MAGIC; split->size = b->size - size - sizeof(heap_block); split->free = 1; split->reserved = 0; split->prev = b; split->next = b->next; if (split->next) split->next->prev = split; b->next = split; b->size = size;
         }
-        b->free = 0; used_bytes += b->size; return (void *)(b + 1);
+        b->free = 0; used_bytes += b->size; alloc_count_value++; active_allocations_value++; return (void *)(b + 1);
     }
-    if (!grow(size)) return NULL;
-    b = first_block; while (b->next) b = b->next; b->free = 0; used_bytes += b->size; address = (uint64_t)(uintptr_t)(b + 1); return (void *)(uintptr_t)address;
+    if (!grow(size)) { failed_alloc_count_value++; return NULL; }
+    b = first_block; while (b->next) b = b->next; b->free = 0; used_bytes += b->size; alloc_count_value++; active_allocations_value++; address = (uint64_t)(uintptr_t)(b + 1); return (void *)(uintptr_t)address;
 }
 void kfree(void *ptr) {
     heap_block *b; uint64_t p = (uint64_t)(uintptr_t)ptr;
     if (!initialized || !ptr || p < HEAP_BASE + sizeof(heap_block) || p >= heap_end) return;
     b = ((heap_block *)ptr) - 1; if (!valid_block(b) || (void *)(b + 1) != ptr || b->free) return;
-    b->free = 1; used_bytes -= b->size; if (b->next && b->next->free) merge_with_next(b); if (b->prev && b->prev->free) merge_with_next(b->prev);
+    b->free = 1; used_bytes -= b->size; free_count_value++; if (active_allocations_value) active_allocations_value--; if (b->next && b->next->free) merge_with_next(b); if (b->prev && b->prev->free) merge_with_next(b->prev);
 }
 void *kcalloc(size_t count, size_t size) { uint64_t total; uint8_t *p; if (!count || !size || (uint64_t)size > (~0ULL / (uint64_t)count)) return NULL; total = (uint64_t)count * (uint64_t)size; p = kmalloc((size_t)total); if (!p) return NULL; for (uint64_t i = 0; i < total; i++) p[i] = 0; return p; }
 uint64_t heap_bytes_used(void) { return used_bytes; }
 uint64_t heap_bytes_mapped(void) { return mapped_end - HEAP_BASE; }
+uint64_t heap_alloc_count(void) { return alloc_count_value; }
+uint64_t heap_free_count(void) { return free_count_value; }
+uint64_t heap_active_allocations(void) { return active_allocations_value; }
+uint64_t heap_failed_alloc_count(void) { return failed_alloc_count_value; }
 
 bool heap_self_test(void) {
     void *a, *b, *c, *d, *items[128]; uint64_t sizes[] = {1,8,16,64,256,1024,4096}; uint64_t i, j;

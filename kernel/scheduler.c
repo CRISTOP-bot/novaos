@@ -14,7 +14,7 @@ static void task_a_main(void) { for (;;) { counter_a++; scheduler_yield(); } }
 static void task_b_main(void) { for (;;) { counter_b++; scheduler_yield(); } }
 static void prepare(struct nova_task *t, uint64_t id, void (*fn)(void)) {
     uint64_t *sp=(uint64_t *)(uintptr_t)(t->stack+STACK_SIZE);
-    *--sp=(uint64_t)(uintptr_t)task_start; *--sp=0; *--sp=0; *--sp=0; *--sp=0; *--sp=0; *--sp=(uint64_t)(uintptr_t)fn;
+    *--sp=(uint64_t)(uintptr_t)entry; *--sp=0; *--sp=0; *--sp=0; *--sp=0; *--sp=0; *--sp=(uint64_t)(uintptr_t)fn;
     t->id=id; t->rsp=(uint64_t)(uintptr_t)sp; t->state=READY;
 }
 bool scheduler_init(void) { kernel_task.id=0; kernel_task.state=RUNNING; current=&kernel_task; counter_a=counter_b=0; prepare(&task_a,1,task_a_main); prepare(&task_b,2,task_b_main); initialized=true; return true; }

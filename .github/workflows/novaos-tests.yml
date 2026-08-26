@@ -20,7 +20,7 @@ jobs:
             "$tool" --version | head -n 1
           done
       - name: Fetch Limine
-        run: make limine LIMINE_VERSION=v8.6.0
+        run: make limine LIMINE_VERSION=v8.6.0-binary
       - name: Build kernel and ISO
         run: make kernel image
       - name: Validate ELF
@@ -57,7 +57,7 @@ jobs:
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
       - name: Build image
         run: |
-          make limine LIMINE_VERSION=v8.6.0
+          make limine LIMINE_VERSION=v8.6.0-binary
           make
           make kernel
           make image
@@ -94,7 +94,7 @@ jobs:
           sudo apt-get update -o Acquire::Retries=3
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
       - name: Run controlled exception test
-        run: make exception-test LIMINE_VERSION=v8.6.0
+        run: make exception-test LIMINE_VERSION=v8.6.0-binary
       - name: Upload exception artifacts
         if: failure()
         uses: actions/upload-artifact@v4

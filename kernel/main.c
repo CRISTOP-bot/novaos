@@ -4,6 +4,7 @@
 #include <nova/gdt.h>
 #include <nova/idt.h>
 #include <nova/mm/pmm.h>
+#include <nova/mm/paging.h>
 #include <nova/panic.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
@@ -21,5 +22,9 @@ void kmain(struct nova_boot_info *boot){
     console_printf("[NovaOS] total pages: %x\n",pmm_total_pages()); console_printf("[NovaOS] used pages: %x\n",pmm_used_pages()); console_printf("[NovaOS] free pages: %x\n",pmm_free_pages());
     if (!pmm_self_test(boot)) { console_write("[NovaOS] PMM self-test: FAIL\n"); panic("PMM self-test failed"); }
     console_write("[NovaOS] PMM self-test: PASS\nNOVAOS_PMM_OK\n");
+    if (!paging_init(boot)) { console_write("[NovaOS] paging initialization: FAIL\n"); panic("paging initialization failed"); }
+    console_write("[NovaOS] paging initialized\n");
+    if (!paging_self_test()) { console_write("[NovaOS] paging self-test: FAIL\n"); panic("paging self-test failed"); }
+    console_write("[NovaOS] paging self-test: PASS\nNOVAOS_PAGING_OK\n");
     console_write("[NovaOS] kernel initialized\nNOVAOS_BOOT_OK\n"); for(;;)__asm__ volatile("cli; hlt");
 }

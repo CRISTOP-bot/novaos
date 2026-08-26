@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-LIMINE_VERSION=${LIMINE_VERSION:-v8.6.0}
+LIMINE_VERSION=${LIMINE_VERSION:-v8.6.0-binary}
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 dir="$root/toolchain"
 mkdir -p "$dir"

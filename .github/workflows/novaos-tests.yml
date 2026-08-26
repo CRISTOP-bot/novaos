@@ -29,7 +29,7 @@ jobs:
           readelf -S build/novaos.elf
           readelf -l build/novaos.elf
           nm build/novaos.elf
-          ./scripts/check-elf.sh build/novaos.elf
+          sh scripts/check-elf.sh build/novaos.elf
       - name: Verify debug configuration
         run: make debug-check
       - name: Upload build artifacts

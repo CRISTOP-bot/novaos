@@ -7,6 +7,7 @@
 #include <nova/mm/paging.h>
 #include <nova/mm/heap.h>
 #include <nova/mm/diagnostics.h>
+#include <nova/arch/x86_64/tss.h>
 #include <nova/panic.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
@@ -37,5 +38,9 @@ void kmain(struct nova_boot_info *boot){
     memory_diagnostics_print();
     if (!memory_diagnostics_self_test()) { console_write("[NovaOS] memory diagnostics self-test: FAIL\n"); panic("memory diagnostics self-test failed"); }
     console_write("[NovaOS] memory diagnostics self-test: PASS\nNOVAOS_MEMORY_OK\n");
+    if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }
+    console_write("[NovaOS] TSS initialized and LTR loaded\n");
+    if (!privilege_self_test(boot)) { console_write("[NovaOS] Ring 3 self-test: FAIL\n"); panic("Ring 3 self-test failed"); }
+    console_write("[NovaOS] Ring 3 self-test: PASS\nNOVAOS_RING3_OK\n");
     console_write("[NovaOS] kernel initialized\nNOVAOS_BOOT_OK\n"); for(;;)__asm__ volatile("cli; hlt");
 }

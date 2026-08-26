@@ -23,7 +23,7 @@ bool tss_init(void) {
     gdt_load_tss((uint64_t)(uintptr_t)&tss, sizeof(tss)-1); console_printf("[NovaOS] GDT base=%x limit=%x GDT3=%x GDT4=%x TSS5=%x TSS6=%x RSP0=%x\n",gdt_debug_base(),gdt_debug_limit(),gdt_debug_entry(3),gdt_debug_entry(4),gdt_debug_entry(5),gdt_debug_entry(6),tss.rsp0); idt_install_ring3_gate(); return true;
 }
 bool privilege_self_test(const struct nova_boot_info *boot) {
-    uint64_t fn=(uint64_t)(uintptr_t)ring3_user_entry, phys, stack_phys, user_sp;
+    uint64_t fn=(uint64_t)(uintptr_t)ring3_user_entry, phys, stack_phys, user_sp, user_rip;
     if (!boot || !boot->kernel_virtual_base || !boot->kernel_physical_base) return false;
     if (fn < boot->kernel_virtual_base) return false;
     phys=boot->kernel_physical_base+(fn-boot->kernel_virtual_base); phys &= ~(NOVA_PAGE_SIZE-1);

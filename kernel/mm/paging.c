@@ -42,17 +42,23 @@ bool paging_unmap_page(uint64_t va) {
     uint64_t *pml4, *pdpt, *pd, *pt, p;
     if (!active || (va & (NOVA_PAGE_SIZE - 1))) return false;
     pml4 = table(root_phys); if (!pml4 || !(pml4[index_for(va,3)] & NOVA_PAGE_PRESENT)) return false; pdpt = table(pml4[index_for(va,3)] & ENTRY_ADDRESS_MASK);
-    if (!(pdpt[index_for(va,2)] & NOVA_PAGE_PRESENT)) return false; pd = table(pdpt[index_for(va,2)] & ENTRY_ADDRESS_MASK);
-    if (!(pd[index_for(va,1)] & NOVA_PAGE_PRESENT)) return false; pt = table(pd[index_for(va,1)] & ENTRY_ADDRESS_MASK);
+    if (!(pdpt[index_for(va,2)] & NOVA_PAGE_PRESENT)) return false;
+    pd = table(pdpt[index_for(va,2)] & ENTRY_ADDRESS_MASK);
+    if (!(pd[index_for(va,1)] & NOVA_PAGE_PRESENT)) return false;
+    pt = table(pd[index_for(va,1)] & ENTRY_ADDRESS_MASK);
     p = index_for(va,0); if (!(pt[p] & NOVA_PAGE_PRESENT)) return false; pt[p] = 0;
     __asm__ volatile("invlpg (%0)" :: "r"((void *)(uintptr_t)va) : "memory"); return true;
 }
 bool paging_translate(uint64_t va, uint64_t *pa) {
     uint64_t *pml4, *pdpt, *pd, *pt, p;
-    if (!active || !pa) return false; pml4 = table(root_phys); if (!pml4) return false;
-    if (!(pml4[index_for(va,3)] & NOVA_PAGE_PRESENT)) return false; pdpt = table(pml4[index_for(va,3)] & ENTRY_ADDRESS_MASK);
-    if (!(pdpt[index_for(va,2)] & NOVA_PAGE_PRESENT)) return false; pd = table(pdpt[index_for(va,2)] & ENTRY_ADDRESS_MASK);
-    if (!(pd[index_for(va,1)] & NOVA_PAGE_PRESENT)) return false; pt = table(pd[index_for(va,1)] & ENTRY_ADDRESS_MASK);
+    if (!active || !pa) return false;
+    pml4 = table(root_phys); if (!pml4) return false;
+    if (!(pml4[index_for(va,3)] & NOVA_PAGE_PRESENT)) return false;
+    pdpt = table(pml4[index_for(va,3)] & ENTRY_ADDRESS_MASK);
+    if (!(pdpt[index_for(va,2)] & NOVA_PAGE_PRESENT)) return false;
+    pd = table(pdpt[index_for(va,2)] & ENTRY_ADDRESS_MASK);
+    if (!(pd[index_for(va,1)] & NOVA_PAGE_PRESENT)) return false;
+    pt = table(pd[index_for(va,1)] & ENTRY_ADDRESS_MASK);
     p = pt[index_for(va,0)]; if (!(p & NOVA_PAGE_PRESENT)) return false; *pa = (p & ENTRY_ADDRESS_MASK) | (va & (NOVA_PAGE_SIZE - 1)); return true;
 }
 
@@ -66,7 +72,8 @@ static bool map_range(uint64_t va, uint64_t pa, uint64_t length, uint64_t flags)
 
 bool paging_init(const struct nova_boot_info *boot) {
     uint64_t i, start, end, kernel_start, kernel_end;
-    if (!boot || !boot->hhdm_offset) return false; hhdm = boot->hhdm_offset;
+    if (!boot || !boot->hhdm_offset) return false;
+    hhdm = boot->hhdm_offset;
     root_phys = alloc_table(); if (!root_phys) return false; active = true;
     /* Keep every physical region visible through the Limine HHDM. */
     for (i = 0; i < boot->memory_region_count && i < NOVA_MAX_MEMORY_REGIONS; i++) {
@@ -80,7 +87,8 @@ bool paging_init(const struct nova_boot_info *boot) {
 }
 bool paging_self_test(void) {
     void *page = pmm_alloc_page(); uint64_t physical, translated; volatile uint64_t *memory;
-    if (!page) return false; physical = (uint64_t)(uintptr_t)page;
+    if (!page) return false;
+    physical = (uint64_t)(uintptr_t)page;
     if (!paging_map_page(PAGING_TEST_VA, physical, NOVA_PAGE_WRITABLE | NOVA_PAGE_NO_EXECUTE)) return false;
     if (!paging_translate(PAGING_TEST_VA + 7, &translated) || translated != physical + 7) return false;
     memory = (volatile uint64_t *)(uintptr_t)PAGING_TEST_VA; *memory = 0x1122334455667788ULL;

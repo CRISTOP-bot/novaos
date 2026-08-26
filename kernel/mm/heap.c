@@ -12,7 +12,6 @@ typedef struct heap_block {
     struct heap_block *prev;
     struct heap_block *next;
     uint64_t free;
-    uint64_t reserved;
 } heap_block;
 
 static heap_block *first_block;
@@ -41,7 +40,7 @@ static bool grow(uint64_t payload) {
     needed = sizeof(heap_block) + payload;
     if (!map_more(needed)) return false;
     heap_end = old_end + needed;
-    b = (heap_block *)(uintptr_t)old_end; b->magic = BLOCK_MAGIC; b->size = payload; b->prev = NULL; b->next = NULL; b->free = 1; b->reserved = 0;
+    b = (heap_block *)(uintptr_t)old_end; b->magic = BLOCK_MAGIC; b->size = payload; b->prev = NULL; b->next = NULL; b->free = 1;
     if (!first_block) first_block = b; else { heap_block *last = first_block; while (last->next) last = last->next; last->next = b; b->prev = last; }
     return true;
 }
@@ -57,11 +56,12 @@ void *kmalloc(size_t requested) {
     size = align_size((uint64_t)requested);
     for (b = first_block; b; b = b->next) if (b->free && b->size >= size) {
         if (b->size >= size + sizeof(heap_block) + NOVA_HEAP_ALIGNMENT) {
-            heap_block *split = (heap_block *)((uint8_t *)(b + 1) + size); split->magic = BLOCK_MAGIC; split->size = b->size - size - sizeof(heap_block); split->free = 1; split->reserved = 0; split->prev = b; split->next = b->next; if (split->next) split->next->prev = split; b->next = split; b->size = size;
+            heap_block *split = (heap_block *)((uint8_t *)(b + 1) + size); split->magic = BLOCK_MAGIC; split->size = b->size - size - sizeof(heap_block); split->free = 1; split->prev = b; split->next = b->next; if (split->next) split->next->prev = split; b->next = split; b->size = size;
         }
         b->free = 0; used_bytes += b->size; return (void *)(b + 1);
     }
-    if (!grow(size)) return NULL; b = first_block; while (b->next) b = b->next; b->free = 0; used_bytes += b->size; address = (uint64_t)(uintptr_t)(b + 1); return (void *)(uintptr_t)address;
+    if (!grow(size)) return NULL;
+    b = first_block; while (b->next) b = b->next; b->free = 0; used_bytes += b->size; address = (uint64_t)(uintptr_t)(b + 1); return (void *)(uintptr_t)address;
 }
 void kfree(void *ptr) {
     heap_block *b; uint64_t p = (uint64_t)(uintptr_t)ptr;
@@ -79,5 +79,7 @@ bool heap_self_test(void) {
     for (i = 0; i < 7; i++) { void *p = kmalloc(sizes[i]); if (!p || ((uint64_t)(uintptr_t)p & 15)) return false; kfree(p); }
     a=kmalloc(64); b=kmalloc(128); c=kmalloc(256); d=kmalloc(512); if (!a||!b||!c||!d||a==b||b==c||c==d) return false; kfree(b); kfree(d); kfree(a); kfree(c);
     for (i = 0; i < 128; i++) { items[i] = kmalloc(4096); if (!items[i]) return false; for (j=0;j<128;j++) if (j != i && items[i] == items[j]) return false; }
-    for (i = 0; i < 128; i++) kfree(items[i]); if (!kcalloc(8, 32)) return false; return true;
+    for (i = 0; i < 128; i++) kfree(items[i]);
+    if (!kcalloc(8, 32)) return false;
+    return true;
 }

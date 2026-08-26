@@ -1,1 +1,11 @@
-IyEvYmluL3NoCnNldCAtZXUKTElNSU5FX1ZFUlNJT049JHtMSU1JTkVfVkVSU0lPTjotdjguNi4wfQpkaXI9JChDRFBBVEg9IGNkIC0tICIkKGRpcm5hbWUgLS0gIiQwIikvLi4vdG9vbGNoYWluIikKbWtkaXIgLXAgIiRkaXIiCmlmIFsgISAtZCAiJGRpci9saW1pbmUvLmdpdCIgXTsgdGhlbgogIGdpdCBjbG9uZSAtLWRlcHRoIDEgLS1icmFuY2ggIiRMSU1JTkVfVkVSU0lPTiIgaHR0cHM6Ly9naXRodWIuY29tL2xpbWluZS1ib290bG9hZGVyL2xpbWluZS5naXQgIiRkaXIvbGltaW5lIgplbHNlCiAgY3VycmVudD0kKGdpdCAtQyAiJGRpci9saW1pbmUiIGRlc2NyaWJlIC0tdGFncyAtLWV4YWN0LW1hdGNoIDI+L2Rldi9udWxsIHx8IHRydWUpCiAgWyAiJGN1cnJlbnQiID0gIiRMSU1JTkVfVkVSU0lPTiIgXSB8fCB7IGVjaG8gIkxpbWluZSBjaGVja291dCBpcyAkY3VycmVudCwgZXhwZWN0ZWQgJExJTUlORV9WRVJTSU9OIiA+JjI7IGV4aXQgMTsgfQpmaQo=
+#!/bin/sh
+set -eu
+LIMINE_VERSION=${LIMINE_VERSION:-v8.6.0}
+dir=$(CDPATH= cd -- "$(dirname -- "$0")/../toolchain")
+mkdir -p "$dir"
+if [ ! -d "$dir/limine/.git" ]; then
+  git clone --depth 1 --branch "$LIMINE_VERSION" https://github.com/limine-bootloader/limine.git "$dir/limine"
+else
+  current=$(git -C "$dir/limine" describe --tags --exact-match 2>/dev/null || true)
+  [ "$current" = "$LIMINE_VERSION" ] || { echo "Limine checkout is $current, expected $LIMINE_VERSION" >&2; exit 1; }
+fi

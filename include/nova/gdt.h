@@ -1,1 +1,4 @@
-I2lmbmRlZiBOT1ZBX0dEVF9ICiNkZWZpbmUgTk9WQV9HRFRfSAp2b2lkIGdkdF9pbml0KHZvaWQpOwojZW5kaWYK
+#ifndef NOVA_GDT_H
+#define NOVA_GDT_H
+void gdt_init(void);
+#endif

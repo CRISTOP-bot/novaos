@@ -1,1 +1,24 @@
-LnNlY3Rpb24gLnRleHQKLmdsb2JhbCBfc3RhcnQKLnR5cGUgX3N0YXJ0LEBmdW5jdGlvbgouZXh0ZXJuIGttYWluCi5leHRlcm4gYm9vdF9saW1pbmVfaW5pdAouc2VjdGlvbiAuYnNzCi5hbGlnbiAxNgpzdGFja19ib3R0b206IC5za2lwIDE2Mzg0CnN0YWNrX3RvcDoKLnNlY3Rpb24gLnRleHQKX3N0YXJ0OgogICAgbGVhIHN0YWNrX3RvcCglcmlwKSwgJXJzcAogICAgYW5kICQtMTYsICVyc3AKICAgIHhvciAlcmJwLCAlcmJwCiAgICBsZWEgYm9vdF9pbmZvKCVyaXApLCAlcmRpCiAgICBjYWxsIGJvb3RfbGltaW5lX2luaXQKICAgIGxlYSBib290X2luZm8oJXJpcCksICVyZGkKICAgIGNhbGwga21haW4KMTogIGNsaQogICAgaGx0CiAgICBqbXAgMWIKLnNlY3Rpb24gLmJzcwouYWxpZ24gOApib290X2luZm86IC5za2lwIDggKyA4ICsgOCArIDggKyA4ICsgKDEyOCAqIDI0KQo=
+.section .text
+.global _start
+.type _start,@function
+.extern kmain
+.extern boot_limine_init
+.section .bss
+.align 16
+stack_bottom: .skip 16384
+stack_top:
+.section .text
+_start:
+    lea stack_top(%rip), %rsp
+    and $-16, %rsp
+    xor %rbp, %rbp
+    lea boot_info(%rip), %rdi
+    call boot_limine_init
+    lea boot_info(%rip), %rdi
+    call kmain
+1:  cli
+    hlt
+    jmp 1b
+.section .bss
+.align 8
+boot_info: .skip 8 + 8 + 8 + 8 + 8 + (128 * 24)

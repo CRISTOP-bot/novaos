@@ -1,1 +1,6 @@
-I2luY2x1ZGUgPG5vdmEvY29uc29sZS5oPgojaW5jbHVkZSAiLi4vZHJpdmVycy9zZXJpYWwvc2VyaWFsLmgiCnZvaWQgY29uc29sZV9pbml0KHZvaWQpeyBzZXJpYWxfaW5pdCgpOyB9CnZvaWQgY29uc29sZV9wdXRjaGFyKGNoYXIgYyl7IHNlcmlhbF9wdXRjaGFyKGMpOyB9CnZvaWQgY29uc29sZV93cml0ZShjb25zdCBjaGFyICpzKXsgc2VyaWFsX3dyaXRlKHMpOyB9CnZvaWQgY29uc29sZV9wcmludGYoY29uc3QgY2hhciAqZiwuLi4peyBfX2J1aWx0aW5fdmFfbGlzdCBhOyBfX2J1aWx0aW5fdmFfc3RhcnQoYSxmKTsgc2VyaWFsX3ZwcmludGYoZixhKTsgX19idWlsdGluX3ZhX2VuZChhKTsgfQo=
+#include <nova/console.h>
+#include "../drivers/serial/serial.h"
+void console_init(void){ serial_init(); }
+void console_putchar(char c){ serial_putchar(c); }
+void console_write(const char *s){ serial_write(s); }
+void console_printf(const char *f,...){ __builtin_va_list a; __builtin_va_start(a,f); serial_vprintf(f,a); __builtin_va_end(a); }

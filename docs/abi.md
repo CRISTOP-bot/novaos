@@ -1,1 +1,62 @@
-IyBBQkkgZGUgTm92YU9TICh2MCkKCkVzdGUgZG9jdW1lbnRvIGVzIG5vcm1hdGl2byBwYXJhIHVzZXJzcGFjZS4gQ2FtYmlhcmxvIHJlcXVpZXJlIHZlcnNpb25hZG8geSBwcnVlYmFzIGRlIGNvbXBhdGliaWxpZGFkLgoKIyMgQ29udmVuY2lvbmVzCgotIENQVTogU3lzdGVtIFYgQU1ENjQuCi0gQmluYXJpb3M6IEVMRjY0IGxpdHRsZS1lbmRpYW4sIG1hY2hpbmUgYEVNX1g4Nl82NGAuCi0gU3lzY2FsbHM6IGluc3RydWNjacOzbiBgc3lzY2FsbGAuCi0gRW50cmFkYTogYHJheCA9IG7Dum1lcm9gLCBhcmd1bWVudG9zIGVuIGByZGksIHJzaSwgcmR4LCByMTAsIHI4LCByOWAuCi0gUmV0b3JubzogYHJheCA+PSAwYCDDqXhpdG87IGByYXggPSAtZXJybm9gIGVycm9yLiBMb3Mgd3JhcHBlcnMgZGUgbGliYyBjb252aWVydGVuIGVzdG8gYSBgLTFgIHkgYXNpZ25hbiBgZXJybm9gLgotIFRpcG9zIEFCSTogZW50ZXJvcyB5IHRhbWHDsW9zIGRlIDY0IGJpdHMgZG9uZGUgY29ycmVzcG9uZGE7IGxvcyBwdW50ZXJvcyBzb24gdXNlciB2aXJ0dWFsIGFkZHJlc3NlcyBkZSA2NCBiaXRzIHkgbnVuY2Egc2UgcHVlZGVuIGFzdW1pciB2w6FsaWRvcy4KLSBSZWdpc3Ryb3MgcHJlc2VydmFkb3MgeSBzdGFjayBzaWd1ZW4gU3lzdGVtIFYgQU1ENjQuIEVsIGtlcm5lbCBubyBwcmVzZXJ2YSBlc3RhZG8gZGUgbGliYyBuaSBUTFMgdG9kYXbDrWEuCgpFbCBuw7ptZXJvIGRlIHN5c2NhbGwgZXMgZXN0YWJsZSB1bmEgdmV6IHB1YmxpY2Fkby4gTm8gc2UgcmV1dGlsaXphbiBuw7ptZXJvcyByZXRpcmFkb3MuIGBzeXNfYWJpX2luZm9gIGRldnVlbHZlIHZlcnNpw7NuIG1heW9yL21lbm9yIHkgY2FwYWNpZGFkZXM7IHVuYSBhcGxpY2FjacOzbiBkZWJlIGNvbXByb2JhciBjYXBhY2lkYWRlcyBjdWFuZG8gZGVwZW5kYSBkZSB1bmEgZXh0ZW5zacOzbi4KCiMjIFRhYmxhIGluaWNpYWwgcHJvcHVlc3RhCgp8IE7CuiB8IE5vbWJyZSB8IEZpcm1hIGNvbmNlcHR1YWwgfCBFc3RhZG8gfAp8LS0tOnwtLS18LS0tfC0tLXwKfCAwIHwgYHN5c19leGl0YCB8IGBleGl0KGludCBzdGF0dXMpYCB8IE0wIHwKfCAxIHwgYHN5c193cml0ZWAgfCBgd3JpdGUoZmQsIGJ1ZiwgbGVuKWAgfCBNMCB8CnwgMiB8IGBzeXNfcmVhZGAgfCBgcmVhZChmZCwgYnVmLCBsZW4pYCB8IE0yIHwKfCAzIHwgYHN5c19vcGVuYCB8IGBvcGVuKHBhdGgsIGZsYWdzLCBtb2RlKWAgfCBNMiB8CnwgNCB8IGBzeXNfY2xvc2VgIHwgYGNsb3NlKGZkKWAgfCBNMiB8CnwgNSB8IGBzeXNfc2Vla2AgfCBgc2VlayhmZCwgb2Zmc2V0LCB3aGVuY2UpYCB8IE0yIHwKfCA2IHwgYHN5c19zdGF0YCB8IGBzdGF0KHBhdGgsIG91dClgIHwgTTIgfAp8IDcgfCBgc3lzX21tYXBgIHwgYG1tYXAoYWRkciwgbGVuLCBwcm90LCBmbGFncywgZmQsIG9mZilgIHwgTTEgfAp8IDggfCBgc3lzX211bm1hcGAgfCBgbXVubWFwKGFkZHIsIGxlbilgIHwgTTEgfAp8IDkgfCBgc3lzX2Jya2AgfCBgYnJrKGFkZHIpYCB8IE0yIHwKfCAxMCB8IGBzeXNfc3Bhd25gIHwgYHNwYXduKHBhdGgsIGFyZ3YsIGVudnAsIGFjdGlvbnMpYCB8IE0xIHwKfCAxMSB8IGBzeXNfZXhlY2AgfCBgZXhlYyhwYXRoLCBhcmd2LCBlbnZwKWAgfCBNMiB8CnwgMTIgfCBgc3lzX3dhaXRwaWRgIHwgYHdhaXRwaWQocGlkLCBzdGF0dXMsIG9wdGlvbnMpYCB8IE0yIHwKfCAxMyB8IGBzeXNfZ2V0cGlkYCB8IGBnZXRwaWQoKWAgfCBNMSB8CnwgMTQgfCBgc3lzX2dldHBwaWRgIHwgYGdldHBwaWQoKWAgfCBNMiB8CnwgMTUgfCBgc3lzX2R1cGAgfCBgZHVwKGZkKWAgfCBNMiB8CnwgMTYgfCBgc3lzX2R1cDJgIHwgYGR1cDIob2xkLCBuZXcpYCB8IE0yIHwKfCAxNyB8IGBzeXNfcGlwZWAgfCBgcGlwZShvdXRfcGFpcilgIHwgTTIgfAp8IDE4IHwgYHN5c19pb2N0bGAgfCBgaW9jdGwoZmQsIHJlcXVlc3QsIGFyZylgIHwgTTIgfAp8IDE5IHwgYHN5c19jbG9ja19nZXR0aW1lYCB8IGBjbG9ja19nZXR0aW1lKGlkLCBvdXQpYCB8IE0xIHwKfCAyMCB8IGBzeXNfbmFub3NsZWVwYCB8IGBuYW5vc2xlZXAocmVxLCByZW0pYCB8IE0yIHwKfCAyMSB8IGBzeXNfYWJpX2luZm9gIHwgYGFiaV9pbmZvKG91dClgIHwgTTEgfAoKYHNwYXduYCBzdXN0aXR1eWUgaW5pY2lhbG1lbnRlIGEgYGZvcmtgOyBgZm9ya2Agc8OzbG8gc2UgYcOxYWRpcsOhIGN1YW5kbyBleGlzdGEgQ09XIHkgdGVzdHMgZGUgaGVyZW5jaWEgZGUgZGVzY3JpcHRvcmVzLiBMb3MgbsO6bWVyb3MgeSBmaXJtYXMgZGUgZXN0YSB0YWJsYSBzb24gdW5hIHByb3B1ZXN0YSB2MCBxdWUgc2UgY29uZ2VsYSBhbnRlcyBkZSBkaXN0cmlidWlyIGVsIHByaW1lciBTREsuCgojIyBFcnJvcmVzCgpTZSByZXNlcnZhcsOhIHVuIGNvbmp1bnRvIHBlcXVlw7FvIHkgUE9TSVgtbGlrZSAoYEVJTlZBTGAsIGBFRkFVTFRgLCBgRU5PRU5UYCwgYEVBQ0NFU2AsIGBFQkFERmAsIGBFTk9NRU1gLCBgRUlOVFJgLCBgRTJCSUdgLCBgRU5PU1lTYCwgYEVDSElMRGAsIGBFTk9TUENgKS4gU3VzIHZhbG9yZXMgbnVtw6lyaWNvcyBzZSBwdWJsaWNhcsOhbiBlbiBgaW5jbHVkZS9ub3ZhL2Vycm5vLmhgOyBubyBzZSBjb3BpYXLDoW4gbG9zIHZhbG9yZXMgZGUgTGludXggcG9yIGNvbXBhdGliaWxpZGFkIGFjY2lkZW50YWwuCgojIyBFTEYgeSBwcm9jZXNvIGluaWNpYWwKCk0wIGFjZXB0YSBgRVRfRVhFQ2AsIGBFTV9YODZfNjRgLCBgRUxGQ0xBU1M2NGAsIGxpdHRsZS1lbmRpYW4geSBgUFRfTE9BRGAuIE5vIGFjZXB0YSBQSUUsIGBQVF9JTlRFUlBgLCByZWxvY2FjaW9uZXMgZGluw6FtaWNhcyBuaSBzaGFyZWQgbGlicmFyaWVzLiBTZSBjb21wcnVlYmFuIGhlYWRlcnMsIG92ZXJmbG93LCByYW5nb3MsIGFsaW5lYW1pZW50bywgcGVybWlzb3MgeSBlbnRyeSBwb2ludC4gU2UgY29uc3RydXllIHVuIHN0YWNrIHVzZXIgYWxpbmVhZG8gYSAxNiBieXRlcyBjb246CgpgYGB0ZXh0CmFyZ2MsIGFyZ3ZbXSwgTlVMTCwgZW52cFtdLCBOVUxMLCBhdXh2IHRlcm1pbmFkYSBlbiBBVF9OVUxMCmBgYAoKTG9zIHZhbG9yZXMgZGUgYGFyZ3ZgIHkgYGVudnBgIHNlIGNvcGlhbiBhIG1lbW9yaWEgdXNlci4gYEFUX1BIRFJgLCBgQVRfUEhOVU1gIHkgYEFUX0VOVFJZYCBzZSBhw7FhZGlyw6FuIHPDs2xvIGNvbiB1bmEgZXNwZWNpZmljYWNpw7NuIGZvcm1hbCBkZWwgYXV4di4KCiMjIENvbXBhdGliaWxpZGFkCgpMYSBjb21wYXRpYmlsaWRhZCBQT1NJWCBzZSBpbXBsZW1lbnRhIGVuY2ltYSBkZSBlc3RhIEFCSSwgbm8gYWwgcmV2w6lzLiBDYWRhIGZ1bmNpw7NuIGxpYmMgZGViZSBpbmRpY2FyIHNpIGVzIElTTyBDLCBQT1NJWCBwYXJjaWFsIG8gZXh0ZW5zacOzbiBOb3ZhT1MuIE5vIHNlIGFmaXJtYSBjb21wYXRpYmlsaWRhZCBQT1NJWCBjb21wbGV0YSBoYXN0YSBxdWUgZXhpc3RhIHVuYSBzdWl0ZSByZWxldmFudGUgcXVlIGxvIGRlbXVlc3RyZS4K
+# ABI de NovaOS (v0)
+
+Este documento es normativo para userspace. Cambiarlo requiere versionado y pruebas de compatibilidad.
+
+## Convenciones
+
+- CPU: System V AMD64.
+- Binarios: ELF64 little-endian, machine `EM_X86_64`.
+- Syscalls: instrucción `syscall`.
+- Entrada: `rax = número`, argumentos en `rdi, rsi, rdx, r10, r8, r9`.
+- Retorno: `rax >= 0` éxito; `rax = -errno` error. Los wrappers de libc convierten esto a `-1` y asignan `errno`.
+- Tipos ABI: enteros y tamaños de 64 bits donde corresponda; los punteros son user virtual addresses de 64 bits y nunca se pueden asumir válidos.
+- Registros preservados y stack siguen System V AMD64. El kernel no preserva estado de libc ni TLS todavía.
+
+El número de syscall es estable una vez publicado. No se reutilizan números retirados. `sys_abi_info` devuelve versión mayor/menor y capacidades; una aplicación debe comprobar capacidades cuando dependa de una extensión.
+
+## Tabla inicial propuesta
+
+| Nº | Nombre | Firma conceptual | Estado |
+|---:|---|---|---|
+| 0 | `sys_exit` | `exit(int status)` | M0 |
+| 1 | `sys_write` | `write(fd, buf, len)` | M0 |
+| 2 | `sys_read` | `read(fd, buf, len)` | M2 |
+| 3 | `sys_open` | `open(path, flags, mode)` | M2 |
+| 4 | `sys_close` | `close(fd)` | M2 |
+| 5 | `sys_seek` | `seek(fd, offset, whence)` | M2 |
+| 6 | `sys_stat` | `stat(path, out)` | M2 |
+| 7 | `sys_mmap` | `mmap(addr, len, prot, flags, fd, off)` | M1 |
+| 8 | `sys_munmap` | `munmap(addr, len)` | M1 |
+| 9 | `sys_brk` | `brk(addr)` | M2 |
+| 10 | `sys_spawn` | `spawn(path, argv, envp, actions)` | M1 |
+| 11 | `sys_exec` | `exec(path, argv, envp)` | M2 |
+| 12 | `sys_waitpid` | `waitpid(pid, status, options)` | M2 |
+| 13 | `sys_getpid` | `getpid()` | M1 |
+| 14 | `sys_getppid` | `getppid()` | M2 |
+| 15 | `sys_dup` | `dup(fd)` | M2 |
+| 16 | `sys_dup2` | `dup2(old, new)` | M2 |
+| 17 | `sys_pipe` | `pipe(out_pair)` | M2 |
+| 18 | `sys_ioctl` | `ioctl(fd, request, arg)` | M2 |
+| 19 | `sys_clock_gettime` | `clock_gettime(id, out)` | M1 |
+| 20 | `sys_nanosleep` | `nanosleep(req, rem)` | M2 |
+| 21 | `sys_abi_info` | `abi_info(out)` | M1 |
+
+`spawn` sustituye inicialmente a `fork`; `fork` sólo se añadirá cuando exista COW y tests de herencia de descriptores. Los números y firmas de esta tabla son una propuesta v0 que se congela antes de distribuir el primer SDK.
+
+## Errores
+
+Se reservará un conjunto pequeño y POSIX-like (`EINVAL`, `EFAULT`, `ENOENT`, `EACCES`, `EBADF`, `ENOMEM`, `EINTR`, `E2BIG`, `ENOSYS`, `ECHILD`, `ENOSPC`). Sus valores numéricos se publicarán en `include/nova/errno.h`; no se copiarán los valores de Linux por compatibilidad accidental.
+
+## ELF y proceso inicial
+
+M0 acepta `ET_EXEC`, `EM_X86_64`, `ELFCLASS64`, little-endian y `PT_LOAD`. No acepta PIE, `PT_INTERP`, relocaciones dinámicas ni shared libraries. Se comprueban headers, overflow, rangos, alineamiento, permisos y entry point. Se construye un stack user alineado a 16 bytes con:
+
+```text
+argc, argv[], NULL, envp[], NULL, auxv terminada en AT_NULL
+```
+
+Los valores de `argv` y `envp` se copian a memoria user. `AT_PHDR`, `AT_PHNUM` y `AT_ENTRY` se añadirán sólo con una especificación formal del auxv.
+
+## Compatibilidad
+
+La compatibilidad POSIX se implementa encima de esta ABI, no al revés. Cada función libc debe indicar si es ISO C, POSIX parcial o extensión NovaOS. No se afirma compatibilidad POSIX completa hasta que exista una suite relevante que lo demuestre.

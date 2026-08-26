@@ -1,1 +1,63 @@
-IyBBcnF1aXRlY3R1cmEgZGUgTm92YU9TCgojIyBEZWNpc2nDs24gYmFzZQoKTm92YU9TIGNvbWllbnphIGNvbW8gdW4ga2VybmVsIG1vbm9sw610aWNvIG1vZHVsYXI6IGRyaXZlcnMsIFZGUywgbWVtb3JpYSB5IHByb2Nlc29zIHZpdmVuIGVuIGVsIGtlcm5lbCwgcGVybyBkZXBlbmRlbiBkZSBpbnRlcmZhY2VzIGludGVybmFzIHBlcXVlw7FhcyB5IHRlc3RlYWJsZXMuIE5vIHNlIGFkb3B0YSBtaWNyb2tlcm5lbCBwb3IgcHJpbmNpcGlvOiBwYXJhIGxhIHByaW1lcmEgbWlsZXN0b25lIGHDsWFkZSBJUEMsIHNlcnZpZG9yZXMgeSBkZWJ1Z2dpbmcgYW50ZXMgZGUgYXBvcnRhciB2YWxvci4gTGEgc2VwYXJhY2nDs24gZGUgc2VydmljaW9zIHF1ZWRhIHByZXBhcmFkYSBwYXJhIHVuYSBldm9sdWNpw7NuIHBvc3Rlcmlvci4KCkVsIGtlcm5lbCBubyByZXV0aWxpemEgdW5hIGFycXVpdGVjdHVyYSBkZSBDb3J0ZXhPUyBhdXRvbcOhdGljYW1lbnRlLiBDdWFscXVpZXIgY29tcG9uZW50ZSBwcm9waW8gcXVlIHNlIHBvcnRlIGRlYmVyw6EgcGFzYXIgdW5hIHJldmlzacOzbiBkZSBsaWNlbmNpYSwgaW52YXJpYW50ZXMsIGFjb3BsYW1pZW50byB5IGNvbXBhdGliaWxpZGFkIGNvbiBlc3RhIEFCSS4KCiMjIENhcGFzCgpgYGB0ZXh0CmhhcmR3YXJlIHg4Nl82NAogIOKUlOKUgCBib290IHByb3RvY29sIChMaW1pbmU7IEdSVUIyIGNvbW8gYWRhcHRhZG9yIGZ1dHVybykKICAgICDilJTilIAgYXJjaC94ODZfNjQgKEdEVCwgSURULCB0cmFwcywgcGFnaW5nLCBjb250ZXh0IHN3aXRjaCwgc3lzY2FsbCBlbnRyeSkKICAgICAgICDilJTilIAga2VybmVsIGNvcmUgKHBhbmljLCBsb2dnaW5nLCBpbml0LCBjYXBhYmlsaXRpZXMgZGUgb2JqZXRvcykKICAgICAgICAgICDilJzilIAgbW0gKFBNTSwgVk1NLCBrbWFsbG9jLCB1c2VyLWNvcHkpCiAgICAgICAgICAg4pSc4pSAIHNjaGVkICh0aHJlYWRzLCBydW4gcXVldWVzLCB0aW1lciBwcmVlbXB0aW9uKQogICAgICAgICAgIOKUnOKUgCBwcm9jIChhZGRyZXNzIHNwYWNlcywgcHJvY2Vzc2VzLCBoYW5kbGVzL2ZkcykKICAgICAgICAgICDilJzilIAgc3lzY2FsbCAoZGlzcGF0Y2ggKyB2YWxpZGF0aW9uKQogICAgICAgICAgIOKUnOKUgCB2ZnMvZnMgKFZGUyArIGluaXRyYW1mcyBjcGlvKQogICAgICAgICAgIOKUnOKUgCBkZXYvZHJpdmVycyAoY29uc29sZSwgc2VyaWFsLCB0aW1lciwga2V5Ym9hcmQpCiAgICAgICAgICAg4pSU4pSAIGlwYy90aW1lL25ldCAoaW5jcmVtZW50YWwpCiAgICAgICAgICAgICAg4pSU4pSAIHVzZXJzcGFjZTogaW5pdCwgbGliYywgc2hlbGwsIHV0aWxpdGllcywgc2VydmljZXMKYGBgCgojIyBPcmRlbiBkZSBpbXBsZW1lbnRhY2nDs24KCjEuIEJvb3QsIHNlcmlhbCBjb25zb2xlLCBwYW5pYyB5IGxpbmtlciBzY3JpcHQuCjIuIEdEVC9JRFQsIGV4Y2VwY2lvbmVzIHkgc2FsaWRhIGRlIHJlZ2lzdHJvcy4KMy4gTWFwYSBkZSBtZW1vcmlhIGRlbCBib290bG9hZGVyLCBQTU0geSBwYWdpbmcga2VybmVsLgo0LiBIZWFwIGRlbCBrZXJuZWwgY29uIHRlc3RzIGhvc3Qtc2lkZSB5IGFzc2VydGlvbnMuCjUuIFRTQy9QSVQvQVBJQyBzZWfDum4gbG8gZXhpamEgZWwgc2NoZWR1bGVyOyBubyBpbnRyb2R1Y2lyIFNNUCBhw7puLgo2LiBUaHJlYWQgZGUga2VybmVsLCBjYW1iaW8gZGUgY29udGV4dG8geSBzY2hlZHVsZXIgY29vcGVyYXRpdm87IGx1ZWdvIHRpY2sgcHJlZW1wdGl2by4KNy4gUmluZyAzLCBhZGRyZXNzIHNwYWNlIGRlIHByb2Nlc28geSBlbnRyYWRhL3NhbGlkYSBzZWd1cmEgZGUgdXNlcnNwYWNlLgo4LiBBQkkgZGUgc3lzY2FsbHMgZXN0YWJsZTogYHdyaXRlYCwgYGV4aXRgLCBgZ2V0cGlkYCwgYG1tYXBgLCBsdWVnbyBJL08uCjkuIFZGUyBlbiBtZW1vcmlhICsgaW5pdHJhbWZzIGNwaW8gYG5ld2NgLgoxMC4gVmFsaWRhY2nDs24geSBjYXJnYSBFTEY2NCBgRVRfRVhFQ2AsIHN0YWNrIGluaWNpYWwgeSBgL2luaXRgLgoxMS4gYGNydDBgLCB3cmFwcGVycywgTmV3bGliLCBzaGVsbCB5IHV0aWxpZGFkZXMgbcOtbmltYXMuCgojIyBNZW1vcmlhIHkgc2VndXJpZGFkCgotIFNlcGFyYXIgZsOtc2ljYW1lbnRlIFBNTSwgVk1NIHkgYWxsb2NhdG9yIGRlbCBoZWFwLgotIFdeWCBwb3IgZGVmZWN0bzogc2VnbWVudG9zIGBQVF9MT0FEYCBubyBzb24gc2ltdWx0w6FuZWFtZW50ZSB3cml0YWJsZSB5IGV4ZWN1dGFibGUuCi0gVmFsaWRhciBvdmVyZmxvdyBkZSBgcF9vZmZzZXQgKyBwX2ZpbGVzemAsIGBwX3ZhZGRyICsgcF9tZW1zemAsIGFsaW5lYW1pZW50bywgcmFuZ28gZGUgdXN1YXJpbyB5IHNvbGFwYW1pZW50byBkZSBzZWdtZW50b3MuCi0gYGNvcHlfZnJvbV91c2VyYC9gY29weV90b191c2VyYCBudW5jYSBkZXNyZWZlcmVuY2lhbiBkaXJlY3RhbWVudGUgdW4gcHVudGVybyB1c2VyLgotIEzDrW1pdGVzIGV4cGzDrWNpdG9zIHBhcmEgYXJndi9lbnZwLCBzdHJpbmdzLCBidWZmZXJzIHkgbsO6bWVybyBkZSBkZXNjcmlwdG9yZXMuCi0gRmFsbG9zIGRlIHBhZ2UgZmF1bHQgZW4gdXNlciB0ZXJtaW5hbiBlbCBwcm9jZXNvOyBlbiBrZXJuZWwgcHJvdm9jYW4gcGFuaWMgY29udHJvbGFkby4KCiMjIFByb2Nlc29zCgpMYSBwcmltZXJhIHZlcnNpw7NuIHVzYSBgc3Bhd24ocGF0aCwgYXJndiwgZW52cClgIGNvbW8gY3JlYWNpw7NuIHByaW1hcmlhLiBgZm9ya2Agc2UgZGVqYSBwYXJhIGN1YW5kbyBleGlzdGFuIGFkZHJlc3Mgc3BhY2VzIGNvcHktb24td3JpdGUgeSB1bmEgc2Vtw6FudGljYSBjbGFyYTsgbm8gc2Ugc2ltdWxhIGNvbiB1bmEgaW1wbGVtZW50YWNpw7NuIGluc2VndXJhLiBgZXhlY2AgcmVlbXBsYXphIGVsIGFkZHJlc3Mgc3BhY2UgeSBgd2FpdHBpZGAgcmVjb2dlIGVsIGVzdGFkbyBkZWwgaGlqby4KCiMjIFZGUwoKTGEgaW50ZXJmYXogaW5pY2lhbCBleHBvbmUgbm9kb3MsIGRpcmVjdG9yaW9zLCBvcGVyYWNpb25lcyBkZSBhcmNoaXZvIHkgZGVzY3JpcHRvcmVzLiBFbCBwcmltZXIgYmFja2VuZCBlcyBpbml0cmFtZnMgZGUgc29sbyBsZWN0dXJhLiBVbiBiYWNrZW5kIGVuIG1lbW9yaWEgcGVybWl0aXLDoSB0ZXN0cyBzaW4gZGlzY28uIEZBVDMyIHkgdW4gZmlsZXN5c3RlbSBwZXJzaXN0ZW50ZSBzb24gZmFzZXMgcG9zdGVyaW9yZXMsIG5vIHJlcXVpc2l0b3MgZGVsIGxvYWRlci4KCiMjIEJvb3Rsb2FkZXIKClNlIGVsaWdlIExpbWluZSBwYXJhIGRlc2Fycm9sbG86IHByb3RvY29sbyBtb2Rlcm5vLCBzb3BvcnRlIHg4Nl82NC9RRU1VLCBjYXJnYSBkZSBtw7NkdWxvcyB5IGxpY2VuY2lhIHBlcm1pc2l2YS4gR1JVQiBNdWx0aWJvb3QyIHF1ZWRhIGNvbW8gYWRhcHRhZG9yIGFsdGVybmF0aXZvIHBvcnF1ZSBlcyBtdXkgbWFkdXJvLCBwZXJvIHN1IEdQTCB5IGxhIGNvbXBsZWppZGFkIGRlIHN1IGNvbmZpZ3VyYWNpw7NuIG5vIGFwb3J0YW4gYSBsYSBwcmltZXJhIG1pbGVzdG9uZS4gRWwga2VybmVsIGNvbnN1bWUgdW5hIGVzdHJ1Y3R1cmEgaW50ZXJuYSBgYm9vdF9pbmZvYCwgbm8gZWwgZm9ybWF0byBkZSB1biBib290bG9hZGVyIGRpcmVjdGFtZW50ZS4KCiMjIEVzdGFkbyBkZSBpbXBsZW1lbnRhY2nDs24gKE0wKQoKTGEgaW1wbGVtZW50YWNpw7NuIGFjdHVhbCBjdWJyZSDDum5pY2FtZW50ZSBlbCBhcnJhbnF1ZSB4ODZfNjQsIGNvbnNvbGEgVUFSVCwgQ1BVSUQsIEdEVCwgSURULCBleGNlcGNpb25lcywgYWRhcHRhZG9yIGRlIG1lbW9yeSBtYXAgeSBwYXJhZGEgc2VndXJhLiBMYSB2YWxpZGFjacOzbiBkZSBydW50aW1lIHF1ZWRhIFBFTkRJTkcgaGFzdGEgZWplY3V0YXIgUUVNVSBlbiBsb2NhbCBvIENJLiBQTU0sIHBhZ2luZyBkaW7DoW1pY28sIHNjaGVkdWxlciwgcHJvY2Vzb3MsIHN5c2NhbGxzLCBFTEYsIFZGUyB5IHVzZXJzcGFjZSBwZXJtYW5lY2VuIGV4cGzDrWNpdGFtZW50ZSBmdWVyYSBkZSBNMC4K
+# Arquitectura de NovaOS
+
+## Decisión base
+
+NovaOS comienza como un kernel monolítico modular: drivers, VFS, memoria y procesos viven en el kernel, pero dependen de interfaces internas pequeñas y testeables. No se adopta microkernel por principio: para la primera milestone añade IPC, servidores y debugging antes de aportar valor. La separación de servicios queda preparada para una evolución posterior.
+
+El kernel no reutiliza una arquitectura de CortexOS automáticamente. Cualquier componente propio que se porte deberá pasar una revisión de licencia, invariantes, acoplamiento y compatibilidad con esta ABI.
+
+## Capas
+
+```text
+hardware x86_64
+  └─ boot protocol (Limine; GRUB2 como adaptador futuro)
+     └─ arch/x86_64 (GDT, IDT, traps, paging, context switch, syscall entry)
+        └─ kernel core (panic, logging, init, capabilities de objetos)
+           ├─ mm (PMM, VMM, kmalloc, user-copy)
+           ├─ sched (threads, run queues, timer preemption)
+           ├─ proc (address spaces, processes, handles/fds)
+           ├─ syscall (dispatch + validation)
+           ├─ vfs/fs (VFS + initramfs cpio)
+           ├─ dev/drivers (console, serial, timer, keyboard)
+           └─ ipc/time/net (incremental)
+              └─ userspace: init, libc, shell, utilities, services
+```
+
+## Orden de implementación
+
+1. Boot, serial console, panic y linker script.
+2. GDT/IDT, excepciones y salida de registros.
+3. Mapa de memoria del bootloader, PMM y paging kernel.
+4. Heap del kernel con tests host-side y assertions.
+5. TSC/PIT/APIC según lo exija el scheduler; no introducir SMP aún.
+6. Thread de kernel, cambio de contexto y scheduler cooperativo; luego tick preemptivo.
+7. Ring 3, address space de proceso y entrada/salida segura de userspace.
+8. ABI de syscalls estable: `write`, `exit`, `getpid`, `mmap`, luego I/O.
+9. VFS en memoria + initramfs cpio `newc`.
+10. Validación y carga ELF64 `ET_EXEC`, stack inicial y `/init`.
+11. `crt0`, wrappers, Newlib, shell y utilidades mínimas.
+
+## Memoria y seguridad
+
+- Separar físicamente PMM, VMM y allocator del heap.
+- W^X por defecto: segmentos `PT_LOAD` no son simultáneamente writable y executable.
+- Validar overflow de `p_offset + p_filesz`, `p_vaddr + p_memsz`, alineamiento, rango de usuario y solapamiento de segmentos.
+- `copy_from_user`/`copy_to_user` nunca desreferencian directamente un puntero user.
+- Límites explícitos para argv/envp, strings, buffers y número de descriptores.
+- Fallos de page fault en user terminan el proceso; en kernel provocan panic controlado.
+
+## Procesos
+
+La primera versión usa `spawn(path, argv, envp)` como creación primaria. `fork` se deja para cuando existan address spaces copy-on-write y una semántica clara; no se simula con una implementación insegura. `exec` reemplaza el address space y `waitpid` recoge el estado del hijo.
+
+## VFS
+
+La interfaz inicial expone nodos, directorios, operaciones de archivo y descriptores. El primer backend es initramfs de solo lectura. Un backend en memoria permitirá tests sin disco. FAT32 y un filesystem persistente son fases posteriores, no requisitos del loader.
+
+## Bootloader
+
+Se elige Limine para desarrollo: protocolo moderno, soporte x86_64/QEMU, carga de módulos y licencia permisiva. GRUB Multiboot2 queda como adaptador alternativo porque es muy maduro, pero su GPL y la complejidad de su configuración no aportan a la primera milestone. El kernel consume una estructura interna `boot_info`, no el formato de un bootloader directamente.
+
+## Estado de implementación (M0)
+
+La implementación actual cubre únicamente el arranque x86_64, consola UART, CPUID, GDT, IDT, excepciones, adaptador de memory map y parada segura. La validación de runtime queda PENDING hasta ejecutar QEMU en local o CI. PMM, paging dinámico, scheduler, procesos, syscalls, ELF, VFS y userspace permanecen explícitamente fuera de M0.

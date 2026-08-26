@@ -1,1 +1,12 @@
-RU5UUlkoX3N0YXJ0KQpTRUNUSU9OUyB7CiAgLiA9IDFNOwogIF9fa2VybmVsX3N0YXJ0ID0gLjsKICAudGV4dCA6IEFMSUdOKDRLKSB7IEtFRVAoKigudGV4dC5lbnRyeSkpICooLnRleHQgLnRleHQuKikgfQogIC5yb2RhdGEgOiBBTElHTig0SykgeyBLRUVQKCooLmxpbWluZV9yZXF1ZXN0c19zdGFydCkpIEtFRVAoKigubGltaW5lX3JlcXVlc3RzKSkgS0VFUCgqKC5saW1pbmVfcmVxdWVzdHNfZW5kKSkgKigucm9kYXRhIC5yb2RhdGEuKikgfQogIC5kYXRhIDogQUxJR04oNEspIHsgKiguZGF0YSAuZGF0YS4qKSB9CiAgLmJzcyA6IEFMSUdOKDRLKSB7ICooQ09NTU9OKSAqKC5ic3MgLmJzcy4qKSB9CiAgLiA9IEFMSUdOKDRLKTsKICBfX2tlcm5lbF9lbmQgPSAuOwogIC9ESVNDQVJELyA6IHsgKiguZWhfZnJhbWUpICooLmNvbW1lbnQpIH0KfQo=
+ENTRY(_start)
+SECTIONS {
+  . = 1M;
+  __kernel_start = .;
+  .text : ALIGN(4K) { KEEP(*(.text.entry)) *(.text .text.*) }
+  .rodata : ALIGN(4K) { KEEP(*(.limine_requests_start)) KEEP(*(.limine_requests)) KEEP(*(.limine_requests_end)) *(.rodata .rodata.*) }
+  .data : ALIGN(4K) { *(.data .data.*) }
+  .bss : ALIGN(4K) { *(COMMON) *(.bss .bss.*) }
+  . = ALIGN(4K);
+  __kernel_end = .;
+  /DISCARD/ : { *(.eh_frame) *(.comment) }
+}

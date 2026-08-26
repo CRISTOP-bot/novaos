@@ -1,1 +1,5 @@
-I2luY2x1ZGUgPG5vdmEvY29uc29sZS5oPgojaW5jbHVkZSA8bm92YS9jcHUuaD4Kc3RhdGljIGNoYXIgdmVuZG9yWzEzXTsKdm9pZCBjcHVfaW5pdCh2b2lkKXsgdWludDMyX3QgYSxiLGMsZDsgX19hc21fXyB2b2xhdGlsZSgiY3B1aWQiOiI9YSIoYSksIj1iIihiKSwiPWMiKGMpLCI9ZCIoZCk6ImEiKDApKTsgKCh1aW50MzJfdCopdmVuZG9yKVswXT1iOyAoKHVpbnQzMl90Kil2ZW5kb3IpWzFdPWQ7ICgodWludDMyX3QqKXZlbmRvcilbMl09YzsgdmVuZG9yWzEyXT0wOyB9CnZvaWQgY3B1X3ByaW50X2luZm8odm9pZCl7IGNvbnNvbGVfd3JpdGUoIltOb3ZhT1NdIGNwdSBpbml0aWFsaXplZCwgdmVuZG9yPSIpOyBjb25zb2xlX3dyaXRlKHZlbmRvcik7IGNvbnNvbGVfd3JpdGUoIlxuIik7IH0K
+#include <nova/console.h>
+#include <nova/cpu.h>
+static char vendor[13];
+void cpu_init(void){ uint32_t a,b,c,d; __asm__ volatile("cpuid":"=a"(a),"=b"(b),"=c"(c),"=d"(d):"a"(0)); ((uint32_t*)vendor)[0]=b; ((uint32_t*)vendor)[1]=d; ((uint32_t*)vendor)[2]=c; vendor[12]=0; }
+void cpu_print_info(void){ console_write("[NovaOS] cpu initialized, vendor="); console_write(vendor); console_write("\n"); }

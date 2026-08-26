@@ -1,1 +1,25 @@
-IyBTZWNyZXRzIGFuZCBjcmVkZW50aWFscwouZW52Ci5lbnYuKgoqLmtleQoqLnBlbQoqLnRva2VuCmNyZWRlbnRpYWxzKgpzZWNyZXRzKgpwYXNzd29yZHMqCgojIEdlbmVyYXRlZCBidWlsZHMgYW5kIGltYWdlcwpidWlsZC8Kb3V0LwoqLmlzbwoqLmltZwoqLmJpbgoqLmxvZwoKIyBMb2NhbCB0b29saW5nIGFuZCBJREVzCi52c2NvZGUvCi5pZGVhLwp0b29sY2hhaW4vbGltaW5lLwp0b29sY2hhaW4vc3JjLwp0b29sY2hhaW4vYnVpbGQvCnRvb2xjaGFpbi9sb2NhbC8K
+# Secrets and credentials
+.env
+.env.*
+*.key
+*.pem
+*.token
+credentials*
+secrets*
+passwords*
+
+# Generated builds and images
+build/
+out/
+*.iso
+*.img
+*.bin
+*.log
+
+# Local tooling and IDEs
+.vscode/
+.idea/
+toolchain/limine/
+toolchain/src/
+toolchain/build/
+toolchain/local/

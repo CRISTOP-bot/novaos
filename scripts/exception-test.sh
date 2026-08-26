@@ -1,1 +1,24 @@
-IyEvYmluL3NoCnNldCAtZXUKaXNvPSR7MTo/SVNPIHBhdGggcmVxdWlyZWR9OyBsb2c9JHsyOj9sb2cgcGF0aCByZXF1aXJlZH07IHFlbXU9JHtRRU1VOi1xZW11LXN5c3RlbS14ODZfNjR9CnJtIC1mICIkbG9nIgoiJHFlbXUiIC1NIHEzNSAtbSAxMjhNIC1jZHJvbSAiJGlzbyIgLXNlcmlhbCAiZmlsZTokbG9nIiAtZGlzcGxheSBub25lIC1uby1yZWJvb3QgPi9kZXYvbnVsbCAyPiYxICYKcGlkPSQhCmNsZWFudXAoKXsga2lsbCAiJHBpZCIgMj4vZGV2L251bGwgfHwgdHJ1ZTsgd2FpdCAiJHBpZCIgMj4vZGV2L251bGwgfHwgdHJ1ZTsgfQp0cmFwIGNsZWFudXAgRVhJVCBJTlQgVEVSTQpmb3IgaSBpbiAkKHNlcSAxIDEwMCk7IGRvCiAgaWYgWyAtZiAiJGxvZyIgXSAmJiBncmVwIC1xaSAnZXhjZXB0aW9uJyAiJGxvZyIgJiYgZ3JlcCAtcSAnS0VSTkVMIFBBTklDJyAiJGxvZyI7IHRoZW4KICAgIGVjaG8gJ05vdmFPUyBleGNlcHRpb24gdGVzdDogUEFTUycKICAgIGNhdCAiJGxvZyIKICAgIGV4aXQgMAogIGZpCiAgaWYgISBraWxsIC0wICIkcGlkIiAyPi9kZXYvbnVsbDsgdGhlbgogICAgZWNobyAnTm92YU9TIGV4Y2VwdGlvbiB0ZXN0OiBGQUlMIChRRU1VIGV4aXRlZCBiZWZvcmUgcGFuaWMgbWFya2VycyknID4mMgogICAgWyAtZiAiJGxvZyIgXSAmJiBjYXQgIiRsb2ciID4mMiB8fCB0cnVlCiAgICBleGl0IDEKICBmaQogIHNsZWVwIDAuMQpkb25lCmVjaG8gJ05vdmFPUyBleGNlcHRpb24gdGVzdDogRkFJTCAodGltZW91dCknID4mMgpbIC1mICIkbG9nIiBdICYmIGNhdCAiJGxvZyIgPiYyIHx8IHRydWUKZXhpdCAxCg==
+#!/bin/sh
+set -eu
+iso=${1:?ISO path required}; log=${2:?log path required}; qemu=${QEMU:-qemu-system-x86_64}
+rm -f "$log"
+"$qemu" -M q35 -m 128M -cdrom "$iso" -serial "file:$log" -display none -no-reboot >/dev/null 2>&1 &
+pid=$!
+cleanup(){ kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; }
+trap cleanup EXIT INT TERM
+for i in $(seq 1 100); do
+  if [ -f "$log" ] && grep -qi 'exception' "$log" && grep -q 'KERNEL PANIC' "$log"; then
+    echo 'NovaOS exception test: PASS'
+    cat "$log"
+    exit 0
+  fi
+  if ! kill -0 "$pid" 2>/dev/null; then
+    echo 'NovaOS exception test: FAIL (QEMU exited before panic markers)' >&2
+    [ -f "$log" ] && cat "$log" >&2 || true
+    exit 1
+  fi
+  sleep 0.1
+done
+echo 'NovaOS exception test: FAIL (timeout)' >&2
+[ -f "$log" ] && cat "$log" >&2 || true
+exit 1

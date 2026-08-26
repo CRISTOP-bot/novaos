@@ -1,1 +1,57 @@
-WyFbTm92YU9TIENJXSguLi8uLi9hY3Rpb25zL3dvcmtmbG93cy9ub3Zhb3MtdGVzdHMueW1sL2JhZGdlLnN2ZyldKC4uLy4uL2FjdGlvbnMvd29ya2Zsb3dzL25vdmFvcy10ZXN0cy55bWwpCgojIE5vdmFPUwoKU2lzdGVtYSBvcGVyYXRpdm8gZXhwZXJpbWVudGFsIHg4Nl82NCwgaW5kZXBlbmRpZW50ZSBkZSBMaW51eCwgb3JpZW50YWRvIGEgZWplY3V0YXIgc29mdHdhcmUgQyByZWFsIG1lZGlhbnRlIHVuYSBBQkkgcHJvcGlhIHkgZG9jdW1lbnRhZGEuCgo+IEVzdGFkbzogTTAgaW1wbGVtZW50YXRpb246IENPTVBMRVRFLiBNMCBydW50aW1lIHZhbGlkYXRpb246IFBFTkRJTkcgKGVzdGUgZW50b3JubyBubyB0aWVuZSBHQ0MsIE1ha2UsIFFFTVUsIHhvcnJpc28gbmkgR0RCKS4KCiMjIE9iamV0aXZvcyBkZSBsYSBwcmltZXJhIG1pbGVzdG9uZQoKYEJPT1Qg4oaSIGtlcm5lbCDihpIgbWVtb3JpYSDihpIgc2NoZWR1bGVyIOKGkiBzeXNjYWxsIOKGkiBFTEYgbG9hZGVyIOKGkiBwcm9jZXNvIHVzZXIg4oaSIGxpYmMg4oaSIC9pbml0IOKGkiBzaGVsbCDihpIgaGVsbG9gCgpMYSBwcmltZXJhIHZlcnNpw7NuIHVzYXLDoToKCi0geDg2XzY0IHkgQUJJIGRlIENQVSBTeXN0ZW0gViBBTUQ2NDsKLSBFTEY2NCwgaW5pY2lhbG1lbnRlIGBFVF9FWEVDYCBuby1QSUU7Ci0gTGltaW5lIGNvbW8gYm9vdGxvYWRlciBwcmltYXJpbywgY29uIHVuYSBjYXBhIGRlIGJvb3QgcXVlIHBlcm1pdGEgYcOxYWRpciBHUlVCIE11bHRpYm9vdDI7Ci0gUUVNVSArIEdEQiBjb21vIGVudG9ybm8gZGUgcHJ1ZWJhOwotIGtlcm5lbCBmcmVlc3RhbmRpbmcgeSB1c2Vyc3BhY2UgaG9zdGVkOwotIE5ld2xpYiB1cHN0cmVhbSBzZXBhcmFkYSBkZWwgZ2x1ZSBlc3BlY8OtZmljbyBkZSBOb3ZhT1M7Ci0gaW5pdHJhbWZzIGNwaW8gYG5ld2NgIGFudGVzIGRlIGRpc2XDsWFyIHVuIGZpbGVzeXN0ZW0gcGVyc2lzdGVudGUuCgojIyBDb25zdHJ1Y2Npw7NuCgpMYSBpbWFnZW4gZGUgTTAgc2UgY29uc3RydXllIGNvbiBlbCB0b29sY2hhaW4gaG9zdCAoYGdjY2AvYGxkYCkgZW4gbW9kbyBmcmVlc3RhbmRpbmcuIEVsIGNyb3NzLXRvb2xjaGFpbiBkZSB1c2Vyc3BhY2Ugc2lndWUgc2llbmRvIHVuYSBtaWxlc3RvbmUgcG9zdGVyaW9yLiBBbnRlcyBkZSBjb25zdHJ1aXIgaGF5IHF1ZSBvYnRlbmVyIExpbWluZToKCmBgYHNoCm1ha2UgbGltaW5lCm1ha2UgICAjIGNyb3NzLWJpbnV0aWxzLCBHQ0MgeSBzeXNyb290Cm1ha2UgbGliYyAgICAgICAgIyBOZXdsaWIgKyBnbHVlIE5vdmFPUwptYWtlIGtlcm5lbAptYWtlIHVzZXJsYW5kCm1ha2UgaW1hZ2UKbWFrZSBydW4KbWFrZSBkZWJ1ZwptYWtlIGRlYnVnLWNoZWNrCmBgYAoKTmluZ8O6biB0YXJnZXQgZGViZSB1c2FyIGFjY2lkZW50YWxtZW50ZSBoZWFkZXJzIG8gbGlicmVyw61hcyBkZWwgaG9zdC4gRWwgdG9vbGNoYWluIHRlbmRyw6Egc3lzcm9vdCBwcm9waW8geSBlbCBrZXJuZWwgc2UgY29tcGlsYXLDoSBjb24gZmxhZ3MgZnJlZXN0YW5kaW5nIHNlcGFyYWRvcy4KCiMjIERvY3VtZW50YWNpw7NuCgotIFtBcnF1aXRlY3R1cmFdKGRvY3MvYXJjaGl0ZWN0dXJlLm1kKQotIFtBQkkgeSBzeXNjYWxsc10oZG9jcy9hYmkubWQpCi0gW1Rvb2xjaGFpbiB5IGxpYmNdKGRvY3MvdG9vbGNoYWluLm1kKQotIFtSb2FkbWFwXShkb2NzL3JvYWRtYXAubWQpCi0gW0RlY2lzaW9uZXNdKGRvY3MvZGVjaXNpb25zLm1kKQoKIyMgUHJpbmNpcGlvcwoKTm92YU9TIG5vIHByZXRlbmRlIHNlciBMaW51eCwgbm8gaW1wbGVtZW50YSB1bmEgQUJJIExpbnV4IHkgbm8gcHJvbWV0ZSBQT1NJWCBjb21wbGV0by4gUE9TSVggc2UgaW5jb3Jwb3JhcsOhIHBvciBldGFwYXMsIGNvbiBwcnVlYmFzIHF1ZSBkZW11ZXN0cmVuIGNhZGEgaW50ZXJmYXouIEVsIGPDs2RpZ28gcHJvcGlvLCBsb3MgcG9ydHMgeSBsb3MgY29tcG9uZW50ZXMgZXh0ZXJub3Mgc2UgbWFudGllbmVuIHNlcGFyYWRvcyBwYXJhIHBvZGVyIGFjdHVhbGl6YXIgdXBzdHJlYW0gc2luIHJlZXNjcml0dXJhcyBpbmRpc2NyaW1pbmFkYXMuCgojIyBFc3RhZG8gcmVhbCBkZSBNMAoKSW1wbGVtZW50YWRvOiBlbnRyYWRhIGBfc3RhcnRgLCBzdGFjayBCU1MsIGFkYXB0YWRvciBkZSBtZW1vcmlhIExpbWluZSwgVUFSVCBDT00xLCBhYnN0cmFjY2nDs24gZGUgY29uc29sYSwgcGFuaWMsIENQVUlELCBHRFQgY2FyZ2FkYSBjb24gYGxnZHRgLCBJRFQgY2FyZ2FkYSBjb24gYGxpZHRgLCBoYW5kbGVycyBwYXJhIGV4Y2VwY2lvbmVzIHByaW5jaXBhbGVzLCBsaW5rZXIgc2NyaXB0LCBpbWFnZW4gSVNPIHkgc21va2UgdGVzdCBRRU1VLgoKTm8gaW1wbGVtZW50YWRvIHRvZGF2w61hOiBQTU0sIHBhZ2luZyBwcm9waW8sIHNjaGVkdWxlciwgSVJRLCBwcm9jZXNvcywgcmluZyAzLCBzeXNjYWxscywgRUxGIGxvYWRlciwgVkZTLCBsaWJjIHkgdXNlcnNwYWNlLgo=
+[![NovaOS CI](../../actions/workflows/novaos-tests.yml/badge.svg)](../../actions/workflows/novaos-tests.yml)
+
+# NovaOS
+
+Sistema operativo experimental x86_64, independiente de Linux, orientado a ejecutar software C real mediante una ABI propia y documentada.
+
+> Estado: M0 implementation: COMPLETE. M0 runtime validation: PENDING (este entorno no tiene GCC, Make, QEMU, xorriso ni GDB).
+
+## Objetivos de la primera milestone
+
+`BOOT → kernel → memoria → scheduler → syscall → ELF loader → proceso user → libc → /init → shell → hello`
+
+La primera versión usará:
+
+- x86_64 y ABI de CPU System V AMD64;
+- ELF64, inicialmente `ET_EXEC` no-PIE;
+- Limine como bootloader primario, con una capa de boot que permita añadir GRUB Multiboot2;
+- QEMU + GDB como entorno de prueba;
+- kernel freestanding y userspace hosted;
+- Newlib upstream separada del glue específico de NovaOS;
+- initramfs cpio `newc` antes de diseñar un filesystem persistente.
+
+## Construcción
+
+La imagen de M0 se construye con el toolchain host (`gcc`/`ld`) en modo freestanding. El cross-toolchain de userspace sigue siendo una milestone posterior. Antes de construir hay que obtener Limine:
+
+```sh
+make limine
+make   # cross-binutils, GCC y sysroot
+make libc        # Newlib + glue NovaOS
+make kernel
+make userland
+make image
+make run
+make debug
+make debug-check
+```
+
+Ningún target debe usar accidentalmente headers o librerías del host. El toolchain tendrá sysroot propio y el kernel se compilará con flags freestanding separados.
+
+## Documentación
+
+- [Arquitectura](docs/architecture.md)
+- [ABI y syscalls](docs/abi.md)
+- [Toolchain y libc](docs/toolchain.md)
+- [Roadmap](docs/roadmap.md)
+- [Decisiones](docs/decisions.md)
+
+## Principios
+
+NovaOS no pretende ser Linux, no implementa una ABI Linux y no promete POSIX completo. POSIX se incorporará por etapas, con pruebas que demuestren cada interfaz. El código propio, los ports y los componentes externos se mantienen separados para poder actualizar upstream sin reescrituras indiscriminadas.
+
+## Estado real de M0
+
+Implementado: entrada `_start`, stack BSS, adaptador de memoria Limine, UART COM1, abstracción de consola, panic, CPUID, GDT cargada con `lgdt`, IDT cargada con `lidt`, handlers para excepciones principales, linker script, imagen ISO y smoke test QEMU.
+
+No implementado todavía: PMM, paging propio, scheduler, IRQ, procesos, ring 3, syscalls, ELF loader, VFS, libc y userspace.

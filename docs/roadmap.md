@@ -1,1 +1,63 @@
-IyBSb2FkbWFwIHBvciBmYXNlcwoKQ2FkYSBmYXNlIHRlcm1pbmEgY29uIHVuYSBwcnVlYmEgcmVwcm9kdWNpYmxlIGVuIFFFTVUgeSB1bmEgbm90YSBkZSBBQkkuIE5vIHNlIGVtcGllemEgbGEgc2lndWllbnRlIHBvciB0ZW5lciBjw7NkaWdvIHF1ZSBzw7NsbyBhcnJhbmNhIHVuYSB2ZXouCgojIyBNMCDigJQgQm9vdCB5IGtlcm5lbCBtw61uaW1vCgotIFsgXSByZXBvc2l0b3JpbywgZm9ybWF0bywgbGljZW5jaWEgeSBDSSBiYXNlCi0gWyBdIExpbWluZSArIGxpbmtlciBzY3JpcHQgKyBgYm9vdF9pbmZvYAotIFsgXSBzZXJpYWwsIGNvbnNvbGEsIHBhbmljLCBHRFQvSURUIHkgZXhjZXBjaW9uZXMKLSBbIF0gUE1NLCBwYWdpbmcga2VybmVsIHkgaGVhcAotIFsgXSBzbW9rZSB0ZXN0IHF1ZSBhcnJhbmNhIHkgdGVybWluYSBjb24gY8OzZGlnbyBjb25vY2lkbwoKIyMgTTEg4oCUIFVzZXIgbW9kZSB5IHByaW1lcmEgc3lzY2FsbAoKLSBbIF0gVFNTL3JpbmcgMy9jb250ZXh0IHN3aXRjaAotIFsgXSB0aHJlYWQgeSBzY2hlZHVsZXIgbcOtbmltbwotIFsgXSBgc3lzX2V4aXRgLCBgc3lzX3dyaXRlYCwgYHN5c19nZXRwaWRgLCBgc3lzX21tYXBgLCBgc3lzX2FiaV9pbmZvYAotIFsgXSBgY29weV97ZnJvbSx0b31fdXNlcmAgeSB0ZXN0cyBkZSBwdW50ZXJvcyBpbnbDoWxpZG9zCi0gWyBdIHByb2dyYW1hIGVzdMOhdGljbyBgaGVsbG9gIGNhcmdhZG8gY29tbyBtw7NkdWxvL2luaXRyYW1mcwoKIyMgTTIg4oCUIEVMRiwgcHJvY2Vzb3MgeSBWRlMKCi0gWyBdIHBhcnNlciBFTEYgaG9zdC1zaWRlIGNvbiBjYXNvcyB2w6FsaWRvcyBlIGludsOhbGlkb3MKLSBbIF0gbG9hZGVyIGBFVF9FWEVDYCBQVF9MT0FEIGNvbiBXXlgKLSBbIF0gc3RhY2sgYXJnYy9hcmd2L2VudnAKLSBbIF0gVkZTIGVuIG1lbW9yaWEgZSBpbml0cmFtZnMgY3BpbyBuZXdjCi0gWyBdIG9wZW4vcmVhZC93cml0ZS9jbG9zZS9zZWVrL3N0YXQKLSBbIF0gc3Bhd24vZXhlYy93YWl0cGlkLCBmZCB0YWJsZSB5IHBpcGUKCiMjIE0zIOKAlCBsaWJjIHkgdXNlcmxhbmQKCi0gWyBdIHN5c3Jvb3QgeSBHQ0MvTmV3bGliIHJlcHJvZHVjaWJsZXMKLSBbIF0gY3J0MCB5IHdyYXBwZXJzCi0gWyBdIGAvaW5pdGAsIHNoZWxsLCBlY2hvLCBscywgY2F0LCBwd2QKLSBbIF0gbWFsbG9jLCBzdGRpbywgZXJybm8sIGVudmlyb25tZW50Ci0gWyBdIHRlc3RzIElTTyBDIHkgZmlsZSBBUElzCgojIyBNNCDigJQgRHJpdmVycyB5IHNpc3RlbWEgdXRpbGl6YWJsZQoKLSBbIF0gdGVjbGFkbywgcmVsb2osIGNvbnNvbGEgaW50ZXJhY3RpdmEKLSBbIF0gbWtkaXIvcm0vY3AvcHMvY2xlYXIvdW5hbWUKLSBbIF0gc2VydmljaW9zIGLDoXNpY29zIGUgSVBDCi0gWyBdIEZBVDMyIGRlIHPDs2xvIGxlY3R1cmEKLSBbIF0gR0RCIGd1aWRlIHkga2VybmVsIHN5bWJvbHMKCiMjIE01KyDigJQgQ29tcGF0aWJpbGlkYWQgaW5jcmVtZW50YWwKCjEuIElTTyBDICsgbGliYyBiw6FzaWNhLgoyLiBBUElzIGRlIGFyY2hpdm9zIFBPU0lYIHBhcmNpYWxlcy4KMy4gcHJvY2Vzb3MgeSBzZcOxYWxlcyBiw6FzaWNhcy4KNC4gdGhyZWFkcy9wdGhyZWFkcyB5IFRMUy4KNS4gc2hlbGwvdXRpbGlkYWRlcyB5IGpvYiBjb250cm9sLgo2LiBzaGFyZWQgbGlicmFyaWVzL1BJRS9keW5hbWljIGxpbmtlci4KNy4gQysrIHkgZGVzcHXDqXMgcG9ydCBvcGNpb25hbCBkZSBSdXN0Lgo4LiBTTVAsIHJlZCwgYWFyY2g2NCB5IHJpc2N2NjQuCgojIyBDcml0ZXJpbyBkZSDDqXhpdG8gZGUgbGEgcHJpbWVyYSBtaWxlc3RvbmUKCkVuIHVuYSBlamVjdWNpw7NuIGxpbXBpYSBkZSBRRU1VLCBOb3ZhT1MgZGViZSBjYXJnYXIgYC9pbml0YDsgYGluaXRgIGRlYmUgY3JlYXIvZWplY3V0YXIgZWwgc2hlbGw7IGVsIHNoZWxsIGRlYmUgZWplY3V0YXIgYGhlbGxvYDsgeSBgaGVsbG9gIGRlYmUgaW1wcmltaXIgZXhhY3RhbWVudGUgYGhlbGxvLCBOb3ZhT1MhYCBwb3IgZWwgZGlzcG9zaXRpdm8gZGUgY29uc29sYS4gTGEgcHJ1ZWJhIGRlYmUgZGV0ZWN0YXIgdGltZW91dCwgdHJpcGxlIGZhdWx0LCByZXRvcm5vIGluY29ycmVjdG8geSBzYWxpZGEgYXVzZW50ZS4KCiMjIEVzdGFkbyBkZSBpbXBsZW1lbnRhY2nDs24gKE0wKQoKTGEgaW1wbGVtZW50YWNpw7NuIGFjdHVhbCBjdWJyZSDDum5pY2FtZW50ZSBlbCBhcnJhbnF1ZSB4ODZfNjQsIGNvbnNvbGEgVUFSVCwgQ1BVSUQsIEdEVCwgSURULCBleGNlcGNpb25lcywgYWRhcHRhZG9yIGRlIG1lbW9yeSBtYXAgeSBwYXJhZGEgc2VndXJhLiBMYSB2YWxpZGFjacOzbiBkZSBydW50aW1lIHF1ZWRhIFBFTkRJTkcgaGFzdGEgZWplY3V0YXIgUUVNVSBlbiBsb2NhbCBvIENJLiBQTU0sIHBhZ2luZyBkaW7DoW1pY28sIHNjaGVkdWxlciwgcHJvY2Vzb3MsIHN5c2NhbGxzLCBFTEYsIFZGUyB5IHVzZXJzcGFjZSBwZXJtYW5lY2VuIGV4cGzDrWNpdGFtZW50ZSBmdWVyYSBkZSBNMC4K
+# Roadmap por fases
+
+Cada fase termina con una prueba reproducible en QEMU y una nota de ABI. No se empieza la siguiente por tener código que sólo arranca una vez.
+
+## M0 — Boot y kernel mínimo
+
+- [ ] repositorio, formato, licencia y CI base
+- [ ] Limine + linker script + `boot_info`
+- [ ] serial, consola, panic, GDT/IDT y excepciones
+- [ ] PMM, paging kernel y heap
+- [ ] smoke test que arranca y termina con código conocido
+
+## M1 — User mode y primera syscall
+
+- [ ] TSS/ring 3/context switch
+- [ ] thread y scheduler mínimo
+- [ ] `sys_exit`, `sys_write`, `sys_getpid`, `sys_mmap`, `sys_abi_info`
+- [ ] `copy_{from,to}_user` y tests de punteros inválidos
+- [ ] programa estático `hello` cargado como módulo/initramfs
+
+## M2 — ELF, procesos y VFS
+
+- [ ] parser ELF host-side con casos válidos e inválidos
+- [ ] loader `ET_EXEC` PT_LOAD con W^X
+- [ ] stack argc/argv/envp
+- [ ] VFS en memoria e initramfs cpio newc
+- [ ] open/read/write/close/seek/stat
+- [ ] spawn/exec/waitpid, fd table y pipe
+
+## M3 — libc y userland
+
+- [ ] sysroot y GCC/Newlib reproducibles
+- [ ] crt0 y wrappers
+- [ ] `/init`, shell, echo, ls, cat, pwd
+- [ ] malloc, stdio, errno, environment
+- [ ] tests ISO C y file APIs
+
+## M4 — Drivers y sistema utilizable
+
+- [ ] teclado, reloj, consola interactiva
+- [ ] mkdir/rm/cp/ps/clear/uname
+- [ ] servicios básicos e IPC
+- [ ] FAT32 de sólo lectura
+- [ ] GDB guide y kernel symbols
+
+## M5+ — Compatibilidad incremental
+
+1. ISO C + libc básica.
+2. APIs de archivos POSIX parciales.
+3. procesos y señales básicas.
+4. threads/pthreads y TLS.
+5. shell/utilidades y job control.
+6. shared libraries/PIE/dynamic linker.
+7. C++ y después port opcional de Rust.
+8. SMP, red, aarch64 y riscv64.
+
+## Criterio de éxito de la primera milestone
+
+En una ejecución limpia de QEMU, NovaOS debe cargar `/init`; `init` debe crear/ejecutar el shell; el shell debe ejecutar `hello`; y `hello` debe imprimir exactamente `hello, NovaOS!` por el dispositivo de consola. La prueba debe detectar timeout, triple fault, retorno incorrecto y salida ausente.
+
+## Estado de implementación (M0)
+
+La implementación actual cubre únicamente el arranque x86_64, consola UART, CPUID, GDT, IDT, excepciones, adaptador de memory map y parada segura. La validación de runtime queda PENDING hasta ejecutar QEMU en local o CI. PMM, paging dinámico, scheduler, procesos, syscalls, ELF, VFS y userspace permanecen explícitamente fuera de M0.

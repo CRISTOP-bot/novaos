@@ -1,1 +1,9 @@
-IyEvYmluL3NoCnNldCAtZXUKZWxmPSR7MTo/RUxGIHBhdGggcmVxdWlyZWR9CnJlYWRlbGYgLWggIiRlbGYiIHwgZ3JlcCAtcSAnQ2xhc3M6W1s6c3BhY2U6XV0qRUxGNjQnCnJlYWRlbGYgLWggIiRlbGYiIHwgZ3JlcCAtcSAnTWFjaGluZTpbWzpzcGFjZTpdXSpBZHZhbmNlZCBNaWNybyBEZXZpY2VzIFg4Ni02NCcKcmVhZGVsZiAtbCAiJGVsZiIgfCBncmVwIC1xdiAnUmVxdWVzdGluZyBwcm9ncmFtIGludGVycHJldGVyJyB8fCB7IGVjaG8gJ05vdmFPUyBrZXJuZWwgbXVzdCBub3QgdXNlIGEgZHluYW1pYyBsaW5rZXInID4mMjsgZXhpdCAxOyB9CnJlYWRlbGYgLXMgIiRlbGYiIHwgZ3JlcCAtcSAnW1s6c3BhY2U6XV1fc3RhcnQkJwpyZWFkZWxmIC1zICIkZWxmIiB8IGdyZXAgLXEgJ1tbOnNwYWNlOl1da21haW4kJwplY2hvICdOb3ZhT1MgRUxGIHZhbGlkYXRpb246IFBBU1MnCg==
+#!/bin/sh
+set -eu
+elf=${1:?ELF path required}
+readelf -h "$elf" | grep -q 'Class:[[:space:]]*ELF64'
+readelf -h "$elf" | grep -q 'Machine:[[:space:]]*Advanced Micro Devices X86-64'
+readelf -l "$elf" | grep -qv 'Requesting program interpreter' || { echo 'NovaOS kernel must not use a dynamic linker' >&2; exit 1; }
+readelf -s "$elf" | grep -q '[[:space:]]_start$'
+readelf -s "$elf" | grep -q '[[:space:]]kmain$'
+echo 'NovaOS ELF validation: PASS'

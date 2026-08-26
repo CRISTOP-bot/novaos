@@ -1,1 +1,6 @@
-I2lmbmRlZiBOT1ZBX1BBTklDX0gKI2RlZmluZSBOT1ZBX1BBTklDX0gKI2luY2x1ZGUgPG5vdmEvdHlwZXMuaD4KX19hdHRyaWJ1dGVfXygobm9yZXR1cm4pKSB2b2lkIHBhbmljKGNvbnN0IGNoYXIgKm1lc3NhZ2UpOwpfX2F0dHJpYnV0ZV9fKChub3JldHVybikpIHZvaWQgcGFuaWNfZXhjZXB0aW9uKGNvbnN0IGNoYXIgKm5hbWUsIHVpbnQ2NF90IHZlY3RvciwgdWludDY0X3QgZXJyb3IsIHVpbnQ2NF90IHJpcCwgdWludDY0X3QgY3MsIHVpbnQ2NF90IHJmbGFncywgdWludDY0X3QgcnNwLCB1aW50NjRfdCBzcyk7CiNlbmRpZgo=
+#ifndef NOVA_PANIC_H
+#define NOVA_PANIC_H
+#include <nova/types.h>
+__attribute__((noreturn)) void panic(const char *message);
+__attribute__((noreturn)) void panic_exception(const char *name, uint64_t vector, uint64_t error, uint64_t rip, uint64_t cs, uint64_t rflags, uint64_t rsp, uint64_t ss);
+#endif

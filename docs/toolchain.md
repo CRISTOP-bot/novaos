@@ -1,1 +1,55 @@
-IyBUb29sY2hhaW4geSBsaWJjCgojIyBEZWNpc2nDs24KCkVsIHRhcmdldCBkZSBkaXN0cmlidWNpw7NuIHNlcsOhIGB4ODZfNjQtbm92YW9zYCwgc2luIHJldXRpbGl6YXIgYHg4Nl82NC1saW51eC1nbnVgLiBFbCBub21icmUgaWRlbnRpZmljYSBlbCBjb250cmF0byBkZWwgc3lzcm9vdDsgbm8gaW1wbGljYSBjb21wYXRpYmlsaWRhZCBMaW51eC4KCk9yZGVuIHJlY29tZW5kYWRvOgoKMS4gR05VIEJpbnV0aWxzIGNyb3NzIChgYXNgLCBgbGRgLCBgb2JqY29weWAsIGByZWFkZWxmYCwgYGFyYCksIHBvcnF1ZSBvZnJlY2UgY29udHJvbCB5IHNjcmlwdHMgRUxGIG1hZHVyb3MuCjIuIEdDQyBjcm9zcyBzdGFnZSAxIGNvbiBgbGliZ2NjYCwgc2luIGhlYWRlcnMgZGVsIGhvc3QuCjMuIE5ld2xpYiBwb3J0IGRlIE5vdmFPUywgdXNhbmRvIHPDs2xvIHN1cyBob29rcyBgX3JlYWRgLCBgX3dyaXRlYCwgYF9zYnJrYCwgYF9jbG9zZWAsIGBfZnN0YXRgLCBgX2xzZWVrYCwgYF9pc2F0dHlgLCBgX2V4aXRgLCBldGMuCjQuIGNydDAsIGhlYWRlcnMgQUJJLCBzeXNjYWxsIHdyYXBwZXJzIHkgbGlua2VyIHNjcmlwdCBwcm9waW9zLgo1LiBHQ0MgZmluYWwgY29uIHN5c3Jvb3QgY29tcGxldG8uCjYuIENsYW5nL0xMVk0gY29tbyBhbHRlcm5hdGl2YSBkZXNwdcOpcyBkZSBxdWUgZWwgY29udHJhdG8gZXN0w6kgcHJvYmFkby4KCk5ld2xpYiBlcyBsYSBlbGVjY2nDs24gZGUgYm9vdHN0cmFwIHBvcnF1ZSBzdSBwb3J0IGRlIE9TIGVzdMOhIGV4cGzDrWNpdGFtZW50ZSBiYXNhZG8gZW4gdW5hIGNhcGEgZGUgc3lzY2FsbHMgeSBubyBmdWVyemEgbGEgQUJJIExpbnV4LiBTZSBzZXBhcmEgZGUgdXBzdHJlYW0gZW4gYHBvcnRzL25ld2xpYi9gIHkgc2UgbWFudGllbmVuIHBhcmNoZXMgbcOtbmltb3MgeSBkb2N1bWVudGFkb3MuIE5vIHNlIGNvcGlhIGdsaWJjIG5pIHNlIGVubGF6YSBjb24gYmlibGlvdGVjYXMgZGVsIGhvc3QuCgojIyMgQWx0ZXJuYXRpdmFzIGV2YWx1YWRhcwoKLSAqKm11c2w6KiogZXhjZWxlbnRlIHkgbcOhcyBjZXJjYW5hIGEgUE9TSVgsIHBlcm8gc3UgcG9ydCByZXF1aWVyZSB1bmEgYmFzZSBkZSBrZXJuZWwvdGhyZWFkaW5nL3NpZ25hbC9tbWFwIG11Y2hvIG3DoXMgY29tcGxldGE7IGNhbmRpZGF0YSBwYXJhIHVuYSBmYXNlIHBvc3Rlcmlvci4KLSAqKkxMVk0gbGliYzoqKiBtb2R1bGFyIHkgYXRyYWN0aXZhLCBwZXJvIHN1IHN1cGVyZmljaWUgeSB0b29sY2hhaW4gZGUgc29wb3J0ZSBhw7puIG5vIHNvbiBlbCBjYW1pbm8gbcOhcyBjb3J0byBwYXJhIGJvb3RzdHJhcC4KLSAqKnJlbGliYzoqKiBpbnRlcmVzYW50ZSBwYXJhIGVzdHVkaWFyIHkgcG9zaWJsZW1lbnRlIHBvcnRhciwgcGVybyBhw7FhZGUgZGVwZW5kZW5jaWEgZGUgUnVzdCB5IGRlY2lzaW9uZXMgZGUgUmVkb3ggcXVlIE5vdmFPUyBubyBuZWNlc2l0YSBhbCBpbmljaW8uCi0gKipsaWJjIHByb3BpYToqKiBzw7NsbyBoZWFkZXJzLCBlcnJubywgc3RhcnR1cCB5IHdyYXBwZXJzIG3DrW5pbW9zIHRlbXBvcmFsZXM7IG5vIHJlaW1wbGVtZW50YXIgc3RkaW8vbWFsbG9jIHNpIE5ld2xpYiBjdWJyZSBlbCBvYmpldGl2by4KCiMjIFN5c3Jvb3QKCmBgYHRleHQKc3lzcm9vdC8K4pSc4pSA4pSAIGV0Yy8K4pSc4pSA4pSAIGxpYi8gICAgICAgICAgICAgICAgICMgY3J0IHkgcnVudGltZSBlc2VuY2lhbGVzCuKUlOKUgOKUgCB1c3IvCiAgICDilJzilIDilIAgaW5jbHVkZS8gICAgICAgICMgQUJJIHDDumJsaWNhIE5vdmFPUwogICAg4pSc4pSA4pSAIGxpYi8gICAgICAgICAgICAgIyBsaWJjLCBsaWJnY2MsIG9iamV0b3MgZGUgYXJyYW5xdWUKICAgIOKUlOKUgOKUgCBiaW4vCmBgYAoKRWwgY29tcGlsYWRvciBzZSBpbnZvY2EgY29uIGAtLXRhcmdldD14ODZfNjQtbm92YW9zIC0tc3lzcm9vdD0kTk9WQV9TWVNST09UIC1mZnJlZXN0YW5kaW5nYCBzw7NsbyBwYXJhIGtlcm5lbCwgeSBzaW4gYC1mZnJlZXN0YW5kaW5nYCBwYXJhIHVzZXJzcGFjZS4gRWwga2VybmVsIG51bmNhIGVubGF6YSBsaWJjIG5pIHVzYSBoZWFkZXJzIGRlIHVzZXJzcGFjZS4KCiMjIFN0YXJ0dXAgeSBlbmxhY2VzCgpVc2Vyc3BhY2U6CgpgYGB0ZXh0CmNydDAuUyDihpIgX3N0YXJ0IOKGkiBydW50aW1lX2luaXQg4oaSIG1haW4oYXJnYywgYXJndiwgZW52cCkg4oaSIGV4aXQKYGBgCgpgY3J0YmVnaW4vY3J0ZW5kYCB5IGBsaWJnY2NgIHNlIGluY29ycG9yYW4gc8OzbG8gYWwgZW5sYXphZG8gaG9zdGVkLiBFbCBsaW5rZXIgc2NyaXB0IGRlIHVzZXJsYW5kIGRlZmluZSBzZWdtZW50b3Mgc2VwYXJhZG9zIFJYL1IvUlcgeSB1biBsw61taXRlIGRlIHN0YWNrOyBlbCBsb2FkZXIgZGViZSByZXNwZXRhciBlc29zIHBlcm1pc29zLgoKIyMgUmVwcm9kdWNpYmlsaWRhZAoKLSBWZXJzaW9uZXMgZmlqYWRhcyBwb3IgYXJjaGl2byBkZSByZWxlYXNlcy9jaGVja3N1bXMuCi0gRGVzY2FyZ2FzIGEgYHRvb2xjaGFpbi9zcmNgOyBidWlsZHMgZnVlcmEgZGVsIMOhcmJvbCBmdWVudGUuCi0gVmFyaWFibGVzIGBUQVJHRVRgLCBgUFJFRklYYCwgYFNZU1JPT1RgIGNvbmZpZ3VyYWJsZXMsIGNvbiBkZWZhdWx0cyBkZW50cm8gZGVsIMOhcmJvbC4KLSBDSSBlamVjdXRhIGxhIG1pc21hIHJlY2V0YSBxdWUgbG9jYWwuCi0gYHBrZy1jb25maWdgLCBDTWFrZSB5IE5pbmphIHF1ZWRhbiBmdWVyYSBkZWwgYm9vdHN0cmFwIG3DrW5pbW8uCg==
+# Toolchain y libc
+
+## Decisión
+
+El target de distribución será `x86_64-novaos`, sin reutilizar `x86_64-linux-gnu`. El nombre identifica el contrato del sysroot; no implica compatibilidad Linux.
+
+Orden recomendado:
+
+1. GNU Binutils cross (`as`, `ld`, `objcopy`, `readelf`, `ar`), porque ofrece control y scripts ELF maduros.
+2. GCC cross stage 1 con `libgcc`, sin headers del host.
+3. Newlib port de NovaOS, usando sólo sus hooks `_read`, `_write`, `_sbrk`, `_close`, `_fstat`, `_lseek`, `_isatty`, `_exit`, etc.
+4. crt0, headers ABI, syscall wrappers y linker script propios.
+5. GCC final con sysroot completo.
+6. Clang/LLVM como alternativa después de que el contrato esté probado.
+
+Newlib es la elección de bootstrap porque su port de OS está explícitamente basado en una capa de syscalls y no fuerza la ABI Linux. Se separa de upstream en `ports/newlib/` y se mantienen parches mínimos y documentados. No se copia glibc ni se enlaza con bibliotecas del host.
+
+### Alternativas evaluadas
+
+- **musl:** excelente y más cercana a POSIX, pero su port requiere una base de kernel/threading/signal/mmap mucho más completa; candidata para una fase posterior.
+- **LLVM libc:** modular y atractiva, pero su superficie y toolchain de soporte aún no son el camino más corto para bootstrap.
+- **relibc:** interesante para estudiar y posiblemente portar, pero añade dependencia de Rust y decisiones de Redox que NovaOS no necesita al inicio.
+- **libc propia:** sólo headers, errno, startup y wrappers mínimos temporales; no reimplementar stdio/malloc si Newlib cubre el objetivo.
+
+## Sysroot
+
+```text
+sysroot/
+├── etc/
+├── lib/                 # crt y runtime esenciales
+└── usr/
+    ├── include/        # ABI pública NovaOS
+    ├── lib/             # libc, libgcc, objetos de arranque
+    └── bin/
+```
+
+El compilador se invoca con `--target=x86_64-novaos --sysroot=$NOVA_SYSROOT -ffreestanding` sólo para kernel, y sin `-ffreestanding` para userspace. El kernel nunca enlaza libc ni usa headers de userspace.
+
+## Startup y enlaces
+
+Userspace:
+
+```text
+crt0.S → _start → runtime_init → main(argc, argv, envp) → exit
+```
+
+`crtbegin/crtend` y `libgcc` se incorporan sólo al enlazado hosted. El linker script de userland define segmentos separados RX/R/RW y un límite de stack; el loader debe respetar esos permisos.
+
+## Reproducibilidad
+
+- Versiones fijadas por archivo de releases/checksums.
+- Descargas a `toolchain/src`; builds fuera del árbol fuente.
+- Variables `TARGET`, `PREFIX`, `SYSROOT` configurables, con defaults dentro del árbol.
+- CI ejecuta la misma receta que local.
+- `pkg-config`, CMake y Ninja quedan fuera del bootstrap mínimo.

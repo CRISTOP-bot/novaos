@@ -1,1 +1,24 @@
-IyEvYmluL3NoCnNldCAtZXUKaXNvPSR7MTo/SVNPIHBhdGggcmVxdWlyZWR9OyBsb2c9JHsyOj9sb2cgcGF0aCByZXF1aXJlZH07IHFlbXU9JHtRRU1VOi1xZW11LXN5c3RlbS14ODZfNjR9CnJtIC1mICIkbG9nIgoiJHFlbXUiIC1NIHEzNSAtbSAxMjhNIC1jZHJvbSAiJGlzbyIgLXNlcmlhbCAiZmlsZTokbG9nIiAtZGlzcGxheSBub25lIC1uby1yZWJvb3QgPi9kZXYvbnVsbCAyPiYxICYKcGlkPSQhCmNsZWFudXAoKXsga2lsbCAiJHBpZCIgMj4vZGV2L251bGwgfHwgdHJ1ZTsgd2FpdCAiJHBpZCIgMj4vZGV2L251bGwgfHwgdHJ1ZTsgfQp0cmFwIGNsZWFudXAgRVhJVCBJTlQgVEVSTQpmb3IgaSBpbiAkKHNlcSAxIDEwMCk7IGRvCiAgaWYgWyAtZiAiJGxvZyIgXSAmJiBncmVwIC1xICdOT1ZBT1NfQk9PVF9PSycgIiRsb2ciOyB0aGVuCiAgICBlY2hvICdOb3ZhT1MgTTAgc21va2UgdGVzdDogUEFTUycKICAgIGNhdCAiJGxvZyIKICAgIGV4aXQgMAogIGZpCiAgaWYgISBraWxsIC0wICIkcGlkIiAyPi9kZXYvbnVsbDsgdGhlbgogICAgZWNobyAnTm92YU9TIE0wIHNtb2tlIHRlc3Q6IEZBSUwgKFFFTVUgZXhpdGVkIGJlZm9yZSBib290IG1hcmtlciknID4mMgogICAgWyAtZiAiJGxvZyIgXSAmJiBjYXQgIiRsb2ciID4mMiB8fCB0cnVlCiAgICBleGl0IDEKICBmaQogIHNsZWVwIDAuMQpkb25lCmVjaG8gJ05vdmFPUyBNMCBzbW9rZSB0ZXN0OiBGQUlMICh0aW1lb3V0IHdhaXRpbmcgZm9yIE5PVkFPU19CT09UX09LKScgPiYyClsgLWYgIiRsb2ciIF0gJiYgY2F0ICIkbG9nIiA+JjIgfHwgdHJ1ZQpleGl0IDEK
+#!/bin/sh
+set -eu
+iso=${1:?ISO path required}; log=${2:?log path required}; qemu=${QEMU:-qemu-system-x86_64}
+rm -f "$log"
+"$qemu" -M q35 -m 128M -cdrom "$iso" -serial "file:$log" -display none -no-reboot >/dev/null 2>&1 &
+pid=$!
+cleanup(){ kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; }
+trap cleanup EXIT INT TERM
+for i in $(seq 1 100); do
+  if [ -f "$log" ] && grep -q 'NOVAOS_BOOT_OK' "$log"; then
+    echo 'NovaOS M0 smoke test: PASS'
+    cat "$log"
+    exit 0
+  fi
+  if ! kill -0 "$pid" 2>/dev/null; then
+    echo 'NovaOS M0 smoke test: FAIL (QEMU exited before boot marker)' >&2
+    [ -f "$log" ] && cat "$log" >&2 || true
+    exit 1
+  fi
+  sleep 0.1
+done
+echo 'NovaOS M0 smoke test: FAIL (timeout waiting for NOVAOS_BOOT_OK)' >&2
+[ -f "$log" ] && cat "$log" >&2 || true
+exit 1

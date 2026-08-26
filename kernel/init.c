@@ -1,1 +1,1 @@
-LyogTTAgaGFzIG5vIGFsbG9jYXRvciBvciBwcm9jZXNzIGluaXQuIEludGVudGlvbmFsbHkgZW1wdHkuICovCg==
+/* M0 has no allocator or process init. Intentionally empty. */

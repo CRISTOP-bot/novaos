@@ -1,1 +1,80 @@
-U0hFTEwgOj0gL2Jpbi9zaApUQVJHRVQgPz0geDg2XzY0LWVsZgpDQyA/PSBnY2MKTEQgPz0gbGQKT0JKQ09QWSA/PSBvYmpjb3B5Ck9CSkRVTVAgPz0gb2JqZHVtcApSRUFERUxGID89IHJlYWRlbGYKUUVNVSA/PSBxZW11LXN5c3RlbS14ODZfNjQKREVCVUcgPz0gMApCVUlMRCA6PSBidWlsZApLRVJORUwgOj0gJChCVUlMRCkvbm92YW9zLmVsZgpMSU1JTkVfRElSID89ICQoQ1VSRElSKS90b29sY2hhaW4vbGltaW5lCkNGTEFHUyA6PSAtc3RkPWMxMSAtZmZyZWVzdGFuZGluZyAtZm5vLWJ1aWx0aW4gLWZuby1zdGFjay1wcm90ZWN0b3IgLWZuby1waWUgLW1uby1yZWQtem9uZSAtbWNtb2RlbD1rZXJuZWwgLW02NCAtV2FsbCAtV2V4dHJhIC1XZXJyb3IgLUlpbmNsdWRlIC1JJChMSU1JTkVfRElSKQppZmVxICgkKERFQlVHKSwxKQpDRkxBR1MgKz0gLWcgLU8wCmVsc2UKQ0ZMQUdTICs9IC1PMgplbmRpZgpMREZMQUdTIDo9IC1UIGxpbmtlci94ODZfNjQubGQgLW5vc3RkbGliClNSQyA6PSBhcmNoL3g4Nl82NC9lbnRyeS5TIGFyY2gveDg2XzY0L2ludGVycnVwdHMvZW50cnkuUyBhcmNoL3g4Nl82NC9nZHQvZ2R0LmMgYXJjaC94ODZfNjQvaWR0L2lkdC5jIGtlcm5lbC9tYWluLmMga2VybmVsL2NvbnNvbGUuYyBrZXJuZWwvcGFuaWMuYyBrZXJuZWwvY3B1LmMga2VybmVsL2luaXQuYyBkcml2ZXJzL3NlcmlhbC9zZXJpYWwuYyBib290L2xpbWluZS9hZGFwdGVyLmMKT0JKIDo9ICQocGF0c3Vic3QgJS5jLCQoQlVJTEQpLyUubywkKHBhdHN1YnN0ICUuUywkKEJVSUxEKS8lLm8sJChTUkMpKSkKLlBIT05ZOiBhbGwgY2hlY2stYnVpbGQgY2hlY2staW1hZ2UgbGltaW5lIGtlcm5lbCBpbWFnZSBydW4gZGVidWcgZGVidWctY2hlY2sgdGVzdCBleGNlcHRpb24tdGVzdCBjbGVhbgphbGw6IGltYWdlCmNoZWNrLWJ1aWxkOgoJQGNvbW1hbmQgLXYgJChDQykgPi9kZXYvbnVsbCAyPiYxIHx8IHsgZWNobyAnTm92YU9TIGJ1aWxkIGRlcGVuZGVuY3kgbWlzc2luZzogJChDQyknOyBlY2hvICdJbnN0YWxsIEdDQzogc3VkbyBhcHQtZ2V0IGluc3RhbGwgYnVpbGQtZXNzZW50aWFsJzsgZXhpdCAxOyB9CglAY29tbWFuZCAtdiAkKExEKSA+L2Rldi9udWxsIDI+JjEgfHwgeyBlY2hvICdOb3ZhT1MgYnVpbGQgZGVwZW5kZW5jeSBtaXNzaW5nOiAkKExEKSc7IGVjaG8gJ0luc3RhbGwgQmludXRpbHM6IHN1ZG8gYXB0LWdldCBpbnN0YWxsIGJpbnV0aWxzJzsgZXhpdCAxOyB9CglAY29tbWFuZCAtdiAkKE9CSkNPUFkpID4vZGV2L251bGwgMj4mMSB8fCB7IGVjaG8gJ05vdmFPUyBidWlsZCBkZXBlbmRlbmN5IG1pc3Npbmc6ICQoT0JKQ09QWSknOyBlY2hvICdJbnN0YWxsIEJpbnV0aWxzOiBzdWRvIGFwdC1nZXQgaW5zdGFsbCBiaW51dGlscyc7IGV4aXQgMTsgfQoJQGNvbW1hbmQgLXYgJChPQkpEVU1QKSA+L2Rldi9udWxsIDI+JjEgfHwgeyBlY2hvICdOb3ZhT1MgYnVpbGQgZGVwZW5kZW5jeSBtaXNzaW5nOiAkKE9CSkRVTVApJzsgZWNobyAnSW5zdGFsbCBCaW51dGlsczogc3VkbyBhcHQtZ2V0IGluc3RhbGwgYmludXRpbHMnOyBleGl0IDE7IH0KCUBjb21tYW5kIC12ICQoUkVBREVMRikgPi9kZXYvbnVsbCAyPiYxIHx8IHsgZWNobyAnTm92YU9TIGJ1aWxkIGRlcGVuZGVuY3kgbWlzc2luZzogJChSRUFERUxGKSc7IGVjaG8gJ0luc3RhbGwgQmludXRpbHM6IHN1ZG8gYXB0LWdldCBpbnN0YWxsIGJpbnV0aWxzJzsgZXhpdCAxOyB9CmxpbWluZToKCUBjb21tYW5kIC12IGdpdCA+L2Rldi9udWxsIDI+JjEgfHwgeyBlY2hvICdOb3ZhT1MgYnVpbGQgZGVwZW5kZW5jeSBtaXNzaW5nOiBnaXQnOyBlY2hvICdJbnN0YWxsIEdpdDogc3VkbyBhcHQtZ2V0IGluc3RhbGwgZ2l0JzsgZXhpdCAxOyB9CgkuL3NjcmlwdHMvZmV0Y2gtbGltaW5lLnNoCgkkKE1BS0UpIC1DICQoTElNSU5FX0RJUikKJChCVUlMRCkvJS5vOiAlLmMgY2hlY2stYnVpbGQKCUBta2RpciAtcCAkKGRpciAkQCk7ICQoQ0MpICQoQ0ZMQUdTKSAtYyAkPCAtbyAkQAokKEJVSUxEKS8lLm86ICUuUyBjaGVjay1idWlsZAoJQG1rZGlyIC1wICQoZGlyICRAKTsgJChDQykgJChDRkxBR1MpIC1jICQ8IC1vICRACiQoS0VSTkVMKTogJChPQkopIGxpbmtlci94ODZfNjQubGQKCUBta2RpciAtcCAkKEJVSUxEKTsgJChMRCkgJChMREZMQUdTKSAtbyAkQCAkKE9CSikKa2VybmVsOiAkKEtFUk5FTCkKCS4vc2NyaXB0cy9jaGVjay1lbGYuc2ggJChLRVJORUwpCgkkKE9CSkNPUFkpIC0tb25seS1rZWVwLWRlYnVnICQoS0VSTkVMKSAkKEJVSUxEKS9ub3Zhb3MuZGVidWcKCSQoT0JKRFVNUCkgLWggJChLRVJORUwpID4gJChCVUlMRCkvbm92YW9zLnNlY3Rpb25zCmltYWdlOiBrZXJuZWwgbGltaW5lLmNmZyBsaW1pbmUKCUBjb21tYW5kIC12IHhvcnJpc28gPi9kZXYvbnVsbCAyPiYxIHx8IHsgZWNobyAnTm92YU9TIGJ1aWxkIGRlcGVuZGVuY3kgbWlzc2luZzogeG9ycmlzbyc7IGVjaG8gJ0luc3RhbGwgaXQ6IHN1ZG8gYXB0LWdldCBpbnN0YWxsIHhvcnJpc28nOyBleGl0IDE7IH0KCUB0ZXN0IC14ICQoTElNSU5FX0RJUikvbGltaW5lIHx8IHsgZWNobyAnTGltaW5lIGlzIG5vdCBidWlsdDsgcnVuOiBtYWtlIGxpbWluZSc7IGV4aXQgMTsgfQoJQG1rZGlyIC1wICQoQlVJTEQpL2lzby9ib290L2xpbWluZSAkKEJVSUxEKS9pc28vRUZJL0JPT1QKCWNwICQoS0VSTkVMKSAkKEJVSUxEKS9pc28vYm9vdC9ub3Zhb3MuZWxmOyBjcCBsaW1pbmUuY2ZnICQoQlVJTEQpL2lzby9ib290L2xpbWluZS5jZmcKCWNwICQoTElNSU5FX0RJUikvbGltaW5lLWJpb3Muc3lzICQoTElNSU5FX0RJUikvbGltaW5lLWJpb3MtY2QuYmluICQoTElNSU5FX0RJUikvbGltaW5lLXVlZmktY2QuYmluICQoQlVJTEQpL2lzby9ib290L2xpbWluZS8KCUBpZiBbIC1mICQoTElNSU5FX0RJUikvQk9PVFg2NC5FRkkgXTsgdGhlbiBjcCAkKExJTUlORV9ESVIpL0JPT1RYNjQuRUZJICQoQlVJTEQpL2lzby9FRkkvQk9PVC87IGZpCgl4b3JyaXNvIC1hcyBta2lzb2ZzIC1iIGJvb3QvbGltaW5lL2xpbWluZS1iaW9zLWNkLmJpbiAtbm8tZW11bC1ib290IC1ib290LWxvYWQtc2l6ZSA0IC1ib290LWluZm8tdGFibGUgLS1lZmktYm9vdCBib290L2xpbWluZS9saW1pbmUtdWVmaS1jZC5iaW4gLWVmaS1ib290LXBhcnQgLS1lZmktYm9vdC1pbWFnZSAtbyAkKEJVSUxEKS9ub3Zhb3MuaXNvICQoQlVJTEQpL2lzbwoJJChMSU1JTkVfRElSKS9saW1pbmUgYmlvcy1pbnN0YWxsICQoQlVJTEQpL25vdmFvcy5pc28KcnVuOiBpbWFnZQoJQGNvbW1hbmQgLXYgJChRRU1VKSA+L2Rldi9udWxsIDI+JjEgfHwgeyBlY2hvICdOb3ZhT1MgYnVpbGQgZGVwZW5kZW5jeSBtaXNzaW5nOiAkKFFFTVUpJzsgZWNobyAnSW5zdGFsbCBRRU1VOiBzdWRvIGFwdC1nZXQgaW5zdGFsbCBxZW11LXN5c3RlbS14ODYnOyBleGl0IDE7IH0KCSQoUUVNVSkgLU0gcTM1IC1tIDEyOE0gLWNkcm9tICQoQlVJTEQpL25vdmFvcy5pc28gLXNlcmlhbCBzdGRpbyAtZGlzcGxheSBub25lIC1uby1yZWJvb3QKZGVidWc6IEJVSUxEPWJ1aWxkLWRlYnVnCmRlYnVnOiBERUJVRz0xCmRlYnVnOiBpbWFnZQoJQGNvbW1hbmQgLXYgZ2RiID4vZGV2L251bGwgMj4mMSB8fCB7IGVjaG8gJ05vdmFPUyBidWlsZCBkZXBlbmRlbmN5IG1pc3Npbmc6IGdkYic7IGVjaG8gJ0luc3RhbGwgR0RCOiBzdWRvIGFwdC1nZXQgaW5zdGFsbCBnZGInOyBleGl0IDE7IH0KCUBjb21tYW5kIC12ICQoUUVNVSkgPi9kZXYvbnVsbCAyPiYxIHx8IHsgZWNobyAnTm92YU9TIGJ1aWxkIGRlcGVuZGVuY3kgbWlzc2luZzogJChRRU1VKSc7IGVjaG8gJ0luc3RhbGwgUUVNVTogc3VkbyBhcHQtZ2V0IGluc3RhbGwgcWVtdS1zeXN0ZW0teDg2JzsgZXhpdCAxOyB9CgkkKFFFTVUpIC1NIHEzNSAtbSAxMjhNIC1jZHJvbSAkKEJVSUxEKS9ub3Zhb3MuaXNvIC1zZXJpYWwgc3RkaW8gLWRpc3BsYXkgbm9uZSAtbm8tcmVib290IC1TIC1zCmV4Y2VwdGlvbi10ZXN0OiBCVUlMRD1idWlsZC1leGNlcHRpb24KZXhjZXB0aW9uLXRlc3Q6IENGTEFHUyArPSAtRE5PVkFPU19URVNUX0VYQ0VQVElPTgpleGNlcHRpb24tdGVzdDogREVCVUc9MQpleGNlcHRpb24tdGVzdDogaW1hZ2UKCUBjb21tYW5kIC12ICQoUUVNVSkgPi9kZXYvbnVsbCAyPiYxIHx8IHsgZWNobyAnTm92YU9TIGJ1aWxkIGRlcGVuZGVuY3kgbWlzc2luZzogJChRRU1VKSc7IGVjaG8gJ0luc3RhbGwgUUVNVTogc3VkbyBhcHQtZ2V0IGluc3RhbGwgcWVtdS1zeXN0ZW0teDg2JzsgZXhpdCAxOyB9CgkuL3NjcmlwdHMvZXhjZXB0aW9uLXRlc3Quc2ggJChCVUlMRCkvbm92YW9zLmlzbyAkKEJVSUxEKS9zZXJpYWwubG9nCgpkZWJ1Zy1jaGVjazogQlVJTEQ9YnVpbGQtZGVidWcKZGVidWctY2hlY2s6IERFQlVHPTEKZGVidWctY2hlY2s6IGtlcm5lbAoJQCQoUkVBREVMRikgLVMgJChLRVJORUwpIHwgZ3JlcCAtcSAnXC5kZWJ1Z19pbmZvJwoJQGVjaG8gJ05vdmFPUyBkZWJ1ZyBjb25maWd1cmF0aW9uOiBQQVNTJwoKdGVzdDoga2VybmVsIGltYWdlCgkuL3NjcmlwdHMvY2hlY2stZWxmLnNoICQoS0VSTkVMKQoJQGNvbW1hbmQgLXYgJChRRU1VKSA+L2Rldi9udWxsIDI+JjEgfHwgeyBlY2hvICdOb3ZhT1MgYnVpbGQgZGVwZW5kZW5jeSBtaXNzaW5nOiAkKFFFTVUpJzsgZWNobyAnSW5zdGFsbCBRRU1VOiBzdWRvIGFwdC1nZXQgaW5zdGFsbCBxZW11LXN5c3RlbS14ODYnOyBleGl0IDE7IH0KCS4vc2NyaXB0cy9zbW9rZS10ZXN0LnNoICQoQlVJTEQpL25vdmFvcy5pc28gJChCVUlMRCkvc2VyaWFsLmxvZwpjbGVhbjoKCXJtIC1yZiAkKEJVSUxEKQo=
+SHELL := /bin/sh
+TARGET ?= x86_64-elf
+CC ?= gcc
+LD ?= ld
+OBJCOPY ?= objcopy
+OBJDUMP ?= objdump
+READELF ?= readelf
+QEMU ?= qemu-system-x86_64
+DEBUG ?= 0
+BUILD := build
+KERNEL := $(BUILD)/novaos.elf
+LIMINE_DIR ?= $(CURDIR)/toolchain/limine
+CFLAGS := -std=c11 -ffreestanding -fno-builtin -fno-stack-protector -fno-pie -mno-red-zone -mcmodel=kernel -m64 -Wall -Wextra -Werror -Iinclude -I$(LIMINE_DIR)
+ifeq ($(DEBUG),1)
+CFLAGS += -g -O0
+else
+CFLAGS += -O2
+endif
+LDFLAGS := -T linker/x86_64.ld -nostdlib
+SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c drivers/serial/serial.c boot/limine/adapter.c
+OBJ := $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC)))
+.PHONY: all check-build check-image limine kernel image run debug debug-check test exception-test clean
+all: image
+check-build:
+	@command -v $(CC) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(CC)'; echo 'Install GCC: sudo apt-get install build-essential'; exit 1; }
+	@command -v $(LD) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(LD)'; echo 'Install Binutils: sudo apt-get install binutils'; exit 1; }
+	@command -v $(OBJCOPY) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(OBJCOPY)'; echo 'Install Binutils: sudo apt-get install binutils'; exit 1; }
+	@command -v $(OBJDUMP) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(OBJDUMP)'; echo 'Install Binutils: sudo apt-get install binutils'; exit 1; }
+	@command -v $(READELF) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(READELF)'; echo 'Install Binutils: sudo apt-get install binutils'; exit 1; }
+limine:
+	@command -v git >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: git'; echo 'Install Git: sudo apt-get install git'; exit 1; }
+	./scripts/fetch-limine.sh
+	$(MAKE) -C $(LIMINE_DIR)
+$(BUILD)/%.o: %.c check-build
+	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
+$(BUILD)/%.o: %.S check-build
+	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
+$(KERNEL): $(OBJ) linker/x86_64.ld
+	@mkdir -p $(BUILD); $(LD) $(LDFLAGS) -o $@ $(OBJ)
+kernel: $(KERNEL)
+	./scripts/check-elf.sh $(KERNEL)
+	$(OBJCOPY) --only-keep-debug $(KERNEL) $(BUILD)/novaos.debug
+	$(OBJDUMP) -h $(KERNEL) > $(BUILD)/novaos.sections
+image: kernel limine.cfg limine
+	@command -v xorriso >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: xorriso'; echo 'Install it: sudo apt-get install xorriso'; exit 1; }
+	@test -x $(LIMINE_DIR)/limine || { echo 'Limine is not built; run: make limine'; exit 1; }
+	@mkdir -p $(BUILD)/iso/boot/limine $(BUILD)/iso/EFI/BOOT
+	cp $(KERNEL) $(BUILD)/iso/boot/novaos.elf; cp limine.cfg $(BUILD)/iso/boot/limine.cfg
+	cp $(LIMINE_DIR)/limine-bios.sys $(LIMINE_DIR)/limine-bios-cd.bin $(LIMINE_DIR)/limine-uefi-cd.bin $(BUILD)/iso/boot/limine/
+	@if [ -f $(LIMINE_DIR)/BOOTX64.EFI ]; then cp $(LIMINE_DIR)/BOOTX64.EFI $(BUILD)/iso/EFI/BOOT/; fi
+	xorriso -as mkisofs -b boot/limine/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table --efi-boot boot/limine/limine-uefi-cd.bin -efi-boot-part --efi-boot-image -o $(BUILD)/novaos.iso $(BUILD)/iso
+	$(LIMINE_DIR)/limine bios-install $(BUILD)/novaos.iso
+run: image
+	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
+	$(QEMU) -M q35 -m 128M -cdrom $(BUILD)/novaos.iso -serial stdio -display none -no-reboot
+debug: BUILD=build-debug
+debug: DEBUG=1
+debug: image
+	@command -v gdb >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: gdb'; echo 'Install GDB: sudo apt-get install gdb'; exit 1; }
+	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
+	$(QEMU) -M q35 -m 128M -cdrom $(BUILD)/novaos.iso -serial stdio -display none -no-reboot -S -s
+exception-test: BUILD=build-exception
+exception-test: CFLAGS += -DNOVAOS_TEST_EXCEPTION
+exception-test: DEBUG=1
+exception-test: image
+	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
+	./scripts/exception-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
+
+debug-check: BUILD=build-debug
+debug-check: DEBUG=1
+debug-check: kernel
+	@$(READELF) -S $(KERNEL) | grep -q '\.debug_info'
+	@echo 'NovaOS debug configuration: PASS'
+
+test: kernel image
+	./scripts/check-elf.sh $(KERNEL)
+	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
+	./scripts/smoke-test.sh $(BUILD)/novaos.iso $(BUILD)/serial.log
+clean:
+	rm -rf $(BUILD)

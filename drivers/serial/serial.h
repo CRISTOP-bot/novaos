@@ -1,1 +1,5 @@
-I2lmbmRlZiBOT1ZBX1NFUklBTF9ICiNkZWZpbmUgTk9WQV9TRVJJQUxfSAojaW5jbHVkZSA8bm92YS90eXBlcy5oPgp2b2lkIHNlcmlhbF9pbml0KHZvaWQpOyB2b2lkIHNlcmlhbF9wdXRjaGFyKGNoYXIgYyk7IHZvaWQgc2VyaWFsX3dyaXRlKGNvbnN0IGNoYXIgKnMpOyB2b2lkIHNlcmlhbF92cHJpbnRmKGNvbnN0IGNoYXIgKmZtdCwgX19idWlsdGluX3ZhX2xpc3QgYXApOyB2b2lkIHNlcmlhbF9wcmludGYoY29uc3QgY2hhciAqZm10LCAuLi4pOwojZW5kaWYK
+#ifndef NOVA_SERIAL_H
+#define NOVA_SERIAL_H
+#include <nova/types.h>
+void serial_init(void); void serial_putchar(char c); void serial_write(const char *s); void serial_vprintf(const char *fmt, __builtin_va_list ap); void serial_printf(const char *fmt, ...);
+#endif

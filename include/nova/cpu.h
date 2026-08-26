@@ -1,1 +1,4 @@
-I2lmbmRlZiBOT1ZBX0NQVV9ICiNkZWZpbmUgTk9WQV9DUFVfSAp2b2lkIGNwdV9pbml0KHZvaWQpOyB2b2lkIGNwdV9wcmludF9pbmZvKHZvaWQpOwojZW5kaWYK
+#ifndef NOVA_CPU_H
+#define NOVA_CPU_H
+void cpu_init(void); void cpu_print_info(void);
+#endif

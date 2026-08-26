@@ -1,1 +1,18 @@
-I2lmbmRlZiBOT1ZBX1RZUEVTX0gKI2RlZmluZSBOT1ZBX1RZUEVTX0gKdHlwZWRlZiB1bnNpZ25lZCBjaGFyIHVpbnQ4X3Q7CnR5cGVkZWYgdW5zaWduZWQgc2hvcnQgdWludDE2X3Q7CnR5cGVkZWYgdW5zaWduZWQgaW50IHVpbnQzMl90Owp0eXBlZGVmIHVuc2lnbmVkIGxvbmcgbG9uZyB1aW50NjRfdDsKdHlwZWRlZiBzaWduZWQgY2hhciBpbnQ4X3Q7CnR5cGVkZWYgc2lnbmVkIHNob3J0IGludDE2X3Q7CnR5cGVkZWYgc2lnbmVkIGludCBpbnQzMl90Owp0eXBlZGVmIHNpZ25lZCBsb25nIGxvbmcgaW50NjRfdDsKdHlwZWRlZiBfX1NJWkVfVFlQRV9fIHNpemVfdDsKdHlwZWRlZiBfX1BUUkRJRkZfVFlQRV9fIGludHB0cl90Owp0eXBlZGVmIF9fVUlOVFBUUl9UWVBFX18gdWludHB0cl90Owp0eXBlZGVmIF9Cb29sIGJvb2w7CiNkZWZpbmUgdHJ1ZSAxCiNkZWZpbmUgZmFsc2UgMAojZGVmaW5lIE5VTEwgKCh2b2lkICopMCkKI2VuZGlmCg==
+#ifndef NOVA_TYPES_H
+#define NOVA_TYPES_H
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+typedef signed char int8_t;
+typedef signed short int16_t;
+typedef signed int int32_t;
+typedef signed long long int64_t;
+typedef __SIZE_TYPE__ size_t;
+typedef __PTRDIFF_TYPE__ intptr_t;
+typedef __UINTPTR_TYPE__ uintptr_t;
+typedef _Bool bool;
+#define true 1
+#define false 0
+#define NULL ((void *)0)
+#endif

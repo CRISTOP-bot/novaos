@@ -1,1 +1,4 @@
-I2lmbmRlZiBOT1ZBX0lEVF9ICiNkZWZpbmUgTk9WQV9JRFRfSAp2b2lkIGlkdF9pbml0KHZvaWQpOyB2b2lkIGV4Y2VwdGlvbl9pbml0KHZvaWQpOwojZW5kaWYK
+#ifndef NOVA_IDT_H
+#define NOVA_IDT_H
+void idt_init(void); void exception_init(void);
+#endif

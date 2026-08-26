@@ -1,1 +1,23 @@
-LnNlY3Rpb24gLnRleHQKLmV4dGVybiBleGNlcHRpb25fZGlzcGF0Y2gKLm1hY3JvIE5PRVJSIG4KLmdsb2JhbCBpc3Jcbgppc3JcbjogcHVzaHEgJDA7IHB1c2hxICRcbjsgam1wIGlzcl9jb21tb24KLmVuZG0KLm1hY3JvIEVSUiBuCi5nbG9iYWwgaXNyXG4KaXNyXG46IHB1c2hxICRcbjsgam1wIGlzcl9jb21tb24KLmVuZG0KTk9FUlIgMApOT0VSUiA2CkVSUiA4CkVSUiAxMwpFUlIgMTQKLmdsb2JhbCBpc3JfZGVmYXVsdAppc3JfZGVmYXVsdDogcHVzaHEgJDA7IHB1c2hxICQyNTU7IGptcCBpc3JfY29tbW9uCmlzcl9jb21tb246CiAgICBwdXNoICVyMTU7cHVzaCAlcjE0O3B1c2ggJXIxMztwdXNoICVyMTI7cHVzaCAlcjExO3B1c2ggJXIxMDtwdXNoICVyOTtwdXNoICVyODtwdXNoICVyZGk7cHVzaCAlcnNpO3B1c2ggJXJicDtwdXNoICVyYng7cHVzaCAlcmR4O3B1c2ggJXJjeDtwdXNoICVyYXgKICAgIG1vdiAlcnNwLCVyZGkKICAgIGFkZCAkMTIwLCVyZGkKICAgIGNhbGwgZXhjZXB0aW9uX2Rpc3BhdGNoCjE6ICBjbGk7IGhsdDsgam1wIDFiCg==
+.section .text
+.extern exception_dispatch
+.macro NOERR n
+.global isr\n
+isr\n: pushq $0; pushq $\n; jmp isr_common
+.endm
+.macro ERR n
+.global isr\n
+isr\n: pushq $\n; jmp isr_common
+.endm
+NOERR 0
+NOERR 6
+ERR 8
+ERR 13
+ERR 14
+.global isr_default
+isr_default: pushq $0; pushq $255; jmp isr_common
+isr_common:
+    push %r15;push %r14;push %r13;push %r12;push %r11;push %r10;push %r9;push %r8;push %rdi;push %rsi;push %rbp;push %rbx;push %rdx;push %rcx;push %rax
+    mov %rsp,%rdi
+    add $120,%rdi
+    call exception_dispatch
+1:  cli; hlt; jmp 1b

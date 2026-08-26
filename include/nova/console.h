@@ -1,1 +1,4 @@
-I2lmbmRlZiBOT1ZBX0NPTlNPTEVfSAojZGVmaW5lIE5PVkFfQ09OU09MRV9ICnZvaWQgY29uc29sZV9pbml0KHZvaWQpOyB2b2lkIGNvbnNvbGVfcHV0Y2hhcihjaGFyIGMpOyB2b2lkIGNvbnNvbGVfd3JpdGUoY29uc3QgY2hhciAqcyk7IHZvaWQgY29uc29sZV9wcmludGYoY29uc3QgY2hhciAqZm10LCAuLi4pOwojZW5kaWYK
+#ifndef NOVA_CONSOLE_H
+#define NOVA_CONSOLE_H
+void console_init(void); void console_putchar(char c); void console_write(const char *s); void console_printf(const char *fmt, ...);
+#endif

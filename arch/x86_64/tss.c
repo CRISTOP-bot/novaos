@@ -14,13 +14,12 @@ extern void ring3_enter(uint64_t rip, uint64_t rsp);
 extern void ring3_user_entry(void);
 extern char __kernel_start;
 extern void idt_install_ring3_gate(void);
-extern uint64_t gdt_debug_entry(unsigned); extern uint64_t gdt_debug_base(void); extern uint64_t gdt_debug_limit(void);
 
 
 bool tss_init(void) {
     for (uint64_t i=0;i<sizeof(tss);i++) ((uint8_t *)&tss)[i]=0;
     tss.rsp0=(uint64_t)(uintptr_t)(rsp0_stack+sizeof(rsp0_stack)); tss.iomap=sizeof(tss);
-    gdt_load_tss((uint64_t)(uintptr_t)&tss, sizeof(tss)-1); console_printf("[NovaOS] GDT base=%x limit=%x GDT3=%x GDT4=%x TSS5=%x TSS6=%x RSP0=%x\n",gdt_debug_base(),gdt_debug_limit(),gdt_debug_entry(3),gdt_debug_entry(4),gdt_debug_entry(5),gdt_debug_entry(6),tss.rsp0); idt_install_ring3_gate(); return true;
+    gdt_load_tss((uint64_t)(uintptr_t)&tss, sizeof(tss)-1); idt_install_ring3_gate(); return true;
 }
 bool privilege_self_test(const struct nova_boot_info *boot) {
     uint64_t fn=(uint64_t)(uintptr_t)ring3_user_entry, phys, stack_phys, user_sp, user_rip;

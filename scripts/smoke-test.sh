@@ -7,7 +7,7 @@ pid=$!
 cleanup(){ kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; }
 trap cleanup EXIT INT TERM
 for i in $(seq 1 100); do
-  if [ -f "$log" ] && grep -q 'NOVAOS_BOOT_OK' "$log" && grep -q 'NOVAOS_PMM_OK' "$log" && grep -q 'NOVAOS_PAGING_OK' "$log" && grep -q 'NOVAOS_HEAP_OK' "$log" && grep -q 'NOVAOS_MEMORY_OK' "$log" && grep -q 'NOVAOS_RING3_OK' "$log"; then
+  if [ -f "$log" ] && grep -q 'NOVAOS_BOOT_OK' "$log" && grep -q 'NOVAOS_PMM_OK' "$log" && grep -q 'NOVAOS_PAGING_OK' "$log" && grep -q 'NOVAOS_HEAP_OK' "$log" && grep -q 'NOVAOS_MEMORY_OK' "$log" && grep -q 'NOVAOS_RING3_OK' "$log" && grep -q 'NOVAOS_SCHEDULER_OK' "$log"; then
     echo 'NovaOS M0 smoke test: PASS'
     cat "$log"
     exit 0

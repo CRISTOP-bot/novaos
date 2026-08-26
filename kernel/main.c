@@ -5,6 +5,7 @@
 #include <nova/idt.h>
 #include <nova/mm/pmm.h>
 #include <nova/mm/paging.h>
+#include <nova/mm/heap.h>
 #include <nova/panic.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
@@ -26,5 +27,11 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] paging initialized\n");
     if (!paging_self_test()) { console_write("[NovaOS] paging self-test: FAIL\n"); panic("paging self-test failed"); }
     console_write("[NovaOS] paging self-test: PASS\nNOVAOS_PAGING_OK\n");
+    if (!heap_init()) { console_write("[NovaOS] heap initialization: FAIL\n"); panic("heap initialization failed"); }
+    console_write("[NovaOS] heap initialized\n");
+    if (!heap_self_test()) { console_write("[NovaOS] heap self-test: FAIL\n"); panic("heap self-test failed"); }
+    console_printf("[NovaOS] heap bytes mapped: %x\n", heap_bytes_mapped());
+    console_printf("[NovaOS] heap bytes used: %x\n", heap_bytes_used());
+    console_write("[NovaOS] heap self-test: PASS\nNOVAOS_HEAP_OK\n");
     console_write("[NovaOS] kernel initialized\nNOVAOS_BOOT_OK\n"); for(;;)__asm__ volatile("cli; hlt");
 }

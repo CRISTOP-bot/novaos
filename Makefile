@@ -17,7 +17,7 @@ else
 CFLAGS += -O2
 endif
 LDFLAGS := -T linker/x86_64.ld -nostdlib
-SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c drivers/serial/serial.c boot/limine/adapter.c
+SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c arch/x86_64/tss.c arch/x86_64/ring3.S drivers/serial/serial.c boot/limine/adapter.c
 OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC)))
 .PHONY: all check-build check-image limine kernel image run debug debug-check test exception-test clean
 all: image

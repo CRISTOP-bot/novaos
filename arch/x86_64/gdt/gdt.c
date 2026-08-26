@@ -20,3 +20,7 @@ void gdt_load_tss(uint64_t base, uint32_t limit) {
     gdt_set_tss(base, limit); gdtr.limit=sizeof(gdt)-1; gdtr.base=(uint64_t)gdt;
     __asm__ volatile("lgdt %0; mov $0x28, %%ax; ltr %%ax" :: "m"(gdtr) : "rax", "memory");
 }
+
+uint64_t gdt_debug_entry(unsigned n) { return n < 7 ? gdt[n] : 0; }
+uint64_t gdt_debug_base(void) { return gdtr.base; }
+uint64_t gdt_debug_limit(void) { return gdtr.limit; }

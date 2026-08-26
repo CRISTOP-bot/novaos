@@ -2,9 +2,27 @@
 .global ring3_user_entry
 .type ring3_user_entry,@function
 ring3_user_entry:
+    mov $1, %rax
+    int $0x80
+    mov %rax, %r12
+    mov $2, %rax
+    mov $1, %rdi
+    lea syscall_message(%rip), %rsi
+    mov $20, %rdx
+    int $0x80
+    mov $0xffff, %rax
+    int $0x80
+    mov $2, %rax
+    mov $1, %rdi
+    mov $0x500000, %rsi
+    mov $1, %rdx
+    int $0x80
     mov $3, %rax
+    xor %rdi, %rdi
     int $0x80
     ret
+.section .rodata
+syscall_message: .ascii "NovaOS syscall write\n"
 
 .section .text
 .global ring3_enter

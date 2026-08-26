@@ -41,11 +41,11 @@ kernel: $(KERNEL)
 	sh scripts/check-elf.sh $(KERNEL)
 	$(OBJCOPY) --only-keep-debug $(KERNEL) $(BUILD)/novaos.debug
 	$(OBJDUMP) -h $(KERNEL) > $(BUILD)/novaos.sections
-image: kernel limine.cfg limine
+image: kernel limine.conf limine
 	@command -v xorriso >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: xorriso'; echo 'Install it: sudo apt-get install xorriso'; exit 1; }
 	@test -x $(LIMINE_DIR)/limine || { echo 'Limine is not built; run: make limine'; exit 1; }
 	@mkdir -p $(BUILD)/iso/boot/limine $(BUILD)/iso/EFI/BOOT
-	cp $(KERNEL) $(BUILD)/iso/boot/novaos.elf; cp limine.cfg $(BUILD)/iso/boot/limine.cfg
+	cp $(KERNEL) $(BUILD)/iso/boot/novaos.elf; cp limine.conf $(BUILD)/iso/boot/limine.conf
 	cp $(LIMINE_DIR)/limine-bios.sys $(LIMINE_DIR)/limine-bios-cd.bin $(LIMINE_DIR)/limine-uefi-cd.bin $(BUILD)/iso/boot/limine/
 	@if [ -f $(LIMINE_DIR)/BOOTX64.EFI ]; then cp $(LIMINE_DIR)/BOOTX64.EFI $(BUILD)/iso/EFI/BOOT/; fi
 	xorriso -as mkisofs -b boot/limine/limine-bios-cd.bin -no-emul-boot -boot-load-size 4 -boot-info-table --efi-boot boot/limine/limine-uefi-cd.bin -efi-boot-part --efi-boot-image -o $(BUILD)/novaos.iso $(BUILD)/iso

@@ -11,6 +11,7 @@
 #include <nova/panic.h>
 #include <nova/scheduler.h>
 #include <nova/process.h>
+#include <nova/syscall.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
 
@@ -48,5 +49,7 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] scheduler self-test: PASS\nNOVAOS_SCHEDULER_OK\n");
     if (!nova_process_init() || !process_self_test()) { console_write("[NovaOS] process self-test: FAIL\n"); panic("process self-test failed"); }
     console_write("[NovaOS] process self-test: PASS\nNOVAOS_PROCESS_OK\n");
+    if (!syscall_self_test()) { console_write("[NovaOS] syscall self-test: FAIL\n"); panic("syscall self-test failed"); }
+    console_write("[NovaOS] syscall self-test: PASS\nNOVAOS_SYSCALL_OK\n");
     console_write("[NovaOS] kernel initialized\nNOVAOS_BOOT_OK\n"); for(;;)__asm__ volatile("cli; hlt");
 }

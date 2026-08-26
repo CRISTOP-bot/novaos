@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
 LIMINE_VERSION=${LIMINE_VERSION:-v8.6.0}
-dir=$(CDPATH= cd -- "$(dirname -- "$0")/../toolchain")
+root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+dir="$root/toolchain"
 mkdir -p "$dir"
 if [ ! -d "$dir/limine/.git" ]; then
   git clone --depth 1 --branch "$LIMINE_VERSION" https://github.com/limine-bootloader/limine.git "$dir/limine"

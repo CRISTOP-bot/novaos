@@ -2,12 +2,12 @@
 set -eu
 iso=${1:?ISO path required}; log=${2:?log path required}; qemu=${QEMU:-qemu-system-x86_64}
 rm -f "$log"
-"$qemu" -M q35 -m 128M -cdrom "$iso" -serial "file:$log" -display none -no-reboot >/dev/null 2>&1 &
+"$qemu" -M q35 -m 128M -boot order=d -cdrom "$iso" -serial "file:$log" -display none -no-reboot >/dev/null 2>&1 &
 pid=$!
 cleanup(){ kill "$pid" 2>/dev/null || true; wait "$pid" 2>/dev/null || true; }
 trap cleanup EXIT INT TERM
 for i in $(seq 1 100); do
-  if [ -f "$log" ] && grep -q 'NOVAOS_BOOT_OK' "$log"; then
+  if [ -f "$log" ] && grep -q 'NOVAOS_BOOT_OK' "$log" && grep -q 'NOVAOS_PMM_OK' "$log"; then
     echo 'NovaOS M0 smoke test: PASS'
     cat "$log"
     exit 0

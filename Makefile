@@ -59,6 +59,7 @@ debug:
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
 	$(QEMU) -M q35 -m 128M -boot order=d -cdrom build-debug/novaos.iso -serial stdio -display none -no-reboot -S -s
 exception-test:
+	$(MAKE) limine
 	$(MAKE) DEBUG=1 BUILD=build-exception KERNEL=build-exception/novaos.elf CFLAGS="$(CFLAGS) -DNOVAOS_TEST_EXCEPTION" image
 	@command -v $(QEMU) >/dev/null 2>&1 || { echo 'NovaOS build dependency missing: $(QEMU)'; echo 'Install QEMU: sudo apt-get install qemu-system-x86'; exit 1; }
 	sh scripts/exception-test.sh build-exception/novaos.iso build-exception/serial.log

@@ -1,57 +1,85 @@
-[![NovaOS CI](../../actions/workflows/novaos-tests.yml/badge.svg)](../../actions/workflows/novaos-tests.yml)
+[![NovaOS CI](https://github.com/CRISTOP-bot/novaos/actions/workflows/novaos-tests.yml/badge.svg)](https://github.com/CRISTOP-bot/novaos/actions/workflows/novaos-tests.yml)
 
 # NovaOS
 
-Sistema operativo experimental x86_64, independiente de Linux, orientado a ejecutar software C real mediante una ABI propia y documentada.
+NovaOS es un kernel experimental **x86_64 freestanding**, construido desde cero para aprender y verificar los mecanismos internos de un sistema operativo.
 
-> Estado: M0 implementation: COMPLETE. M0 runtime validation: CI PASS (GitHub Actions + QEMU).
+> Estado actual: M0–M2.2 completadas y verificadas con GitHub Actions, QEMU y salida serial. M2.3 (syscalls) sigue en desarrollo y no se considera validada.
 
-## Objetivos de la primera milestone
+## Milestones verificadas
 
-`BOOT → kernel → memoria → scheduler → syscall → ELF loader → proceso user → libc → /init → shell → hello`
+- **M0:** boot, CPU, GDT, IDT y excepciones.
+- **M1.0:** gestor físico de páginas (PMM).
+- **M1.1:** paging de cuatro niveles.
+- **M1.2:** heap del kernel (`kmalloc`, `kfree`, `kcalloc`).
+- **M1.3:** diagnósticos de memoria.
+- **M2.0:** TSS, `LTR`, Ring 3 y retorno controlado.
+- **M2.1:** scheduler cooperativo mínimo de tareas kernel.
+- **M2.2:** abstracción mínima proceso → tarea → scheduler.
+- **M2.3:** ABI experimental de syscalls mediante `INT 0x80` (en validación).
 
-La primera versión usará:
+## Marcadores de runtime
 
-- x86_64 y ABI de CPU System V AMD64;
-- ELF64, inicialmente `ET_EXEC` no-PIE;
-- Limine como bootloader primario, con una capa de boot que permita añadir GRUB Multiboot2;
-- QEMU + GDB como entorno de prueba;
-- kernel freestanding y userspace hosted;
-- Newlib upstream separada del glue específico de NovaOS;
-- initramfs cpio `newc` antes de diseñar un filesystem persistente.
+Las pruebas seriales verifican, en orden:
 
-## Construcción
+```text
+NOVAOS_PMM_OK
+NOVAOS_PAGING_OK
+NOVAOS_HEAP_OK
+NOVAOS_MEMORY_OK
+NOVAOS_RING3_OK
+NOVAOS_SCHEDULER_OK
+NOVAOS_PROCESS_OK
+NOVAOS_BOOT_OK
+```
 
-La imagen de M0 se construye con el toolchain host (`gcc`/`ld`) en modo freestanding. El cross-toolchain de userspace sigue siendo una milestone posterior. Antes de construir hay que obtener Limine:
+`NOVAOS_SYSCALL_OK` sólo se añadirá cuando la ruta Ring 3 → `INT 0x80` → dispatcher → retorno haya pasado QEMU y CI de forma reproducible.
+
+## Construcción y pruebas
+
+Requisitos habituales: GCC, binutils, Git, xorriso y QEMU.
 
 ```sh
 make limine
-make   # cross-binutils, GCC y sysroot
-make libc        # Newlib + glue NovaOS
 make kernel
-make userland
 make image
+make test
 make run
-make debug
-make debug-check
 ```
 
-Ningún target debe usar accidentalmente headers o librerías del host. El toolchain tendrá sysroot propio y el kernel se compilará con flags freestanding separados.
+`make test` construye el ELF/ISO, ejecuta las validaciones ELF y arranca QEMU con el smoke test serial. GitHub Actions ejecuta la misma cadena en un entorno limpio.
+
+## Arquitectura
+
+```text
+Limine
+  ↓
+x86_64 entry / GDT / IDT / TSS
+  ↓
+PMM → paging → heap
+  ↓
+procesos mínimos → scheduler cooperativo
+  ↓
+Ring 3 → INT 0x80 → syscalls experimentales
+```
+
+El proyecto todavía no implementa un userspace completo, loader ELF, VFS, filesystem ni libc.
 
 ## Documentación
 
 - [Arquitectura](docs/architecture.md)
 - [ABI y syscalls](docs/abi.md)
-- [Toolchain y libc](docs/toolchain.md)
 - [Roadmap](docs/roadmap.md)
-- [Decisiones](docs/decisions.md)
+- [Decisiones técnicas](docs/decisions.md)
 
 ## Principios
 
-NovaOS no pretende ser Linux, no implementa una ABI Linux y no promete POSIX completo. POSIX se incorporará por etapas, con pruebas que demuestren cada interfaz. El código propio, los ports y los componentes externos se mantienen separados para poder actualizar upstream sin reescrituras indiscriminadas.
+- correctness > simplicidad > rendimiento;
+- cada milestone debe demostrar ejecución real en QEMU;
+- no copiar automáticamente la ABI de Linux;
+- mantener los componentes pequeños, freestanding y verificables;
+- no declarar una milestone completa sólo porque compile.
 
-## Estado real de M0
+## Licencia
 
-Implementado: entrada `_start`, stack BSS, adaptador de memoria Limine, UART COM1, abstracción de consola, panic, CPUID, GDT cargada con `lgdt`, IDT cargada con `lidt`, handlers para excepciones principales, linker script, imagen ISO y smoke test QEMU.
-
-No implementado todavía: PMM, paging propio, scheduler, IRQ, procesos, ring 3, syscalls, ELF loader, VFS, libc y userspace.
+La licencia y los componentes de terceros se documentarán antes de distribuir una release. Limine se obtiene mediante el script de toolchain; revisa sus archivos y licencia correspondiente antes de redistribuir artefactos.

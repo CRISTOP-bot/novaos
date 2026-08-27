@@ -1,63 +1,40 @@
 # Roadmap por fases
 
-Cada fase termina con una prueba reproducible en QEMU y una nota de ABI. No se empieza la siguiente por tener código que sólo arranca una vez.
+Una milestone sólo se completa con build, ELF checks, QEMU, salida serial y GitHub Actions en verde.
 
-## M0 — Boot y kernel mínimo
+## M0 — Boot y kernel mínimo ✅
 
-- [ ] repositorio, formato, licencia y CI base
-- [ ] Limine + linker script + `boot_info`
-- [ ] serial, consola, panic, GDT/IDT y excepciones
-- [ ] PMM, paging kernel y heap
-- [ ] smoke test que arranca y termina con código conocido
+Boot x86_64 con Limine, consola UART, CPUID, GDT, IDT, excepciones, linker script, ISO y smoke test.
 
-## M1 — User mode y primera syscall
+## M1 — Memoria ✅
 
-- [ ] TSS/ring 3/context switch
-- [ ] thread y scheduler mínimo
-- [ ] `sys_exit`, `sys_write`, `sys_getpid`, `sys_mmap`, `sys_abi_info`
-- [ ] `copy_{from,to}_user` y tests de punteros inválidos
-- [ ] programa estático `hello` cargado como módulo/initramfs
+- M1.0: PMM.
+- M1.1: paging de cuatro niveles.
+- M1.2: heap del kernel.
+- M1.3: diagnósticos de memoria.
 
-## M2 — ELF, procesos y VFS
+## M2 — Privilegios y ejecución ✅ / en desarrollo
 
-- [ ] parser ELF host-side con casos válidos e inválidos
-- [ ] loader `ET_EXEC` PT_LOAD con W^X
-- [ ] stack argc/argv/envp
-- [ ] VFS en memoria e initramfs cpio newc
-- [ ] open/read/write/close/seek/stat
-- [ ] spawn/exec/waitpid, fd table y pipe
+- M2.0: TSS, Ring 3 y retorno controlado ✅
+- M2.1: scheduler cooperativo kernel-only ✅
+- M2.2: procesos mínimos y PID ✅
+- M2.3: syscalls mínimas mediante `INT 0x80` — **en validación**
 
-## M3 — libc y userland
+## M3 — Address spaces y programas
 
-- [ ] sysroot y GCC/Newlib reproducibles
-- [ ] crt0 y wrappers
-- [ ] `/init`, shell, echo, ls, cat, pwd
-- [ ] malloc, stdio, errno, environment
-- [ ] tests ISO C y file APIs
+- address space por proceso;
+- validación robusta de copia user/kernel;
+- loader ELF64 `ET_EXEC`;
+- stack inicial de userspace;
+- `spawn` y proceso inicial.
 
-## M4 — Drivers y sistema utilizable
+## M4 — VFS y libc
 
-- [ ] teclado, reloj, consola interactiva
-- [ ] mkdir/rm/cp/ps/clear/uname
-- [ ] servicios básicos e IPC
-- [ ] FAT32 de sólo lectura
-- [ ] GDB guide y kernel symbols
+- VFS en memoria e initramfs;
+- descriptores de archivo básicos;
+- sysroot y libc freestanding/hosted;
+- `/init`, shell y utilidades pequeñas.
 
-## M5+ — Compatibilidad incremental
+## M5+ — Evolución
 
-1. ISO C + libc básica.
-2. APIs de archivos POSIX parciales.
-3. procesos y señales básicas.
-4. threads/pthreads y TLS.
-5. shell/utilidades y job control.
-6. shared libraries/PIE/dynamic linker.
-7. C++ y después port opcional de Rust.
-8. SMP, red, aarch64 y riscv64.
-
-## Criterio de éxito de la primera milestone
-
-En una ejecución limpia de QEMU, NovaOS debe cargar `/init`; `init` debe crear/ejecutar el shell; el shell debe ejecutar `hello`; y `hello` debe imprimir exactamente `hello, NovaOS!` por el dispositivo de consola. La prueba debe detectar timeout, triple fault, retorno incorrecto y salida ausente.
-
-## Estado de implementación (M0)
-
-La implementación actual cubre únicamente el arranque x86_64, consola UART, CPUID, GDT, IDT, excepciones, adaptador de memory map y parada segura. La validación de runtime queda PENDING hasta ejecutar QEMU en local o CI. PMM, paging dinámico, scheduler, procesos, syscalls, ELF, VFS y userspace permanecen explícitamente fuera de M0.
+Fork/COW, señales, threads, scheduler preemptivo, drivers adicionales, networking, SMP y otras arquitecturas sólo después de que las bases anteriores tengan pruebas reproducibles.

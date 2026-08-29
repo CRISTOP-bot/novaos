@@ -49,7 +49,7 @@ bool paging_unmap_page(uint64_t va) {
     p = index_for(va,0); if (!(pt[p] & NOVA_PAGE_PRESENT)) return false; pt[p] = 0;
     __asm__ volatile("invlpg (%0)" :: "r"((void *)(uintptr_t)va) : "memory"); unmap_count_value++; return true;
 }
-bool paging_translate(uint64_t va, uint64_t *pa) {
+bool paging_translate_info(uint64_t va, uint64_t *pa, struct nova_page_info *info) {
     uint64_t *pml4, *pdpt, *pd, *pt, p;
     if (!active || !pa) return false;
     pml4 = table(root_phys); if (!pml4) return false;
@@ -59,8 +59,12 @@ bool paging_translate(uint64_t va, uint64_t *pa) {
     pd = table(pdpt[index_for(va,2)] & ENTRY_ADDRESS_MASK);
     if (!(pd[index_for(va,1)] & NOVA_PAGE_PRESENT)) return false;
     pt = table(pd[index_for(va,1)] & ENTRY_ADDRESS_MASK);
-    p = pt[index_for(va,0)]; if (!(p & NOVA_PAGE_PRESENT)) return false; *pa = (p & ENTRY_ADDRESS_MASK) | (va & (NOVA_PAGE_SIZE - 1)); return true;
+    p = pt[index_for(va,0)]; if (!(p & NOVA_PAGE_PRESENT)) return false;
+    *pa = (p & ENTRY_ADDRESS_MASK) | (va & (NOVA_PAGE_SIZE - 1));
+    if (info) { info->present = true; info->user = (p & NOVA_PAGE_USER) != 0; info->writable = (p & NOVA_PAGE_WRITABLE) != 0; info->executable = (p & NOVA_PAGE_NO_EXECUTE) == 0; }
+    return true;
 }
+bool paging_translate(uint64_t va, uint64_t *pa) { return paging_translate_info(va, pa, NULL); }
 
 static bool map_range(uint64_t va, uint64_t pa, uint64_t length, uint64_t flags) {
     uint64_t end, v, p;
@@ -136,11 +140,15 @@ bool paging_root_map_page(uint64_t root, uint64_t va, uint64_t pa, uint64_t flag
     return result;
 }
 
-bool paging_root_translate(uint64_t root, uint64_t va, uint64_t *pa) {
+bool paging_root_translate_info(uint64_t root, uint64_t va, uint64_t *pa, struct nova_page_info *info) {
     uint64_t saved; bool result;
-    if (!root || root == root_phys) return paging_translate(va, pa);
-    saved = root_phys; root_phys = root; result = paging_translate(va, pa); root_phys = saved;
+    if (!root || root == root_phys) return paging_translate_info(va, pa, info);
+    saved = root_phys; root_phys = root; result = paging_translate_info(va, pa, info); root_phys = saved;
     return result;
+}
+
+bool paging_root_translate(uint64_t root, uint64_t va, uint64_t *pa) {
+    return paging_root_translate_info(root, va, pa, NULL);
 }
 
 bool paging_self_test(void) {

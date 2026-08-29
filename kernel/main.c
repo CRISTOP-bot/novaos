@@ -12,6 +12,7 @@
 #include <nova/scheduler.h>
 #include <nova/process.h>
 #include <nova/syscall.h>
+#include <nova/user_memory.h>
 #include <nova/vfs.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
@@ -48,6 +49,8 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] process subsystem initialized\n");
     if (!nova_address_space_self_test()) { console_write("[NovaOS] address space self-test: FAIL\n"); panic("address space self-test failed"); }
     console_write("[NovaOS] address space self-test: PASS\n");
+    if (!nova_user_memory_self_test()) { console_write("[NovaOS] user memory self-test: FAIL\n"); panic("user memory self-test failed"); }
+    console_write("[NovaOS] user memory self-test: PASS\n");
     struct nova_process *ring3_test_process = nova_process_create();
     if (!ring3_test_process || !nova_process_activate(ring3_test_process)) { console_write("[NovaOS] process context setup: FAIL\n"); panic("process context setup failed"); }
     if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }

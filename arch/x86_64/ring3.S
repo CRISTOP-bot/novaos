@@ -7,8 +7,8 @@ ring3_user_entry:
     mov %rax, %r12
     mov $2, %rax
     mov $1, %rdi
-    lea vfs_test_path(%rip), %rsi
-    mov $1, %rdx
+    lea syscall_message(%rip), %rsi
+    mov $21, %rdx
     int $0x80
     mov $0xffff, %rax
     int $0x80

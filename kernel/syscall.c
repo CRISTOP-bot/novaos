@@ -1,33 +1,26 @@
 #include <nova/syscall.h>
 #include <nova/console.h>
-#include <nova/mm/paging.h>
 #include <nova/process.h>
+#include <nova/user_memory.h>
 
 static volatile bool exit_seen, getpid_seen, write_seen, unknown_seen, badptr_seen;
-static bool valid_user(uint64_t p, uint64_t n) {
-    if (!n || p > 0x00007fffffffffffULL || n > 0x1000 ||
-        p > 0x00007fffffffffffULL - n) return false;
-    for (uint64_t x = p & ~0xfffULL, end = p + n; x < end; x += 0x1000) {
-        uint64_t pa;
-        if (!paging_translate(x, &pa)) {
-            console_printf("[NovaOS] syscall user range unmapped: p=%x len=%x va=%x\n", p, n, x);
-            return false;
-        }
-    }
-    return true;
-}
 
 int64_t syscall_dispatch(uint64_t n, uint64_t a1, uint64_t a2, uint64_t a3) {
     struct nova_process *current;
+    uint8_t buffer[NOVA_WRITE_MAX + 1];
     switch (n) {
     case NOVA_SYS_GETPID:
         current = nova_process_current();
         getpid_seen = true;
         return current ? (int64_t)current->pid : NOVA_SYS_EINVAL;
     case NOVA_SYS_WRITE:
-        if (a1 != 1) return NOVA_SYS_EBADF;
-        if (!valid_user(a2, a3)) { badptr_seen = true; return NOVA_SYS_EFAULT; }
-        console_write("NovaOS syscall write PASS\n");
+        if (a1 != 1 || !a3 || a3 > NOVA_WRITE_MAX) return a1 != 1 ? NOVA_SYS_EBADF : NOVA_SYS_EINVAL;
+        if (!nova_copy_from_user(buffer, (const void *)(uintptr_t)a2, (size_t)a3)) {
+            badptr_seen = true;
+            return NOVA_SYS_EFAULT;
+        }
+        buffer[a3] = 0;
+        console_write((const char *)buffer);
         write_seen = true;
         return (int64_t)a3;
     case NOVA_SYS_EXIT:

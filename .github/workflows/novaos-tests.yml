@@ -11,18 +11,21 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -o Acquire::Retries=3
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
       - name: Verify dependencies
         run: |
           set -eu
-          for tool in gcc ld objcopy objdump readelf qemu-system-x86_64 xorriso gdb git; do
+          for tool in gcc ld objcopy objdump readelf make qemu-system-x86_64 xorriso gdb git; do
             command -v "$tool" >/dev/null || { echo "NovaOS build dependency missing: $tool"; exit 1; }
             "$tool" --version | head -n 1
           done
       - name: Fetch Limine
         run: make limine LIMINE_VERSION=v8.6.0-binary
       - name: Build kernel and ISO
-        run: make kernel image
+        run: |
+          set -o pipefail
+          mkdir -p build
+          make kernel image 2>&1 | tee build/build-kernel-image.log
       - name: Validate ELF
         run: |
           readelf -h build/novaos.elf
@@ -43,6 +46,7 @@ jobs:
             build/novaos.iso
             build/novaos.debug
             build/novaos.sections
+            build/build-kernel-image.log
 
   m0:
     name: M0 QEMU and serial
@@ -54,7 +58,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -o Acquire::Retries=3
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
       - name: Build image
         run: |
           make limine LIMINE_VERSION=v8.6.0-binary
@@ -92,7 +96,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -o Acquire::Retries=3
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential binutils git qemu-system-x86 xorriso gdb
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
       - name: Run controlled exception test
         run: make exception-test LIMINE_VERSION=v8.6.0-binary
       - name: Upload exception artifacts

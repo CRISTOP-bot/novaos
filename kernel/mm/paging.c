@@ -3,7 +3,6 @@
 
 #define ENTRY_ADDRESS_MASK 0x000ffffffffff000ULL
 #define TABLE_ENTRIES 512ULL
-#define PAGE_2M (2ULL * 1024ULL * 1024ULL)
 #define PAGING_TEST_VA 0xffff900000000000ULL
 
 static uint64_t root_phys;
@@ -76,7 +75,6 @@ bool paging_init(const struct nova_boot_info *boot) {
     if (!boot || !boot->hhdm_offset) return false;
     hhdm = boot->hhdm_offset;
     root_phys = alloc_table(); if (!root_phys) return false; active = true;
-    /* Keep every physical region visible through the Limine HHDM. */
     for (i = 0; i < boot->memory_region_count && i < NOVA_MAX_MEMORY_REGIONS; i++) {
         if (!boot->memory_regions[i].length || add_overflow(boot->memory_regions[i].base, boot->memory_regions[i].length)) continue;
         start = boot->memory_regions[i].base & ~(NOVA_PAGE_SIZE - 1); end = (boot->memory_regions[i].base + boot->memory_regions[i].length + NOVA_PAGE_SIZE - 1) & ~(NOVA_PAGE_SIZE - 1);
@@ -88,6 +86,62 @@ bool paging_init(const struct nova_boot_info *boot) {
 }
 uint64_t paging_map_count(void) { return map_count_value; }
 uint64_t paging_unmap_count(void) { return unmap_count_value; }
+uint64_t paging_current_root(void) { return root_phys; }
+
+bool paging_root_create(uint64_t *out) {
+    uint64_t *src, *dst, root;
+    if (!active || !out) return false;
+    root = alloc_table(); if (!root) return false;
+    src = table(root_phys); dst = table(root);
+    if (!src || !dst) { pmm_free_page((void *)(uintptr_t)root); return false; }
+    /* Upper-half entries contain the kernel and HHDM mappings; lower half is private. */
+    for (uint64_t i = 256; i < TABLE_ENTRIES; i++) dst[i] = src[i];
+    *out = root;
+    return true;
+}
+
+static void free_user_tables(uint64_t physical, unsigned child_level) {
+    uint64_t *entries = table(physical);
+    if (!entries) return;
+    for (uint64_t i = 0; i < TABLE_ENTRIES; i++) {
+        uint64_t child = entries[i] & ENTRY_ADDRESS_MASK;
+        if (!child || !(entries[i] & NOVA_PAGE_PRESENT)) continue;
+        if (child_level) free_user_tables(child, child_level - 1);
+    }
+    pmm_free_page((void *)(uintptr_t)physical);
+}
+
+void paging_root_destroy(uint64_t root) {
+    uint64_t *entries;
+    if (!active || !root || root == root_phys) return;
+    entries = table(root); if (!entries) return;
+    for (uint64_t i = 0; i < 256; i++) {
+        uint64_t child = entries[i] & ENTRY_ADDRESS_MASK;
+        if (child && (entries[i] & NOVA_PAGE_PRESENT)) free_user_tables(child, 2);
+    }
+    pmm_free_page((void *)(uintptr_t)root);
+}
+
+bool paging_root_switch(uint64_t root) {
+    if (!active || !root || !table(root)) return false;
+    root_phys = root;
+    __asm__ volatile("mov %0, %%cr3" :: "r"(root_phys) : "memory");
+    return true;
+}
+
+bool paging_root_map_page(uint64_t root, uint64_t va, uint64_t pa, uint64_t flags) {
+    uint64_t saved; bool result;
+    if (!root || root == root_phys) return paging_map_page(va, pa, flags);
+    saved = root_phys; root_phys = root; result = paging_map_page(va, pa, flags); root_phys = saved;
+    return result;
+}
+
+bool paging_root_translate(uint64_t root, uint64_t va, uint64_t *pa) {
+    uint64_t saved; bool result;
+    if (!root || root == root_phys) return paging_translate(va, pa);
+    saved = root_phys; root_phys = root; result = paging_translate(va, pa); root_phys = saved;
+    return result;
+}
 
 bool paging_self_test(void) {
     void *page = pmm_alloc_page(); uint64_t physical, translated; volatile uint64_t *memory;

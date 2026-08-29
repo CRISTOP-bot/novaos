@@ -8,6 +8,7 @@
 extern const uint8_t _binary_embedded_elf_start[];
 extern const uint8_t _binary_embedded_elf_end[];
 #define USER_LIMIT 0x00007fffffffffffULL
+static uint64_t elf_last_fail;
 static bool bounds(size_t size, uint64_t off, uint64_t len) { return off <= size && len <= (uint64_t)size - off; }
 static bool add_ok(uint64_t a,uint64_t b,uint64_t *out){if(b>~0ULL-a)return false;*out=a+b;return true;}
 static uint64_t down(uint64_t x){return x & ~(NOVA_PAGE_SIZE-1);}
@@ -22,25 +23,25 @@ static bool validate(const void *image,size_t size,const struct nova_elf64_heade
 
 struct nova_process *nova_process_create_from_elf(const void *image,size_t size){
  const struct nova_elf64_header *h;const struct nova_elf64_phdr *ph;struct nova_process *p;struct nova_user_region **regions;uint64_t i,end,start,flags,root,old,j;bool loaded=false;
- if(!validate(image,size,&h,&ph))return NULL;
- p=nova_process_create();if(!p)return NULL;
+ if(!validate(image,size,&h,&ph)){elf_last_fail=1;return NULL;}
+ p=nova_process_create();if(!p){elf_last_fail=2;return NULL;}
  old=paging_current_root();
- regions=kmalloc(sizeof(*regions)*h->phnum);if(!regions){nova_process_destroy(p);return NULL;}for(i=0;i<h->phnum;i++)regions[i]=NULL;
+ regions=kmalloc(sizeof(*regions)*h->phnum);if(!regions){elf_last_fail=3;nova_process_destroy(p);return NULL;}for(i=0;i<h->phnum;i++)regions[i]=NULL;
  for(i=0;i<h->phnum;i++){
   if(ph[i].type!=NOVA_PT_LOAD)continue;
-  if(ph[i].filesz>ph[i].memsz||!bounds(size,ph[i].offset,ph[i].filesz)||!add_ok(ph[i].vaddr,ph[i].memsz,&end)||end>USER_LIMIT||!up(end,&end)||ph[i].vaddr>end||(ph[i].align>1&&(ph[i].align&(ph[i].align-1))))goto fail;
+  if(ph[i].filesz>ph[i].memsz||!bounds(size,ph[i].offset,ph[i].filesz)||!add_ok(ph[i].vaddr,ph[i].memsz,&end)||end>USER_LIMIT||!up(end,&end)||ph[i].vaddr>end||(ph[i].align>1&&(ph[i].align&(ph[i].align-1)))){elf_last_fail=4;goto fail;}
   start=down(ph[i].vaddr);flags=NOVA_USER_REGION_READ;if(ph[i].flags&NOVA_PF_W)flags|=NOVA_USER_REGION_WRITE;if(ph[i].flags&NOVA_PF_X)flags|=NOVA_USER_REGION_EXEC;
-  if(end<=start||(regions[i]=nova_user_region_map(p->address_space,start,end-start,flags))==NULL)goto fail;
+  if(end<=start||(regions[i]=nova_user_region_map(p->address_space,start,end-start,flags))==NULL){elf_last_fail=5;goto fail;}
  }
- if(!nova_user_stack_create(p->address_space))goto fail;
- root=p->address_space->root_physical;old=paging_current_root();if(old!=root&&!paging_root_switch(root))goto fail;
+ if(!nova_user_stack_create(p->address_space)){elf_last_fail=6;goto fail;}
+ root=p->address_space->root_physical;old=paging_current_root();if(old!=root&&!paging_root_switch(root)){elf_last_fail=7;goto fail;}
  for(i=0;i<h->phnum;i++)if(ph[i].type==NOVA_PT_LOAD){
   for(j=0;j<ph[i].filesz;j++)((uint8_t *)(uintptr_t)ph[i].vaddr)[j]=((const uint8_t *)image)[ph[i].offset+j];
   for(j=ph[i].filesz;j<ph[i].memsz;j++)((uint8_t *)(uintptr_t)(ph[i].vaddr+j))[0]=0;
  }
- if(old!=root&&!paging_root_switch(old))goto fail;
+ if(old!=root&&!paging_root_switch(old)){elf_last_fail=8;goto fail;}
  for(i=0;i<h->phnum;i++)if(ph[i].type==NOVA_PT_LOAD&&nova_user_region_contains(regions[i],h->entry,1)&&(regions[i]->flags&NOVA_USER_REGION_EXEC))loaded=true;
- if(!loaded)goto fail;
+ if(!loaded){elf_last_fail=9;goto fail;}
  p->task->user.rip=h->entry;p->task->user.rsp=nova_user_stack_initial_rsp(p->address_space);p->task->user.rflags=0x202;p->task->user.cs=0x1b;p->task->user.ss=0x23;
  kfree(regions);return p;
 fail:
@@ -50,7 +51,7 @@ fail:
 
 bool nova_elf_self_test(void){
  const uint8_t *img=nova_embedded_elf_start();size_t size=nova_embedded_elf_size();struct nova_elf64_header *h=(struct nova_elf64_header *)(uintptr_t)img;struct nova_process *p=nova_process_create_from_elf(img,size);bool ok=p&&p->task->user.rip&&p->task->user.rsp;
- if(!ok) { const struct nova_elf64_phdr *ph=(const struct nova_elf64_phdr *)(img+h->phoff); console_printf("[NovaOS] ELF loader diagnostic size=%x magic=%x type=%x machine=%x phnum=%x entry=%x\n",size,*(uint32_t *)img,h->type,h->machine,h->phnum,h->entry); for(uint64_t i=0;i<h->phnum&&i<6;i++) console_printf("[NovaOS] ELF ph[%x] type=%x flags=%x off=%x va=%x filesz=%x memsz=%x align=%x\n",i,ph[i].type,ph[i].flags,ph[i].offset,ph[i].vaddr,ph[i].filesz,ph[i].memsz,ph[i].align); }
+ if(!ok) { console_printf("[NovaOS] ELF loader stage=%x\n",elf_last_fail); const struct nova_elf64_phdr *ph=(const struct nova_elf64_phdr *)(img+h->phoff); console_printf("[NovaOS] ELF loader diagnostic size=%x magic=%x type=%x machine=%x phnum=%x entry=%x\n",size,*(uint32_t *)img,h->type,h->machine,h->phnum,h->entry); for(uint64_t i=0;i<h->phnum&&i<6;i++) console_printf("[NovaOS] ELF ph[%x] type=%x flags=%x off=%x va=%x filesz=%x memsz=%x align=%x\n",i,ph[i].type,ph[i].flags,ph[i].offset,ph[i].vaddr,ph[i].filesz,ph[i].memsz,ph[i].align); }
  if(p) nova_process_destroy(p);
  return ok;
 }

@@ -50,7 +50,7 @@ fail:
 
 bool nova_elf_self_test(void){
  const uint8_t *img=nova_embedded_elf_start();size_t size=nova_embedded_elf_size();struct nova_elf64_header *h=(struct nova_elf64_header *)(uintptr_t)img;struct nova_process *p=nova_process_create_from_elf(img,size);bool ok=p&&p->task->user.rip&&p->task->user.rsp;
- if(!ok) console_printf("[NovaOS] ELF loader diagnostic size=%x magic=%x type=%x machine=%x phnum=%x entry=%x\n",size,*(uint32_t *)img,h->type,h->machine,h->phnum,h->entry);
+ if(!ok) { const struct nova_elf64_phdr *ph=(const struct nova_elf64_phdr *)(img+h->phoff); console_printf("[NovaOS] ELF loader diagnostic size=%x magic=%x type=%x machine=%x phnum=%x entry=%x\n",size,*(uint32_t *)img,h->type,h->machine,h->phnum,h->entry); for(uint64_t i=0;i<h->phnum&&i<6;i++) console_printf("[NovaOS] ELF ph[%x] type=%x flags=%x off=%x va=%x filesz=%x memsz=%x align=%x\n",i,ph[i].type,ph[i].flags,ph[i].offset,ph[i].vaddr,ph[i].filesz,ph[i].memsz,ph[i].align); }
  if(p) nova_process_destroy(p);
  return ok;
 }

@@ -4,8 +4,8 @@
 #include <nova/mm/pmm.h>
 #include <nova/mm/heap.h>
 
-extern const uint8_t _binary_build_hello_elf_start[];
-extern const uint8_t _binary_build_hello_elf_end[];
+extern const uint8_t _binary_embedded_elf_start[];
+extern const uint8_t _binary_embedded_elf_end[];
 #define USER_LIMIT 0x00007fffffffffffULL
 static bool bounds(size_t size, uint64_t off, uint64_t len) { return off <= size && len <= (uint64_t)size - off; }
 static bool add_ok(uint64_t a,uint64_t b,uint64_t *out){if(b>~0ULL-a)return false;*out=a+b;return true;}
@@ -50,5 +50,5 @@ fail:
 bool nova_elf_self_test(void){
  const uint8_t *img=nova_embedded_elf_start();size_t size=nova_embedded_elf_size();struct nova_process *p=nova_process_create_from_elf(img,size);bool ok=p&&p->task->user.rip&&p->task->user.rsp;if(p)nova_process_destroy(p);return ok;
 }
-const uint8_t *nova_embedded_elf_start(void){return _binary_build_hello_elf_start;}
-size_t nova_embedded_elf_size(void){return (size_t)(_binary_build_hello_elf_end-_binary_build_hello_elf_start);}
+const uint8_t *nova_embedded_elf_start(void){return _binary_embedded_elf_start;}
+size_t nova_embedded_elf_size(void){return (size_t)(_binary_embedded_elf_end-_binary_embedded_elf_start);}

@@ -2,6 +2,7 @@
 #include <nova/mm/paging.h>
 #include <nova/mm/pmm.h>
 #include <nova/mm/heap.h>
+#include <nova/process.h>
 
 #define USER_LIMIT 0x00007fffffffffffULL
 #define STACK_BASE 0x00007fff00000000ULL
@@ -64,11 +65,12 @@ uint64_t nova_user_stack_initial_rsp(const struct nova_address_space *space) { r
 void nova_user_region_cleanup(struct nova_address_space *space) { while (space && space->regions) nova_user_region_unmap(space, space->regions); }
 
 bool nova_user_region_self_test(void) {
-    struct nova_address_space *space = nova_address_space_create();
+    struct nova_process *process = nova_process_create();
+    struct nova_address_space *space = process ? process->address_space : NULL;
     struct nova_user_region *stack, *code, *data;
     uint64_t pa, rsp; struct nova_page_info info;
     bool ok = false;
-    if (!space) return false;
+    if (!process) return false;
     stack = nova_user_stack_create(space);
     code = nova_user_region_map(space, 0x500000, NOVA_PAGE_SIZE, NOVA_USER_REGION_READ | NOVA_USER_REGION_EXEC);
     data = nova_user_region_map(space, 0x510000, NOVA_PAGE_SIZE, NOVA_USER_REGION_READ | NOVA_USER_REGION_WRITE);
@@ -78,6 +80,6 @@ bool nova_user_region_self_test(void) {
         paging_root_translate_info(space->root_physical, rsp - 1, &pa, &info) && info.user && info.writable && !info.executable &&
         paging_root_translate_info(space->root_physical, 0x500000, &pa, &info) && info.user && !info.writable && info.executable &&
         paging_root_translate_info(space->root_physical, 0x510000, &pa, &info) && info.user && info.writable && !info.executable) ok = true;
-    nova_address_space_destroy(space);
+    nova_process_destroy(process);
     return ok;
 }

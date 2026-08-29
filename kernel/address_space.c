@@ -1,4 +1,5 @@
 #include <nova/address_space.h>
+#include <nova/user_region.h>
 #include <nova/mm/heap.h>
 #include <nova/mm/paging.h>
 #include <nova/mm/pmm.h>
@@ -18,11 +19,15 @@ struct nova_address_space *nova_address_space_create(void) {
     if (!paging_root_create(&space->root_physical)) { kfree(space); return NULL; }
     space->flags = 0;
     space->references = 1;
+    space->regions = NULL;
+    space->user_stack = NULL;
+    space->initial_rsp = 0;
     return space;
 }
 
 void nova_address_space_destroy(struct nova_address_space *space) {
     if (!space || space == &kernel_space) return;
+    nova_user_region_cleanup(space);
     paging_root_destroy(space->root_physical);
     kfree(space);
 }
@@ -66,5 +71,8 @@ void nova_address_space_init(void) {
     kernel_space.root_physical = paging_current_root();
     kernel_space.flags = NOVA_ADDRESS_SPACE_KERNEL_SHARED;
     kernel_space.references = 1;
+    kernel_space.regions = NULL;
+    kernel_space.user_stack = NULL;
+    kernel_space.initial_rsp = 0;
     initialized = kernel_space.root_physical != 0;
 }

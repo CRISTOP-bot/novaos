@@ -19,6 +19,7 @@ bool paging_root_create(uint64_t *root_physical);
 void paging_root_destroy(uint64_t root_physical);
 bool paging_root_switch(uint64_t root_physical);
 bool paging_root_map_page(uint64_t root_physical, uint64_t virtual_address, uint64_t physical_address, uint64_t flags);
+bool paging_root_unmap_page(uint64_t root_physical, uint64_t virtual_address);
 bool paging_root_translate(uint64_t root_physical, uint64_t virtual_address, uint64_t *physical_address);
 bool paging_root_translate_info(uint64_t root_physical, uint64_t virtual_address, uint64_t *physical_address, struct nova_page_info *info);
 #endif

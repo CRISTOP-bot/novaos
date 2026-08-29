@@ -140,6 +140,13 @@ bool paging_root_map_page(uint64_t root, uint64_t va, uint64_t pa, uint64_t flag
     return result;
 }
 
+bool paging_root_unmap_page(uint64_t root, uint64_t va) {
+    uint64_t saved; bool result;
+    if (!root || root == root_phys) return paging_unmap_page(va);
+    saved = root_phys; root_phys = root; result = paging_unmap_page(va); root_phys = saved;
+    return result;
+}
+
 bool paging_root_translate_info(uint64_t root, uint64_t va, uint64_t *pa, struct nova_page_info *info) {
     uint64_t saved; bool result;
     if (!root || root == root_phys) return paging_translate_info(va, pa, info);

@@ -39,6 +39,7 @@ void syscall_interrupt(uint64_t *s) {
     s[0] = (uint64_t)syscall_dispatch(s[0], s[6], s[5], s[2]);
 }
 bool syscall_exit_seen(void) { return exit_seen; }
+void syscall_reset_test_state(void) { exit_seen = false; getpid_seen = false; write_seen = false; unknown_seen = false; badptr_seen = false; }
 bool syscall_self_test(void) {
     console_printf("[NovaOS] syscall flags pid=%x write=%x unknown=%x badptr=%x exit=%x\n",
         getpid_seen, write_seen, unknown_seen, badptr_seen, exit_seen);

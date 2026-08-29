@@ -17,8 +17,10 @@ else
 CFLAGS += -O2
 endif
 LDFLAGS := -T linker/x86_64.ld -nostdlib
-SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c kernel/address_space.c kernel/user_memory.c kernel/user_region.c arch/x86_64/tss.c arch/x86_64/ring3.S arch/x86_64/scheduler.S kernel/scheduler.c kernel/process.c kernel/syscall.c kernel/vfs.c drivers/serial/serial.c boot/limine/adapter.c
-OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC)))
+SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c kernel/address_space.c kernel/user_memory.c kernel/user_region.c kernel/elf.c arch/x86_64/tss.c arch/x86_64/ring3.S arch/x86_64/scheduler.S kernel/scheduler.c kernel/process.c kernel/syscall.c kernel/vfs.c drivers/serial/serial.c boot/limine/adapter.c
+OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC))) $(BUILD)/hello-elf.o
+HELLO_ELF := $(BUILD)/hello.elf
+HELLO_OBJ := $(BUILD)/hello-elf.o
 .PHONY: all check-build check-image limine kernel image run debug debug-check test exception-test clean
 all: image
 check-build:
@@ -35,7 +37,13 @@ $(BUILD)/%.o: %.c check-build
 	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
 $(BUILD)/%.o: %.S check-build
 	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
-$(KERNEL): $(OBJ) linker/x86_64.ld
+$(BUILD)/userspace/hello.o: userspace/hello.S check-build
+	@mkdir -p $(dir $@); $(CC) -ffreestanding -fno-builtin -fno-stack-protector -fno-pie -mno-red-zone -m64 -c $< -o $@
+$(HELLO_ELF): $(BUILD)/userspace/hello.o userspace/hello/linker.ld check-build
+	@mkdir -p $(dir $@); $(LD) -nostdlib -T userspace/hello/linker.ld -o $@ $(BUILD)/userspace/hello.o
+$(HELLO_OBJ): $(HELLO_ELF) check-build
+	$(OBJCOPY) -I binary -O elf64-x86-64 -B i386:x86-64 $< $@
+$(KERNEL): $(OBJ) $(HELLO_OBJ) linker/x86_64.ld
 	@mkdir -p $(BUILD); $(LD) $(LDFLAGS) -o $@ $(OBJ)
 kernel: $(KERNEL)
 	sh scripts/check-elf.sh $(KERNEL)

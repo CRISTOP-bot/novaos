@@ -14,9 +14,13 @@
 #include <nova/syscall.h>
 #include <nova/user_memory.h>
 #include <nova/user_region.h>
+#include <nova/elf.h>
 #include <nova/vfs.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
+
+extern void ring3_enter(uint64_t rip, uint64_t rsp);
+extern bool returned_from_ring3;
 
 void kmain(struct nova_boot_info *boot){
     console_init(); console_write("[NovaOS] booting\n"); cpu_init(); cpu_print_info();
@@ -54,10 +58,21 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] user memory self-test: PASS\n");
     if (!nova_user_region_self_test()) { console_write("[NovaOS] user region self-test: FAIL\n"); panic("user region self-test failed"); }
     console_write("[NovaOS] user region self-test: PASS\n");
+    if (!nova_elf_self_test()) { console_write("[NovaOS] ELF loader self-test: FAIL\n"); panic("ELF loader self-test failed"); }
+    console_write("[NovaOS] ELF loader self-test: PASS\n");
+    struct nova_process *elf_process = nova_process_create_from_elf(nova_embedded_elf_start(), nova_embedded_elf_size());
+    if (!elf_process || !nova_process_activate(elf_process)) { console_write("[NovaOS] ELF process setup: FAIL\n"); panic("ELF process setup failed"); }
+    syscall_reset_test_state(); returned_from_ring3 = false;
+    ring3_enter(elf_process->task->user.rip, elf_process->task->user.rsp);
+    if (!returned_from_ring3 || !syscall_exit_seen()) { console_write("[NovaOS] ELF userspace execution: FAIL\n"); panic("ELF userspace execution failed"); }
+    if (!nova_process_activate(nova_process_kernel())) { console_write("[NovaOS] ELF process restore: FAIL\n"); panic("ELF process restore failed"); }
+    nova_process_destroy(elf_process);
+    console_write("[NovaOS] ELF userspace execution: PASS\nNOVAOS_ELF_OK\n");
     struct nova_process *ring3_test_process = nova_process_create();
     if (!ring3_test_process || !nova_process_activate(ring3_test_process)) { console_write("[NovaOS] process context setup: FAIL\n"); panic("process context setup failed"); }
     if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }
     console_write("[NovaOS] TSS initialized and LTR loaded\n");
+    syscall_reset_test_state(); returned_from_ring3 = false;
     if (!privilege_self_test(boot)) { console_write("[NovaOS] Ring 3 self-test: FAIL\n"); panic("Ring 3 self-test failed"); }
     console_write("[NovaOS] Ring 3 self-test: PASS\nNOVAOS_RING3_OK\n");
     if (!nova_process_activate(nova_process_kernel())) { console_write("[NovaOS] process context restore: FAIL\n"); panic("process context restore failed"); }

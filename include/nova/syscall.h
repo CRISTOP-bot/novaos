@@ -21,4 +21,5 @@ int64_t syscall_dispatch(uint64_t,uint64_t,uint64_t,uint64_t);
 void syscall_interrupt(uint64_t *saved);
 bool syscall_self_test(void);
 bool syscall_exit_seen(void);
+void syscall_reset_test_state(void);
 #endif

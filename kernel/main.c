@@ -44,13 +44,21 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] memory diagnostics self-test: PASS\nNOVAOS_MEMORY_OK\n");
     if (!vfs_init()) { console_write("[NovaOS] VFS initialization: FAIL\n"); panic("VFS initialization failed"); }
     console_write("[NovaOS] VFS initialized\n");
+    if (!nova_process_init()) { console_write("[NovaOS] process initialization: FAIL\n"); panic("process initialization failed"); }
+    console_write("[NovaOS] process subsystem initialized\n");
+    if (!nova_address_space_self_test()) { console_write("[NovaOS] address space self-test: FAIL\n"); panic("address space self-test failed"); }
+    console_write("[NovaOS] address space self-test: PASS\n");
+    struct nova_process *ring3_test_process = nova_process_create();
+    if (!ring3_test_process || !nova_process_activate(ring3_test_process)) { console_write("[NovaOS] process context setup: FAIL\n"); panic("process context setup failed"); }
     if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }
     console_write("[NovaOS] TSS initialized and LTR loaded\n");
     if (!privilege_self_test(boot)) { console_write("[NovaOS] Ring 3 self-test: FAIL\n"); panic("Ring 3 self-test failed"); }
     console_write("[NovaOS] Ring 3 self-test: PASS\nNOVAOS_RING3_OK\n");
+    if (!nova_process_activate(nova_process_kernel())) { console_write("[NovaOS] process context restore: FAIL\n"); panic("process context restore failed"); }
+    nova_process_destroy(ring3_test_process);
     if (!scheduler_self_test()) { console_write("[NovaOS] scheduler self-test: FAIL\n"); panic("scheduler self-test failed"); }
     console_write("[NovaOS] scheduler self-test: PASS\nNOVAOS_SCHEDULER_OK\n");
-    if (!nova_process_init() || !process_self_test()) { console_write("[NovaOS] process self-test: FAIL\n"); panic("process self-test failed"); }
+    if (!process_self_test()) { console_write("[NovaOS] process self-test: FAIL\n"); panic("process self-test failed"); }
     console_write("[NovaOS] process self-test: PASS\nNOVAOS_PROCESS_OK\n");
     if (!syscall_self_test()) { console_write("[NovaOS] syscall self-test: FAIL\n"); panic("syscall self-test failed"); }
     console_write("[NovaOS] syscall self-test: PASS\nNOVAOS_SYSCALL_OK\n");

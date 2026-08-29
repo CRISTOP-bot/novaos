@@ -51,8 +51,10 @@ bool nova_address_space_self_test(void) {
         xa != (uint64_t)(uintptr_t)pa || xb != (uint64_t)(uintptr_t)pb ||
         !nova_address_space_switch(a) || paging_current_root() != a->root_physical ||
         !nova_address_space_switch(&kernel_space) || paging_current_root() != kernel_root) {
-        if (pa) pmm_free_page(pa); if (pb) pmm_free_page(pb);
-        nova_address_space_destroy(a); nova_address_space_destroy(b);
+        if (pa) pmm_free_page(pa);
+        if (pb) pmm_free_page(pb);
+        nova_address_space_destroy(a);
+        nova_address_space_destroy(b);
         return false;
     }
     pmm_free_page(pa); pmm_free_page(pb);

@@ -9,7 +9,10 @@ static bool valid_user(uint64_t p, uint64_t n) {
         p > 0x00007fffffffffffULL - n) return false;
     for (uint64_t x = p & ~0xfffULL, end = p + n; x < end; x += 0x1000) {
         uint64_t pa;
-        if (!paging_translate(x, &pa)) return false;
+        if (!paging_translate(x, &pa)) {
+            console_printf("[NovaOS] syscall user range unmapped: p=%x len=%x va=%x\n", p, n, x);
+            return false;
+        }
     }
     return true;
 }

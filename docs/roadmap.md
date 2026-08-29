@@ -18,7 +18,8 @@ Boot x86_64 con Limine, consola UART, CPUID, GDT, IDT, excepciones, linker scrip
 - M2.0: TSS, Ring 3 y retorno controlado ✅
 - M2.1: scheduler cooperativo kernel-only ✅
 - M2.2: procesos mínimos y PID ✅
-- M2.3: syscalls mínimas mediante `INT 0x80` — **en validación**
+- M2.3: syscalls mínimas mediante `INT 0x80` ✅
+- M2.4: VFS mínimo en memoria (`vnode`, descriptores, backend `tmpfs-like`) + syscalls `open/close/read/write/lseek/stat` — **en validación en CI**
 
 ## M3 — Address spaces y programas
 
@@ -28,10 +29,10 @@ Boot x86_64 con Limine, consola UART, CPUID, GDT, IDT, excepciones, linker scrip
 - stack inicial de userspace;
 - `spawn` y proceso inicial.
 
-## M4 — VFS y libc
+## M4 — Filesystems y libc
 
-- VFS en memoria e initramfs;
-- descriptores de archivo básicos;
+- initramfs y backend de archivo real sobre el VFS (ext2/FAT después);
+- descriptores por proceso;
 - sysroot y libc freestanding/hosted;
 - `/init`, shell y utilidades pequeñas.
 

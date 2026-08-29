@@ -15,6 +15,7 @@ out/
 *.img
 *.bin
 *.log
+*.EFI
 
 # Local tooling and IDEs
 .vscode/

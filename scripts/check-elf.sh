@@ -1,5 +1,6 @@
 #!/bin/sh
 set -eu
+export LC_ALL=C
 elf=${1:?ELF path required}
 readelf -h "$elf" | grep -q 'Class:[[:space:]]*ELF64'
 readelf -h "$elf" | grep -q 'Machine:[[:space:]]*Advanced Micro Devices X86-64'

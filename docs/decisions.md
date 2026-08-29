@@ -22,4 +22,4 @@ Una milestone sólo se marca completa cuando build, ELF checks, QEMU, salida ser
 
 ## Estado
 
-M0–M2.2 están verificadas. M2.3 (syscalls) sigue en desarrollo y no debe presentarse como completada hasta demostrar su ejecución completa.
+M0–M2.3 están verificadas. M2.4 (VFS mínimo en memoria) pasa build, ELF checks, QEMU y salida serial localmente y está pendiente de confirmación en GitHub Actions antes de declararse completada.

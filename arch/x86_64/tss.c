@@ -12,9 +12,9 @@ uint64_t ring3_resume_stack;
 bool returned_from_ring3;
 extern void ring3_enter(uint64_t rip, uint64_t rsp);
 extern void ring3_user_entry(void);
+extern char ring3_text_end;
 extern char __kernel_start;
 extern void idt_install_ring3_gate(void);
-extern char syscall_message;
 
 
 bool tss_init(void) {
@@ -23,15 +23,22 @@ bool tss_init(void) {
     gdt_load_tss((uint64_t)(uintptr_t)&tss, sizeof(tss)-1); idt_install_ring3_gate(); return true;
 }
 bool privilege_self_test(const struct nova_boot_info *boot) {
-    uint64_t fn=(uint64_t)(uintptr_t)ring3_user_entry, phys, stack_phys, user_sp, user_rip;
+    uint64_t start, end, first_page, last_page, phys, page, user_va, stack_phys, user_sp, user_rip;
     if (!boot || !boot->kernel_virtual_base || !boot->kernel_physical_base) return false;
-    if (fn < boot->kernel_virtual_base) return false;
-    phys=boot->kernel_physical_base+(fn-boot->kernel_virtual_base); phys &= ~(NOVA_PAGE_SIZE-1);
-    if (!paging_map_page(0x0000000000400000ULL, phys, NOVA_PAGE_USER | NOVA_PAGE_PRESENT)) return false;
-    { uint64_t mp=(uint64_t)(uintptr_t)&syscall_message; uint64_t mphys=boot->kernel_physical_base+(mp-boot->kernel_virtual_base); if ((mphys & ~(NOVA_PAGE_SIZE-1)) != phys && !paging_map_page(0x0000000000400000ULL + (mp & (NOVA_PAGE_SIZE-1)), mphys & ~(NOVA_PAGE_SIZE-1), NOVA_PAGE_USER | NOVA_PAGE_PRESENT)) return false; }
+    start=(uint64_t)(uintptr_t)ring3_user_entry; end=(uint64_t)(uintptr_t)&ring3_text_end;
+    if (start < boot->kernel_virtual_base || end <= start) return false;
+    /* Map every page holding the ring3 test section contiguously at 0x400000, writable. */
+    first_page=start & ~(NOVA_PAGE_SIZE-1); last_page=(end-1) & ~(NOVA_PAGE_SIZE-1);
+    user_va=0x0000000000400000ULL;
+    for (page=first_page;page<=last_page;page+=NOVA_PAGE_SIZE,user_va+=NOVA_PAGE_SIZE) {
+        phys=boot->kernel_physical_base+(page-boot->kernel_virtual_base);
+        if (!paging_map_page(user_va,phys,NOVA_PAGE_USER|NOVA_PAGE_PRESENT|NOVA_PAGE_WRITABLE)) return false;
+    }
+    /* Two user stack pages: [0x402000, 0x404000). */
     stack_phys=(uint64_t)(uintptr_t)pmm_alloc_page(); if (!stack_phys) return false;
-    if (!paging_map_page(0x0000000000401000ULL, stack_phys, NOVA_PAGE_USER | NOVA_PAGE_WRITABLE)) return false;
-    stack_phys=(uint64_t)(uintptr_t)pmm_alloc_page(); if (!stack_phys || !paging_map_page(0x0000000000402000ULL, stack_phys, NOVA_PAGE_USER | NOVA_PAGE_WRITABLE)) return false;
-    user_sp=0x0000000000402000ULL; user_rip=0x0000000000400000ULL + (fn & (NOVA_PAGE_SIZE - 1)); returned_from_ring3=false; ring3_enter(user_rip,user_sp);
+    if (!paging_map_page(0x0000000000402000ULL,stack_phys,NOVA_PAGE_USER|NOVA_PAGE_WRITABLE)) return false;
+    stack_phys=(uint64_t)(uintptr_t)pmm_alloc_page(); if (!stack_phys || !paging_map_page(0x0000000000403000ULL,stack_phys,NOVA_PAGE_USER|NOVA_PAGE_WRITABLE)) return false;
+    user_sp=0x0000000000404000ULL; user_rip=0x0000000000400000ULL+(start & (NOVA_PAGE_SIZE-1));
+    returned_from_ring3=false; ring3_enter(user_rip,user_sp);
     return returned_from_ring3;
 }

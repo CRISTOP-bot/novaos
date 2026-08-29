@@ -42,7 +42,8 @@ int64_t syscall_dispatch(uint64_t n, uint64_t a1, uint64_t a2, uint64_t a3) {
 }
 
 void syscall_interrupt(uint64_t *s) {
-    s[0] = (uint64_t)syscall_dispatch(s[0], s[7], s[8], s[2]);
+    /* isr128 pushes r15..r8, rdi, rsi, rbp..rax; see interrupts/entry.S. */
+    s[0] = (uint64_t)syscall_dispatch(s[0], s[6], s[5], s[2]);
 }
 bool syscall_exit_seen(void) { return exit_seen; }
 bool syscall_self_test(void) {

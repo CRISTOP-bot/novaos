@@ -20,14 +20,14 @@ static bool validate(const void *image,size_t size,const struct nova_elf64_heade
 }
 
 struct nova_process *nova_process_create_from_elf(const void *image,size_t size){
- const struct nova_elf64_header *h;const struct nova_elf64_phdr *ph;struct nova_process *p;struct nova_user_region **regions;uint64_t i,end,start,flags,root,old,off,j;bool loaded=false;
+ const struct nova_elf64_header *h;const struct nova_elf64_phdr *ph;struct nova_process *p;struct nova_user_region **regions;uint64_t i,end,start,flags,root,old,j;bool loaded=false;
  if(!validate(image,size,&h,&ph))return NULL;
  p=nova_process_create();if(!p)return NULL;
  old=paging_current_root();
  regions=kmalloc(sizeof(*regions)*h->phnum);if(!regions){nova_process_destroy(p);return NULL;}for(i=0;i<h->phnum;i++)regions[i]=NULL;
  for(i=0;i<h->phnum;i++){
   if(ph[i].type!=NOVA_PT_LOAD)continue;
-  if(ph[i].filesz>ph[i].memsz||!bounds(size,ph[i].offset,ph[i].filesz)||!add_ok(ph[i].vaddr,ph[i].memsz,&end)||end>USER_LIMIT||!up(end,&end)||ph[i].vaddr>end||ph[i].align>1&&(ph[i].align&(ph[i].align-1)))goto fail;
+  if(ph[i].filesz>ph[i].memsz||!bounds(size,ph[i].offset,ph[i].filesz)||!add_ok(ph[i].vaddr,ph[i].memsz,&end)||end>USER_LIMIT||!up(end,&end)||ph[i].vaddr>end||(ph[i].align>1&&(ph[i].align&(ph[i].align-1))))goto fail;
   start=down(ph[i].vaddr);flags=NOVA_USER_REGION_READ;if(ph[i].flags&NOVA_PF_W)flags|=NOVA_USER_REGION_WRITE;if(ph[i].flags&NOVA_PF_X)flags|=NOVA_USER_REGION_EXEC;
   if(end<=start||(regions[i]=nova_user_region_map(p->address_space,start,end-start,flags))==NULL)goto fail;
  }

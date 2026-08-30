@@ -5,7 +5,7 @@ _start:
     mov $2, %rax
     mov $1, %rdi
     lea message(%rip), %rsi
-    mov $11, %rdx
+    mov $12, %rdx
     int $0x80
     mov $3, %rax
     xor %rdi, %rdi

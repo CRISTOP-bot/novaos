@@ -67,7 +67,10 @@ bool nova_process_exit(struct nova_process *p, uint64_t status) {
     p->state = NOVA_PROCESS_TERMINATED;
     p->task->state = 3;
     p->task->user.rax = status;
-    if (current_process == p) current_process = kernel_process;
+    if (current_process == p) {
+        current_process = kernel_process;
+        if (!nova_address_space_switch(kernel_process->address_space)) return false;
+    }
     return true;
 }
 

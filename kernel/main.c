@@ -69,7 +69,8 @@ void kmain(struct nova_boot_info *boot){
     syscall_reset_test_state(); returned_from_ring3 = false;
     ring3_enter(elf_process->task->user.rip, elf_process->task->user.rsp);
     if (!returned_from_ring3 || !syscall_exit_seen()) { console_write("[NovaOS] ELF userspace execution: FAIL\n"); panic("ELF userspace execution failed"); }
-    if (!nova_process_activate(nova_process_kernel())) { console_write("[NovaOS] ELF process restore: FAIL\n"); panic("ELF process restore failed"); }
+    nova_process_kernel()->state = NOVA_PROCESS_RUNNING;
+    if (!nova_address_space_switch(nova_process_kernel()->address_space)) { console_write("[NovaOS] ELF process restore: FAIL\n"); panic("ELF process restore failed"); }
     nova_process_destroy(elf_process);
     console_write("[NovaOS] ELF userspace execution: PASS\nNOVAOS_ELF_OK\n");
     syscall_reset_test_state(); returned_from_ring3 = false;

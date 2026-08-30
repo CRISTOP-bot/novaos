@@ -17,11 +17,12 @@ else
 CFLAGS += -O2
 endif
 LDFLAGS := -T linker/x86_64.ld -nostdlib
-SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c kernel/address_space.c kernel/user_memory.c kernel/user_region.c kernel/elf.c arch/x86_64/tss.c arch/x86_64/ring3.S arch/x86_64/scheduler.S kernel/scheduler.c kernel/process.c kernel/syscall.c kernel/vfs.c drivers/serial/serial.c boot/limine/adapter.c
-OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC))) $(BUILD)/hello-elf.o
-HELLO_ELF := $(BUILD)/hello.elf
-HELLO_OBJ := $(BUILD)/hello-elf.o
-HELLO_SYMBOL := _binary_$(subst .,_,$(subst -,_,$(subst /,_,$(HELLO_ELF))))
+SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c kernel/address_space.c kernel/user_memory.c kernel/user_region.c kernel/elf.c kernel/initramfs.c arch/x86_64/tss.c arch/x86_64/ring3.S arch/x86_64/scheduler.S kernel/scheduler.c kernel/process.c kernel/syscall.c kernel/vfs.c drivers/serial/serial.c boot/limine/adapter.c
+OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC))) $(BUILD)/initramfs-obj.o
+INIT_ELF := $(BUILD)/init.elf
+INITRAMFS := $(BUILD)/initramfs.img
+INITRAMFS_OBJ := $(BUILD)/initramfs-obj.o
+INITRAMFS_SYMBOL := _binary_$(subst .,_,$(subst -,_,$(subst /,_,$(INITRAMFS))))
 .PHONY: all check-build check-image limine kernel image run debug debug-check test exception-test clean
 all: image
 check-build:
@@ -38,13 +39,15 @@ $(BUILD)/%.o: %.c check-build
 	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
 $(BUILD)/%.o: %.S check-build
 	@mkdir -p $(dir $@); $(CC) $(CFLAGS) -c $< -o $@
-$(BUILD)/userspace/hello.o: userspace/hello.S check-build
+$(BUILD)/userspace/init.o: userspace/init.S check-build
 	@mkdir -p $(dir $@); $(CC) -ffreestanding -fno-builtin -fno-stack-protector -fno-pie -mno-red-zone -m64 -c $< -o $@
-$(HELLO_ELF): $(BUILD)/userspace/hello.o userspace/hello/linker.ld check-build
-	@mkdir -p $(dir $@); $(LD) -nostdlib -T userspace/hello/linker.ld -o $@ $(BUILD)/userspace/hello.o
-$(HELLO_OBJ): $(HELLO_ELF) check-build
-	$(OBJCOPY) -I binary -O elf64-x86-64 -B i386:x86-64 --redefine-sym $(HELLO_SYMBOL)_start=_binary_embedded_elf_start --redefine-sym $(HELLO_SYMBOL)_end=_binary_embedded_elf_end $< $@
-$(KERNEL): $(OBJ) $(HELLO_OBJ) linker/x86_64.ld
+$(INIT_ELF): $(BUILD)/userspace/init.o userspace/init/linker.ld check-build
+	@mkdir -p $(dir $@); $(LD) -nostdlib -T userspace/init/linker.ld -o $@ $(BUILD)/userspace/init.o
+$(INITRAMFS): $(INIT_ELF) scripts/make-initramfs.py
+	python3 scripts/make-initramfs.py $(INIT_ELF) $@
+$(INITRAMFS_OBJ): $(INITRAMFS) check-build
+	$(OBJCOPY) -I binary -O elf64-x86-64 -B i386:x86-64 --redefine-sym $(INITRAMFS_SYMBOL)_start=_binary_embedded_initramfs_start --redefine-sym $(INITRAMFS_SYMBOL)_end=_binary_embedded_initramfs_end $< $@
+$(KERNEL): $(OBJ) $(INITRAMFS_OBJ) linker/x86_64.ld
 	@mkdir -p $(BUILD); $(LD) $(LDFLAGS) -o $@ $(OBJ)
 kernel: $(KERNEL)
 	sh scripts/check-elf.sh $(KERNEL)

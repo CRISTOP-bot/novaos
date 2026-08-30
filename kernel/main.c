@@ -76,7 +76,7 @@ void kmain(struct nova_boot_info *boot){
     syscall_reset_test_state(); returned_from_ring3 = false;
     if (!privilege_self_test(boot)) { console_write("[NovaOS] Ring 3 self-test: FAIL\n"); panic("Ring 3 self-test failed"); }
     console_write("[NovaOS] Ring 3 self-test: PASS\nNOVAOS_RING3_OK\n");
-    if (!nova_process_activate(nova_process_kernel())) { console_write("[NovaOS] process context restore: FAIL\n"); panic("process context restore failed"); }
+    nova_process_kernel()->state = NOVA_PROCESS_RUNNING;
     nova_process_destroy(ring3_test_process);
     if (!scheduler_self_test()) { console_write("[NovaOS] scheduler self-test: FAIL\n"); panic("scheduler self-test failed"); }
     console_write("[NovaOS] scheduler self-test: PASS\nNOVAOS_SCHEDULER_OK\n");

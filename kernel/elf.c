@@ -22,10 +22,9 @@ static bool validate(const void *image,size_t size,const struct nova_elf64_heade
 }
 
 struct nova_process *nova_process_create_from_elf(const void *image,size_t size){
- const struct nova_elf64_header *h;const struct nova_elf64_phdr *ph;struct nova_process *p;struct nova_user_region **regions;uint64_t i,end,start,flags,root,old,j;bool loaded=false;
+ const struct nova_elf64_header *h;const struct nova_elf64_phdr *ph;struct nova_process *p;struct nova_user_region **regions;uint64_t i,end,start,flags,j;bool loaded=false;
  if(!validate(image,size,&h,&ph)){elf_last_fail=1;return NULL;}
  p=nova_process_create();if(!p){elf_last_fail=2;return NULL;}
- old=paging_current_root();
  regions=kmalloc(sizeof(*regions)*h->phnum);if(!regions){elf_last_fail=3;nova_process_destroy(p);return NULL;}for(i=0;i<h->phnum;i++)regions[i]=NULL;
  for(i=0;i<h->phnum;i++){
   if(ph[i].type!=NOVA_PT_LOAD)continue;
@@ -34,18 +33,19 @@ struct nova_process *nova_process_create_from_elf(const void *image,size_t size)
   if(end<=start||(regions[i]=nova_user_region_map(p->address_space,start,end-start,flags))==NULL){elf_last_fail=5;goto fail;}
  }
  if(!nova_user_stack_create(p->address_space)){elf_last_fail=6;goto fail;}
- root=p->address_space->root_physical;old=paging_current_root();if(old!=root&&!paging_root_switch(root)){elf_last_fail=7;goto fail;}
  for(i=0;i<h->phnum;i++)if(ph[i].type==NOVA_PT_LOAD){
-  for(j=0;j<ph[i].filesz;j++)((uint8_t *)(uintptr_t)ph[i].vaddr)[j]=((const uint8_t *)image)[ph[i].offset+j];
-  for(j=ph[i].filesz;j<ph[i].memsz;j++)((uint8_t *)(uintptr_t)(ph[i].vaddr+j))[0]=0;
+  for(j=0;j<ph[i].memsz;j++){
+   uint64_t va=ph[i].vaddr+j; uint64_t page=(va-regions[i]->virtual_start)/NOVA_PAGE_SIZE; uint64_t in=va & (NOVA_PAGE_SIZE-1);
+   uint8_t *dst=(uint8_t *)paging_physical_pointer(regions[i]->physical_pages[page]);
+   if(!dst){elf_last_fail=7;goto fail;}
+   dst[in]=(j<ph[i].filesz)?((const uint8_t *)image)[ph[i].offset+j]:0;
+  }
  }
- if(old!=root&&!paging_root_switch(old)){elf_last_fail=8;goto fail;}
  for(i=0;i<h->phnum;i++)if(ph[i].type==NOVA_PT_LOAD&&nova_user_region_contains(regions[i],h->entry,1)&&(regions[i]->flags&NOVA_USER_REGION_EXEC))loaded=true;
  if(!loaded){elf_last_fail=9;goto fail;}
  p->task->user.rip=h->entry;p->task->user.rsp=nova_user_stack_initial_rsp(p->address_space);p->task->user.rflags=0x202;p->task->user.cs=0x1b;p->task->user.ss=0x23;
  kfree(regions);return p;
 fail:
- if(old!=paging_current_root()&&old)paging_root_switch(old);
  kfree(regions);nova_process_destroy(p);return NULL;
 }
 

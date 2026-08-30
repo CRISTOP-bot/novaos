@@ -91,6 +91,7 @@ bool paging_init(const struct nova_boot_info *boot) {
 uint64_t paging_map_count(void) { return map_count_value; }
 uint64_t paging_unmap_count(void) { return unmap_count_value; }
 uint64_t paging_current_root(void) { return root_phys; }
+void *paging_physical_pointer(uint64_t physical_address) { return table(physical_address); }
 
 bool paging_root_create(uint64_t *out) {
     uint64_t *src, *dst, root;

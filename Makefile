@@ -17,7 +17,7 @@ else
 CFLAGS += -O2
 endif
 LDFLAGS := -T linker/x86_64.ld -nostdlib
-SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c kernel/address_space.c kernel/user_memory.c kernel/user_region.c kernel/elf.c kernel/initramfs.c arch/x86_64/tss.c arch/x86_64/ring3.S arch/x86_64/scheduler.S kernel/scheduler.c kernel/process.c kernel/syscall.c kernel/vfs.c drivers/serial/serial.c boot/limine/adapter.c
+SRC := arch/x86_64/entry.S arch/x86_64/interrupts/entry.S arch/x86_64/gdt/gdt.c arch/x86_64/idt/idt.c kernel/main.c kernel/console.c kernel/panic.c kernel/cpu.c kernel/init.c kernel/mm/pmm.c kernel/mm/paging.c kernel/mm/heap.c kernel/mm/diagnostics.c kernel/address_space.c kernel/user_memory.c kernel/user_region.c kernel/elf.c kernel/initramfs.c drivers/keyboard.c arch/x86_64/tss.c arch/x86_64/ring3.S arch/x86_64/scheduler.S kernel/scheduler.c kernel/process.c kernel/syscall.c kernel/vfs.c drivers/serial/serial.c boot/limine/adapter.c
 OBJ = $(patsubst %.c,$(BUILD)/%.o,$(patsubst %.S,$(BUILD)/%.o,$(SRC))) $(BUILD)/initramfs-obj.o
 INIT_ELF := $(BUILD)/init.elf
 INITRAMFS := $(BUILD)/initramfs.img
@@ -43,8 +43,13 @@ $(BUILD)/userspace/init.o: userspace/init.S check-build
 	@mkdir -p $(dir $@); $(CC) -ffreestanding -fno-builtin -fno-stack-protector -fno-pie -mno-red-zone -m64 -c $< -o $@
 $(INIT_ELF): $(BUILD)/userspace/init.o userspace/init/linker.ld check-build
 	@mkdir -p $(dir $@); $(LD) -nostdlib -T userspace/init/linker.ld -o $@ $(BUILD)/userspace/init.o
-$(INITRAMFS): $(INIT_ELF) scripts/make-initramfs.py
-	python3 scripts/make-initramfs.py $(INIT_ELF) $@
+READTEST_ELF := $(BUILD)/readtest.elf
+$(BUILD)/userspace/readtest.o: userspace/readtest.S check-build
+	@mkdir -p $(dir $@); $(CC) -ffreestanding -fno-builtin -fno-stack-protector -fno-pie -mno-red-zone -m64 -c $< -o $@
+$(READTEST_ELF): $(BUILD)/userspace/readtest.o userspace/readtest/linker.ld check-build
+	@mkdir -p $(dir $@); $(LD) -nostdlib -T userspace/readtest/linker.ld -o $@ $(BUILD)/userspace/readtest.o
+$(INITRAMFS): $(INIT_ELF) $(READTEST_ELF) scripts/make-initramfs.py
+	python3 scripts/make-initramfs.py /init $(INIT_ELF) /bin/readtest $(READTEST_ELF) $@
 $(INITRAMFS_OBJ): $(INITRAMFS) check-build
 	$(OBJCOPY) -I binary -O elf64-x86-64 -B i386:x86-64 --redefine-sym $(INITRAMFS_SYMBOL)_start=_binary_embedded_initramfs_start --redefine-sym $(INITRAMFS_SYMBOL)_end=_binary_embedded_initramfs_end $< $@
 $(KERNEL): $(OBJ) $(INITRAMFS_OBJ) linker/x86_64.ld

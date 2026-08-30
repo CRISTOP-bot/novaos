@@ -40,6 +40,7 @@ struct nova_stat {
 
 bool vfs_init(void);
 int64_t vfs_create(const char *path);
+int64_t vfs_create_path(const char *path);
 int64_t vfs_open(const char *path);
 int64_t vfs_close(int64_t fd);
 int64_t vfs_read(int64_t fd, void *buf, uint64_t len);

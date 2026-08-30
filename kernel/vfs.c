@@ -33,13 +33,8 @@ static struct nova_file *file_get(int64_t fd) {
     return f->in_use ? f : NULL;
 }
 
-static struct nova_vnode *vfs_lookup(const char *path) {
-    struct nova_vnode *c;
-    if (!vfs_ready || !path || path[0] != '/') return NULL;
-    if (path[1] == '\0') return vfs.root;
-    for (c = vfs.root->children; c; c = c->next) if (vfs_strcmp(c->name, path + 1) == 0) return c;
-    return NULL;
-}
+static struct nova_vnode *child_find(struct nova_vnode *p,const char *name,uint64_t len){struct nova_vnode*c;for(c=p->children;c;c=c->next)if(vfs_strlen(c->name)==len&&!vfs_memcmp(c->name,name,len))return c;return NULL;}
+static struct nova_vnode *vfs_lookup(const char *path){char part[NOVA_VFS_NAME_MAX];struct nova_vnode*n=vfs.root;uint64_t i=1,j;if(!vfs_ready||!path||path[0]!='/'||path[1]=='\0')return path&&path[1]=='\0'?vfs.root:NULL;while(path[i]){j=0;while(path[i]&&path[i]!='/'&&j<NOVA_VFS_NAME_MAX-1)part[j++]=path[i++];part[j]=0;if(!j)return NULL;n=child_find(n,part,j);if(!n)return NULL;if(path[i]=='/')i++;}return n;}
 
 bool vfs_init(void) {
     int64_t fd;
@@ -54,18 +49,10 @@ bool vfs_init(void) {
     return true;
 }
 
-int64_t vfs_create(const char *path) {
-    struct nova_vnode *n; const char *name; uint64_t i;
-    if (!vfs_ready || !path || path[0] != '/') return NOVA_VFS_EINVAL;
-    name = path + 1;
-    if (name[0] == '\0') return NOVA_VFS_EEXIST;
-    for (i = 0; name[i]; i++) if (name[i] == '/') return NOVA_VFS_EINVAL;
-    if (i >= NOVA_VFS_NAME_MAX) return NOVA_VFS_EINVAL;
-    if (vfs_lookup(path)) return NOVA_VFS_EEXIST;
-    n = vnode_alloc(name, NOVA_VNODE_FILE, vfs.root); if (!n) return NOVA_VFS_ENOMEM;
-    n->next = vfs.root->children; vfs.root->children = n;
-    return 0;
-}
+static int64_t vfs_create_any(const char *path){struct nova_vnode*n;struct nova_vnode*parent=vfs.root;const char*name;uint64_t i,last=1;if(!vfs_ready||!path||path[0]!='/')return NOVA_VFS_EINVAL;for(i=1;path[i];i++)if(path[i]=='/')last=i+1;if(last>1){char parent_path[NOVA_VFS_MAX_PATH];uint64_t plen=last-1;if(plen>=sizeof(parent_path))return NOVA_VFS_EINVAL;vfs_memcpy(parent_path,path,plen);parent_path[plen]=0;parent=vfs_lookup(parent_path);if(!parent){if(vfs_create_any(parent_path)!=0)return NOVA_VFS_ENOMEM;parent=vfs_lookup(parent_path);if(parent)parent->kind=NOVA_VNODE_DIR;}if(!parent||parent->kind!=NOVA_VNODE_DIR)return NOVA_VFS_EINVAL;}name=path+last;if(!name[0])return NOVA_VFS_EEXIST;for(i=0;name[i];i++)if(name[i]=='/')return NOVA_VFS_EINVAL;if(i>=NOVA_VFS_NAME_MAX)return NOVA_VFS_EINVAL;if(vfs_lookup(path))return NOVA_VFS_EEXIST;n=vnode_alloc(name,NOVA_VNODE_FILE,parent);if(!n)return NOVA_VFS_ENOMEM;n->next=parent->children;parent->children=n;return 0;}
+
+int64_t vfs_create(const char *path){if(path&&vfs_strcmp(path,"/")&&vfs_strcmp(path,"/" )!=0){for(uint64_t i=1;path[i];i++)if(path[i]=='/')return NOVA_VFS_EINVAL;}return vfs_create_any(path);}
+int64_t vfs_create_path(const char *path){return vfs_create_any(path);}
 
 int64_t vfs_open(const char *path) {
     struct nova_vnode *n; uint64_t i;

@@ -10,6 +10,7 @@
 #define NOVA_SYS_READ 6ULL
 #define NOVA_SYS_LSEEK 7ULL
 #define NOVA_SYS_STAT 8ULL
+#define NOVA_READ_MAX 128ULL
 #define NOVA_SYS_ENOSYS NOVA_VFS_ENOSYS
 #define NOVA_SYS_EBADF NOVA_VFS_EBADF
 #define NOVA_SYS_EFAULT NOVA_VFS_EFAULT
@@ -21,5 +22,6 @@ int64_t syscall_dispatch(uint64_t,uint64_t,uint64_t,uint64_t);
 void syscall_interrupt(uint64_t *saved);
 bool syscall_self_test(void);
 bool syscall_exit_seen(void);
+bool syscall_read_seen(void);
 void syscall_reset_test_state(void);
 #endif

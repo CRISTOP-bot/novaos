@@ -6,9 +6,9 @@
 struct idt_gate { uint16_t off0, sel; uint8_t ist, flags; uint16_t off1; uint32_t off2, zero; } __attribute__((packed));
 struct idtr { uint16_t limit; uint64_t base; } __attribute__((packed));
 static struct idt_gate idt[256] __attribute__((aligned(16))); static struct idtr idtr;
-extern void isr0(void);extern void isr6(void);extern void isr8(void);extern void isr13(void);extern void isr14(void);extern void isr_default(void); extern void isr128(void);
+extern void isr0(void);extern void isr6(void);extern void isr8(void);extern void isr13(void);extern void isr14(void);extern void isr_default(void); extern void isr128(void); extern void isr33(void);
 static void set_gate(int n,void(*fn)(void),uint8_t flags){uint64_t x=(uint64_t)fn;idt[n]=(struct idt_gate){x,8,0,flags,x>>16,x>>32,0};}
-void idt_init(void){for(int i=0;i<256;i++)set_gate(i,isr_default,0x8e); set_gate(0,isr0,0x8e);set_gate(6,isr6,0x8e);set_gate(8,isr8,0x8e);set_gate(13,isr13,0x8e);set_gate(14,isr14,0x8e);idtr.limit=sizeof(idt)-1;idtr.base=(uint64_t)idt;__asm__ volatile("lidt %0"::"m"(idtr));}
+void idt_init(void){for(int i=0;i<256;i++)set_gate(i,isr_default,0x8e); set_gate(0,isr0,0x8e);set_gate(33,isr33,0x8e);set_gate(6,isr6,0x8e);set_gate(8,isr8,0x8e);set_gate(13,isr13,0x8e);set_gate(14,isr14,0x8e);idtr.limit=sizeof(idt)-1;idtr.base=(uint64_t)idt;__asm__ volatile("lidt %0"::"m"(idtr));}
 void idt_install_ring3_gate(void){set_gate(128,isr128,0xee);}
 void exception_init(void){ console_write("[NovaOS] exceptions initialized\n"); }
 struct frame {uint64_t vector,error,rip,cs,rflags,rsp,ss;};

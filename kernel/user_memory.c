@@ -5,7 +5,7 @@
 
 #define NOVA_USER_LIMIT 0x00007fffffffffffULL
 
-static bool user_range(uint64_t root, uint64_t address, uint64_t length) {
+static bool user_range(uint64_t root, uint64_t address, uint64_t length, bool writable) {
     uint64_t first, last, page;
     if (!length || address > NOVA_USER_LIMIT || length > NOVA_USER_LIMIT ||
         address > NOVA_USER_LIMIT - (length - 1)) return false;
@@ -15,7 +15,7 @@ static bool user_range(uint64_t root, uint64_t address, uint64_t length) {
         uint64_t physical;
         struct nova_page_info info;
         if (!paging_root_translate_info(root, page, &physical, &info) ||
-            !info.present || !info.user) return false;
+            !info.present || !info.user || (writable && !info.writable)) return false;
         if (page == last) break;
         if (page > ~0ULL - NOVA_PAGE_SIZE) return false;
     }
@@ -30,7 +30,23 @@ bool nova_copy_from_user(void *destination, const void *source, size_t length) {
     const uint8_t *src = (const uint8_t *)source;
     if (!destination || !source || !length || !process || !process->address_space) return false;
     root = process->address_space->root_physical;
-    if (!user_range(root, (uint64_t)(uintptr_t)source, (uint64_t)length)) return false;
+    if (!user_range(root, (uint64_t)(uintptr_t)source, (uint64_t)length, false)) return false;
+    old_root = paging_current_root();
+    if (old_root != root && !paging_root_switch(root)) return false;
+    for (address = 0; address < (uint64_t)length; address++) dst[address] = src[address];
+    result = true;
+    if (old_root != root && !paging_root_switch(old_root)) result = false;
+    return result;
+}
+
+bool nova_copy_to_user(void *destination, const void *source, size_t length) {
+    struct nova_process *process = nova_process_current();
+    uint64_t root, old_root, address; bool result = false;
+    const uint8_t *src = (const uint8_t *)source;
+    uint8_t *dst = (uint8_t *)destination;
+    if (!destination || !source || !length || !process || !process->address_space) return false;
+    root = process->address_space->root_physical;
+    if (!user_range(root, (uint64_t)(uintptr_t)destination, (uint64_t)length, true)) return false;
     old_root = paging_current_root();
     if (old_root != root && !paging_root_switch(root)) return false;
     for (address = 0; address < (uint64_t)length; address++) dst[address] = src[address];
@@ -62,9 +78,13 @@ bool nova_user_memory_self_test(void) {
     ((uint8_t *)(uintptr_t)user_va)[3] = '!';
     if (!nova_copy_from_user(copied, (const void *)(uintptr_t)user_va, 4) ||
         copied[0] != 'u' || copied[1] != 's' || copied[2] != 'r' || copied[3] != '!') goto cleanup;
+    copied[0] = 'c'; copied[1] = 'o'; copied[2] = 'p'; copied[3] = 'y';
+    if (!nova_copy_to_user((void *)(uintptr_t)user_va, copied, 4) ||
+        ((volatile uint8_t *)(uintptr_t)user_va)[0] != 'c') goto cleanup;
     if (nova_copy_from_user(copied, (const void *)(uintptr_t)0x0000000000700000ULL, 1)) goto cleanup;
     if (nova_copy_from_user(copied, (const void *)(uintptr_t)0xffff800000000000ULL, 1)) goto cleanup;
     if (nova_copy_from_user(copied, (const void *)(uintptr_t)no_user_va, 1)) goto cleanup;
+    if (nova_copy_to_user((void *)(uintptr_t)no_user_va, copied, 1)) goto cleanup;
     if (nova_copy_from_user(copied, (const void *)(uintptr_t)(NOVA_USER_LIMIT - 1), 4)) goto cleanup;
     ok = true;
 cleanup:

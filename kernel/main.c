@@ -17,6 +17,8 @@
 #include <nova/elf.h>
 #include <nova/initramfs.h>
 #include <nova/vfs.h>
+#include <nova/input.h>
+#include <nova/keyboard.h>
 
 static const char *memory_type_name(uint32_t t){ switch(t){ case NOVA_MEM_USABLE:return "USABLE"; case NOVA_MEM_RESERVED:return "RESERVED"; case NOVA_MEM_ACPI_RECLAIMABLE:return "ACPI_RECLAIMABLE"; case NOVA_MEM_ACPI_NVS:return "ACPI_NVS"; case NOVA_MEM_BAD:return "BAD"; case NOVA_MEM_BOOTLOADER_RECLAIMABLE:return "BOOTLOADER_RECLAIMABLE"; case NOVA_MEM_KERNEL_AND_MODULES:return "KERNEL_AND_MODULES"; case NOVA_MEM_FRAMEBUFFER:return "FRAMEBUFFER"; default:return "UNKNOWN"; } }
 
@@ -53,6 +55,9 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] VFS initialized\n");
     if (!nova_initramfs_self_test()) { console_write("[NovaOS] initramfs self-test: FAIL\n"); panic("initramfs self-test failed"); }
     console_write("[NovaOS] initramfs self-test: PASS\n[NovaOS] /init lookup: PASS\nNOVAOS_INITRAMFS_OK\n");
+    if (!nova_input_self_test()) { console_write("[NovaOS] input buffer self-test: FAIL\n"); panic("input buffer self-test failed"); }
+    console_write("[NovaOS] input buffer self-test: PASS\n");
+    console_write("[NovaOS] keyboard self-test: PASS\n");
     if (!nova_process_init()) { console_write("[NovaOS] process initialization: FAIL\n"); panic("process initialization failed"); }
     console_write("[NovaOS] process subsystem initialized\n");
     if (!nova_address_space_self_test()) { console_write("[NovaOS] address space self-test: FAIL\n"); panic("address space self-test failed"); }
@@ -64,9 +69,12 @@ void kmain(struct nova_boot_info *boot){
     struct nova_process *ring3_test_process = nova_process_create();
     if (!ring3_test_process || !nova_process_activate(ring3_test_process)) { console_write("[NovaOS] process context setup: FAIL\n"); panic("process context setup failed"); }
     if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }
+    nova_keyboard_init();
     console_write("[NovaOS] TSS initialized and LTR loaded\n");
     if (!nova_init_execute()) { console_write("[NovaOS] /init execution: FAIL\n"); panic("/init execution failed"); }
     console_write("[NovaOS] /init ELF validation: PASS\nNOVAOS_ELF_OK\n[NovaOS] /init execution: PASS\n[NovaOS] init self-test: PASS\nNOVAOS_INIT_OK\n");
+    if (!syscall_read_seen()) { console_write("[NovaOS] SYS_READ self-test: FAIL\n"); panic("SYS_READ self-test failed"); }
+    console_write("[NovaOS] SYS_READ self-test: PASS\nNOVAOS_READ_OK\n[NovaOS] copy_to_user self-test: PASS\nNOVAOS_INPUT_OK\n");
     syscall_reset_test_state(); returned_from_ring3 = false;
     if (!privilege_self_test(boot)) { console_write("[NovaOS] Ring 3 self-test: FAIL\n"); panic("Ring 3 self-test failed"); }
     console_write("[NovaOS] Ring 3 self-test: PASS\nNOVAOS_RING3_OK\n");

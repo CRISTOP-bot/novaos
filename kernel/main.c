@@ -60,6 +60,10 @@ void kmain(struct nova_boot_info *boot){
     console_write("[NovaOS] user region self-test: PASS\n");
     if (!nova_elf_self_test()) { console_write("[NovaOS] ELF loader self-test: FAIL\n"); panic("ELF loader self-test failed"); }
     console_write("[NovaOS] ELF loader self-test: PASS\n");
+    struct nova_process *ring3_test_process = nova_process_create();
+    if (!ring3_test_process || !nova_process_activate(ring3_test_process)) { console_write("[NovaOS] process context setup: FAIL\n"); panic("process context setup failed"); }
+    if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }
+    console_write("[NovaOS] TSS initialized and LTR loaded\n");
     struct nova_process *elf_process = nova_process_create_from_elf(nova_embedded_elf_start(), nova_embedded_elf_size());
     if (!elf_process || !nova_process_activate(elf_process)) { console_write("[NovaOS] ELF process setup: FAIL\n"); panic("ELF process setup failed"); }
     syscall_reset_test_state(); returned_from_ring3 = false;
@@ -68,10 +72,6 @@ void kmain(struct nova_boot_info *boot){
     if (!nova_process_activate(nova_process_kernel())) { console_write("[NovaOS] ELF process restore: FAIL\n"); panic("ELF process restore failed"); }
     nova_process_destroy(elf_process);
     console_write("[NovaOS] ELF userspace execution: PASS\nNOVAOS_ELF_OK\n");
-    struct nova_process *ring3_test_process = nova_process_create();
-    if (!ring3_test_process || !nova_process_activate(ring3_test_process)) { console_write("[NovaOS] process context setup: FAIL\n"); panic("process context setup failed"); }
-    if (!tss_init()) { console_write("[NovaOS] TSS initialization: FAIL\n"); panic("TSS initialization failed"); }
-    console_write("[NovaOS] TSS initialized and LTR loaded\n");
     syscall_reset_test_state(); returned_from_ring3 = false;
     if (!privilege_self_test(boot)) { console_write("[NovaOS] Ring 3 self-test: FAIL\n"); panic("Ring 3 self-test failed"); }
     console_write("[NovaOS] Ring 3 self-test: PASS\nNOVAOS_RING3_OK\n");

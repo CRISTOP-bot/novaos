@@ -1,111 +1,159 @@
 name: NovaOS CI
-on: [push, pull_request, workflow_dispatch]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: novaos-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  LIMINE_VERSION: v8.6.0-binary
+  DEBIAN_FRONTEND: noninteractive
 
 jobs:
+  host-checks:
+    name: Shell and repository checks
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install host tools
+        run: sudo apt-get update -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends shellcheck
+      - name: Check shell scripts
+        run: shellcheck scripts/*.sh
+      - name: Check executable scripts
+        run: |
+          test -x scripts/check-elf.sh
+          test -x scripts/exception-test.sh
+          test -x scripts/fetch-limine.sh
+          test -x scripts/smoke-test.sh
+          test -x scripts/validate-m0.sh
+      - name: Check required project files
+        run: |
+          test -f Makefile
+          test -f limine.conf
+          test -f linker/x86_64.ld
+          test -f docs/abi.md
+          test -f docs/roadmap.md
+
   build:
-    name: Build and ELF checks
+    name: Build (${{ matrix.configuration }})
+    needs: host-checks
     runs-on: ubuntu-22.04
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - configuration: release
+            debug: 0
+            build_dir: build
+          - configuration: debug
+            debug: 1
+            build_dir: build-debug
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: |
-          sudo apt-get update -o Acquire::Retries=3
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
+        run: sudo apt-get update -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
       - name: Verify dependencies
         run: |
           set -eu
-          for tool in gcc ld objcopy objdump readelf make qemu-system-x86_64 xorriso gdb git; do
-            command -v "$tool" >/dev/null || { echo "NovaOS build dependency missing: $tool"; exit 1; }
-            "$tool" --version | head -n 1
+          for tool in gcc ld objcopy objdump readelf nm make git qemu-system-x86_64 xorriso gdb; do
+            command -v "$tool" >/dev/null
+            echo "$tool: OK"
           done
       - name: Fetch Limine
-        run: make limine LIMINE_VERSION=v8.6.0-binary
+        run: make limine LIMINE_VERSION="$LIMINE_VERSION"
       - name: Build kernel and ISO
         run: |
           set -o pipefail
-          mkdir -p build
-          make kernel image 2>&1 | tee build/build-kernel-image.log
-      - name: Validate ELF
+          make DEBUG=${{ matrix.debug }} BUILD=${{ matrix.build_dir }} KERNEL=${{ matrix.build_dir }}/novaos.elf image 2>&1 | tee ${{ matrix.build_dir }}/build.log
+      - name: Validate ELF and configuration
         run: |
-          readelf -h build/novaos.elf
-          readelf -S build/novaos.elf
-          readelf -l build/novaos.elf
-          nm build/novaos.elf
-          sh scripts/check-elf.sh build/novaos.elf
-      - name: Verify debug configuration
-        run: make debug-check
+          readelf -h ${{ matrix.build_dir }}/novaos.elf
+          readelf -l ${{ matrix.build_dir }}/novaos.elf
+          sh scripts/check-elf.sh ${{ matrix.build_dir }}/novaos.elf
+          if [ "${{ matrix.debug }}" = 1 ]; then
+            readelf -S ${{ matrix.build_dir }}/novaos.elf | grep -q '\.debug_info'
+          fi
       - name: Upload build artifacts
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: novaos-build-failure
+          name: novaos-${{ matrix.configuration }}-${{ github.sha }}
           if-no-files-found: ignore
           path: |
-            build/novaos.elf
-            build/novaos.iso
-            build/novaos.debug
-            build/novaos.sections
-            build/build-kernel-image.log
+            ${{ matrix.build_dir }}/novaos.elf
+            ${{ matrix.build_dir }}/novaos.iso
+            ${{ matrix.build_dir }}/novaos.debug
+            ${{ matrix.build_dir }}/novaos.sections
+            ${{ matrix.build_dir }}/build.log
 
-  m0:
-    name: M0 QEMU and serial
+  qemu-smoke:
+    name: QEMU milestone smoke test
     needs: build
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
+        run: sudo apt-get update -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso
+      - name: Fetch Limine and build image
         run: |
-          sudo apt-get update -o Acquire::Retries=3
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
-      - name: Build image
-        run: |
-          make limine LIMINE_VERSION=v8.6.0-binary
-          make
-          make kernel
-          make image
-      - name: Run M0 smoke test
-        run: make test
-      - name: Publish M0 summary
-        if: success()
+          make limine LIMINE_VERSION="$LIMINE_VERSION"
+          make DEBUG=0 BUILD=build KERNEL=build/novaos.elf image
+      - name: Run QEMU smoke test
+        run: make BUILD=build KERNEL=build/novaos.elf test
+      - name: Publish milestone summary
+        if: always()
         run: |
           {
-            echo '## NovaOS CI'; echo 'Build: PASS'; echo 'ELF: PASS'; echo 'ISO: PASS';
-            echo 'QEMU: PASS'; echo 'Serial: PASS'; echo 'M0: PASS'; echo 'Result: PASS';
+            echo '## NovaOS validation'
+            echo '| Check | Result |'
+            echo '|---|---|'
+            echo '| Build | PASS |'
+            echo '| ELF / ABI | PASS |'
+            echo '| QEMU / serial | ${{ job.status }} |'
+            echo '| Milestone markers | ${{ job.status }} |'
           } >> "$GITHUB_STEP_SUMMARY"
-      - name: Upload M0 artifacts
-        if: failure()
+      - name: Upload QEMU logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: novaos-m0-failure
+          name: novaos-qemu-${{ github.sha }}
           if-no-files-found: ignore
           path: |
+            build/serial.log
             build/novaos.elf
             build/novaos.iso
-            build/serial.log
             build/novaos.sections
 
-  exception:
-    name: Controlled exception
+  controlled-exception:
+    name: Controlled exception test
     needs: build
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: |
-          sudo apt-get update -o Acquire::Retries=3
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso gdb
-      - name: Run controlled exception test
-        run: make exception-test LIMINE_VERSION=v8.6.0-binary
-      - name: Upload exception artifacts
-        if: failure()
+        run: sudo apt-get update -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso
+      - name: Run exception test
+        run: make exception-test LIMINE_VERSION="$LIMINE_VERSION"
+      - name: Upload exception logs
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: novaos-exception-failure
+          name: novaos-exception-${{ github.sha }}
           if-no-files-found: ignore
           path: |
+            build-exception/serial.log
             build-exception/novaos.elf
             build-exception/novaos.iso
-            build-exception/serial.log

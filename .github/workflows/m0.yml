@@ -1,0 +1,24 @@
+# Legacy manual workflow.
+# NovaOS CI is the canonical workflow. This file remains available only for
+# manually reproducing the original M0 smoke test.
+name: NovaOS M0 (manual legacy)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  m0:
+    name: Legacy M0 smoke test
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: sudo apt-get update -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends gcc binutils make git qemu-system-x86 xorriso
+      - name: Build Limine
+        run: make limine LIMINE_VERSION=v8.6.0-binary
+      - name: Build and smoke-test M0
+        run: make test
